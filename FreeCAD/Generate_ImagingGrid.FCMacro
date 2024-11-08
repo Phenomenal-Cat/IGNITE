@@ -1,0 +1,91 @@
+
+
+import FreeCAD as App
+import Part
+import Draft
+import numpy as np
+
+#======== Apply fillet to object edges
+def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
+	Fillet 		= doc.addObject("Part::Fillet", FilletName)
+	Fillet.Base 	= Object
+	__fillets__ = []
+	if isinstance(FilletEdges, str ) and FilletEdges.casefold() == 'all':
+		NoEdges 	= len(Object.Shape.Edges)
+		FilletEdges = np.linspace(1, NoEdges, NoEdges).tolist()
+	for n in FilletEdges:
+	  __fillets__.append((n, FilletRadius, FilletRadius))
+	Fillet.Edges 		= __fillets__
+	Object.Visibility 	= False
+	del __fillets__
+	return Fillet
+
+
+
+#=============== Set parameters
+filename 			= "TEST"
+Outer_Diameter 		= 18
+GridHole_Diameter 	= 1
+GridHole_Depth 		= 20
+AlignmentDepth 		= 4
+BaseDepth 		= 5
+Base_Diameter 		= 20
+
+GridHole_angles 		= [10,0,0]
+NoGridHoles 		= 8
+GridHole_ArrayRadii   = [5, 7]
+
+
+#=============== Create and save document
+FullFilename = "ImagingGrid_%s" % (filename)
+doc 	= FreeCAD.newDocument(FullFilename) 				# Create new document
+bp 	= BOPFeatures.BOPFeatures(App.activeDocument())		
+
+#=============== Generate primitives
+print("Creating chamber primitives...\n")
+
+# Create the main outer cylinder
+OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
+OuterCylinder.Radius 			= Outer_Diameter/2
+OuterCylinder.Height 			= GridHole_Depth+AlignmentDepth+2
+OuterCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
+OuterCylinder 				= FilletEdges(OuterCylinder, "OuterCylinder", "all", 2)
+OuterCylinder.ViewObject.Transparency = 50
+
+BaseCylinder 				= doc.addObject("Part::Cylinder", "BaseCylinder")
+BaseCylinder.Radius 			= Base_Diameter/2
+BaseCylinder.Height 			= BaseDepth
+BaseCylinder.Placement 		= App.Placement(App.Vector(0,0,-BaseDepth), App.Rotation(0,0,0))
+
+# Create the origin grid hole cylinder
+GridCylinder 				= doc.addObject("Part::Cylinder", "GridCylinder")
+GridCylinder.Radius 			= GridHole_Diameter/2
+GridCylinder.Height 			= GridHole_Depth
+GridCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
+
+# Create additional grid holes
+GridHole_RadialAngles 		= np.deg2rad(np.linspace(0,360, NoGridHoles+1))
+for n in range(0, NoGridHoles):
+	for r in range(0, len(GridHole_ArrayRadii)):
+		NewHole 	= Draft.clone(GridCylinder)
+		Pos 		= [np.sin(GridHole_RadialAngles[n])*GridHole_ArrayRadii[r], np.cos(GridHole_RadialAngles[n])*GridHole_ArrayRadii[r]]
+		NewHole.Placement = App.Placement(App.Vector(Pos[0],Pos[1],0),  App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
+
+# Create base alignment blocks
+Block_A					= doc.addObject("Part::Box", "Block_A")	
+Block_A.Length 				= Outer_Diameter*2
+Block_A.Width 				= AlignmentDepth*2
+Block_A.Height 				= AlignmentDepth*2
+VertOffset 				= np.sin(np.deg2rad(45))*AlignmentDepth
+Block_A.Placement 			= App.Placement(App.Vector(-Outer_Diameter*0.75, 0, -VertOffset), App.Rotation(0,0,45))
+Block_B 					= Draft.clone(Block_A)
+Block_B.Placement 			= App.Placement(App.Vector(0, -Outer_Diameter*0.75, -VertOffset), App.Rotation(90,0,45))
+AlignBlock_Lower 			= bp.make_multi_fuse([Block_A.Name, Block_B.Name, ])
+AlignBlock_Upper 			= Draft.clone(AlignBlock_Lower)
+AlignBlock_Upper.Placement 	= App.Placement(App.Vector(0, 0 , GridHole_Depth+AlignmentDepth), App.Rotation(0,0,0))
+
+
+#============ Finish up
+FreeCADGui.updateGui()
+doc.recompute() 						# Display results in GUI
+Gui.SendMsgToActiveView("ViewFit")			# Set GUI window view to fit

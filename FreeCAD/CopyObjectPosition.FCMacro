@@ -1,0 +1,15 @@
+# CopyObjectPosition.py
+
+import FreeCAD as App
+
+# Get selected object psoition
+sel 	= FreeCADGui.Selection.getSelection('',0)[0]
+pos 	= sel.Object.Placement
+print("Selected object: 	%s" % (sel.Label))
+print("Position:			%d, %dd, %d" % (pos.Base))
+print("Rotation:			%d, %d, %d" % (pos.Rotation))
+
+
+# Set selected object psoition
+#sel 	= FreeCADGui.Selection.getSelection('',0)[0]
+#sel.Object.Placement = App.Placement(pos.Base, pos.Rotation)

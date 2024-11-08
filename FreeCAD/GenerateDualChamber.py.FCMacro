@@ -1,0 +1,493 @@
+#=============== NIF GenerateDualChamber.py ================
+# 
+
+import FreeCAD as App
+import Part
+import Draft
+import numpy as np
+from PySide import QtGui
+from BOPTools import BOPFeatures
+
+
+#======== Apply fillet to object edges
+def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
+	Fillet 		= doc.addObject("Part::Fillet", FilletName)
+	Fillet.Base 	= Object
+	__fillets__ = []
+	if isinstance(FilletEdges, str ) and FilletEdges.casefold() == 'all':
+		NoEdges 	= len(Object.Shape.Edges)
+		FilletEdges = np.linspace(1, NoEdges, NoEdges).tolist()
+	for n in FilletEdges:
+	  __fillets__.append((n, FilletRadius, FilletRadius))
+	Fillet.Edges 		= __fillets__
+	Object.Visibility 	= False
+	del __fillets__
+	return Fillet
+	#FreeCADGui.ActiveDocument.ConnectorBlock.Visibility = False
+
+#======== Apply chamfer to object edges
+def ChamferEdges(Object, ChamferName, ChamferEdges, ChamferRadius):
+	Chamfer 	= doc.addObject("Part::Chamfer", ChamferName)
+	Chamfer.Base	= Object
+	__fillets__ = []
+	if isinstance(ChamferEdges, str ) and ChamferEdges.casefold() == 'all':
+		NoEdges 	= len(Object.Shape.Edges)
+		ChamferEdges = np.linspace(0, NoEdges, NoEdges+1).tolist()
+	for n in ChamferEdges:
+	  __fillets__.append((n,ChamferRadius, ChamferRadius))
+	Chamfer.Edges 	= __fillets__
+	Object.Visibility 	= False
+	del __fillets__
+	return Chamfer
+
+#======== Set color of object in GUI
+def setObjColor(obj, color):
+	colorlist=[]
+	for i in range(len(obj.Shape.Faces)):
+		colorlist.append(color)
+	print('[*] Object contains %d faces'%(len(colorlist),))
+	obj.ViewObject.DiffuseColor = colorlist
+
+
+## =============== Set chamber parameters
+filename 					= 'NIF_DualChamber'
+UpdateGUI 				= True 	# Display updates in GUI window as script executes?
+Elec_Distance 				= 9		# Distance between the 2 electrodes
+Elec_RadiusA  				= 4		# Radius of ichamber aroudn electrode A
+Elec_RadiusB 				= 6		# Radius of chamber around electrode B
+WallThickness 				= 4 		# Minimum thickness of chamber walls at base
+FitTolerance 				= 0.25	# Gap size (mm) to leave for parts that fit together (allowing for 3D print method)
+IncludeConnectorBase 		= True
+
+# Chamber cap lip and screw holes
+GridDepth 					= 5 		# Vertical depth of upper grid
+GridLipThickness 			= 1 		# Width / thickness of grid lip (top rim of chamber)
+GridInnerHeight 				= 5		# Vertical depth of lower grid (below inner lip)
+CapLipDepth 				= 7		# Vertical depth of cap overlap with top of chamber
+CapScrewDiam				= 3		# Diameter of cap screws
+CapScrewHoleDepth 			= 2		# Depth of cap screw holes into chamber surface
+CapScrewHeight 			= CapScrewDiam
+CapScrewChamferRadius 		= 1		# Radius of chamfer used on cap screw holes on chamber surface
+CapScrewCutDepth 			= CapScrewHoleDepth*4
+CapScrewAngleInc 			= 45
+CapScrewsPerHalfChamber 	= int(((360/CapScrewAngleInc)/2)+1)
+CapScrewAngles 			= -np.linspace(0,180,CapScrewsPerHalfChamber)
+CapThickness 				= 3		# Thickness of cap walls (temporary and permenant caps)
+CapCornerRadius 			= 2		# Radius (mm) of cap corners
+
+# Connector block size and orientation
+CB_Width 					= 20			# Width of connector block base (4 x Omnetics 36-pin ~= 20mm)
+CB_Length					= 25	 		# Length of connector block base
+CB_Height 					= 6			# Height of connector block base
+CB_Rotation_XYZ 			= [120, 0, 0]		# Angle of connector block rotation relative to line orthogonal to line bisecting electrode centers
+CB_filletRadius 				= 3			# Radius of corner fillet on connector block
+CB_SideHolePos 			= 0.6			# Proportion of connector block base length (CB_Length) to position cap attachment holes
+CB_GroundWire_XY 			= [CB_Length*0.75, 0]
+CB_GroundWireDiameter 		= 2 			# DIameter of ground wire channel through connector base
+CB_GroundWire_Angle 		= 45			# Angle of  ground wire channel through connector base
+CB_MountingScrewDepth 		= 5			# Drive mount screw hole depth
+CB_MountingScrewDiameter 	= 2			# Drive mount screw hole diameter
+DM_XY 					= [CB_Length*0.5, (CB_Width/2)-CB_MountingScrewDiameter] 	# Drive mount screw hole locations on conenctor block
+
+# Chamber outer surface parameters
+DefaultFullHeight 			= 40 		# Starting height of full chamber (prior to customization)
+InnerChamber_filletRadius 		= 10 		# Radius of fillet used for smoothing inner chamber
+OuterChamber_filletRadius 		= 5 		# Radius of fillet used for smoothing outer chamber
+RidgeHeight 				= 1		# Height of each ridge on outer chamber surface
+
+#=============== Create and save document
+FullFilename = "%s_IE=%d_RA=%d_RB=%d_CAx=%d" % (filename, Elec_Distance, Elec_RadiusA, Elec_RadiusB, CB_Rotation_XYZ[0])
+doc 	= FreeCAD.newDocument(FullFilename) 				# Create new document
+bp 	= BOPFeatures.BOPFeatures(App.activeDocument())		
+QtGui.QMessageBox.information(None, "NIF GenerateDualCHamber.py", "Generating default dual drive chamber...")
+
+
+#=============== Generate primitives
+print("Creating chamber primitives...\n")
+
+# Create the inner Electrode A cylinder
+ElecA_InnerCylinder 			= doc.addObject("Part::Cylinder", "ElecA_innerWell")
+ElecA_InnerCylinder.Radius 		= Elec_RadiusA
+ElecA_InnerCylinder.Height 		= DefaultFullHeight
+ElecA_InnerCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0,0), App.Rotation(0,0,0))
+
+# Create the outer Electrode A cylinder
+ElecA_OuterCylinder 			= doc.addObject("Part::Cylinder", "ElecA_outerWall")
+ElecA_OuterCylinder.Radius 		= Elec_RadiusA+WallThickness
+ElecA_OuterCylinder.Height 		= DefaultFullHeight
+ElecA_OuterCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0,0), App.Rotation(0,0,0))
+
+# Create the outer Electrode A grid lip
+ElecA_GridCylinder 			= doc.addObject("Part::Cylinder", "ElecA_gridWell")
+ElecA_GridCylinder.Radius 		= Elec_RadiusA+GridLipThickness
+ElecA_GridCylinder.Height 		= GridDepth
+ElecA_GridCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))
+
+# Create the inner Electrode B
+ElecB_InnerCylinder 			= doc.addObject("Part::Cylinder", "ElecB_innerWell")
+ElecB_InnerCylinder.Radius 		= Elec_RadiusB
+ElecB_InnerCylinder.Height 		= DefaultFullHeight
+ElecB_InnerCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0,0), App.Rotation(0,0,0))
+
+# Create the outer Electrode B cylinder
+ElecB_OuterCylinder 			= doc.addObject("Part::Cylinder", "ElecB_outerWall")
+ElecB_OuterCylinder.Radius 		= Elec_RadiusB+WallThickness
+ElecB_OuterCylinder.Height 		= DefaultFullHeight
+ElecB_OuterCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0,0), App.Rotation(0,0,0))
+
+# Create the outer Electrode B grid lip
+ElecB_GridCylinder 			= doc.addObject("Part::Cylinder", "ElecB_gridWell")
+ElecB_GridCylinder.Radius 		= Elec_RadiusB+GridLipThickness
+ElecB_GridCylinder.Height 		= GridDepth
+ElecB_GridCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))
+
+if UpdateGUI:
+	FreeCADGui.updateGui()
+	Gui.activeDocument().activeView().viewIsometric()
+	Gui.SendMsgToActiveView("ViewFit")	
+
+# Create top screw holes for drive mounting
+print("Creating screw holes...\n")
+ScrewHole_DriveMount 			= doc.addObject("Part::Cylinder", "ScrewHole_DriveMount")
+ScrewHole_DriveMount.Radius 		= CB_MountingScrewDiameter/2
+ScrewHole_DriveMount.Height 		= CB_MountingScrewDepth+1
+ScrewHole_DriveMount.Placement 	= App.Placement(App.Vector(DM_XY[0],DM_XY[1], DefaultFullHeight-CB_MountingScrewDepth), App.Rotation(90,0,0))
+ScrewHole_DM2 				= doc.copyObject(ScrewHole_DriveMount, True)
+ScrewHole_DM2.Placement 			= App.Placement(App.Vector(DM_XY[0], -DM_XY[1], DefaultFullHeight-CB_MountingScrewDepth), App.Rotation(90,0,0))
+ScrewHoles_DM 					= bp.make_multi_fuse([ScrewHole_DriveMount.Name, ScrewHole_DM2.Name, ])
+ScrewHoles_DM.Label 			= "DriveMount_Holes"
+
+# Create cap screw hole
+ElecCenterX 					= [-Elec_Distance/2, Elec_Distance/2]
+CapScrewOffset 				= WallThickness-CapScrewHoleDepth
+CapScrewCylinder 				= doc.addObject("Part::Cylinder", "ScrewHole_Cap")
+CapScrewCylinder.Radius 			= (CapScrewDiam/2)+0.25
+CapScrewCylinder.Height 			= CapScrewCutDepth
+CapScrewHole_Orig 				= ChamferEdges(CapScrewCylinder, "CapScrewHole_Orig", [1,2,3], CapScrewChamferRadius)
+CapScrewHole_A 				= ChamferEdges(CapScrewCylinder, "CapScrewHole_A", [1,2,3], CapScrewChamferRadius)
+CapScrewHole_B 				= Draft.clone(doc.CapScrewHole_A)
+CapScrewHole_B.Label 			= "CapScrewHole_B"
+CapScrewHole_A.Placement 		= App.Placement(App.Vector(ElecCenterX[0], -Elec_RadiusA-CapScrewOffset, DefaultFullHeight - CapScrewHeight), App.Rotation(0,0,90))
+CapScrewHole_B.Placement 		= App.Placement(App.Vector(ElecCenterX[1], Elec_RadiusB+CapScrewCutDepth+CapScrewOffset, DefaultFullHeight - CapScrewHeight), App.Rotation(0,0,90))
+doc.recompute() 	
+
+# Copy and rotate screw holes about electrode centers
+CapScrews 		= []
+StartingScrew 		= [CapScrewHole_A, CapScrewHole_B]
+for e in range(0, 2):
+	CapScrews.append(StartingScrew[e].Name)
+	for n in range(1, len(CapScrewAngles)):
+		NewHole = Draft.clone(StartingScrew[e])
+		NewHole = Draft.rotate(NewHole, CapScrewAngles[n], center=App.Vector(ElecCenterX[e],0,0), axis=App.Vector(0,0,1), copy=False)
+		#NewHole = Draft.rotate(StartingScrew[e], CapScrewAngles[n], center=App.Vector(ElecCenterX[e],0,0), axis=App.Vector(0,0,1), copy=True)
+		CapScrews.append(NewHole.Name)
+		if UpdateGUI:
+			FreeCADGui.updateGui()
+
+# Fuse screw holes to single object
+CapScrews_fused 		= bp.make_multi_fuse(CapScrews)
+doc.ActiveObject.Label 	= "CapScrews_fused"
+CapScrewsObject		= doc.ActiveObject.Name
+
+# Add joining blocks
+if (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
+	msg = "Inter-electrode distance exceeds combined radii - adding central joining block..."
+	print(msg + "\n")
+	QtGui.QMessageBox.information(None, "NIF GenerateDualChamber.py", msg)
+	JoinBlock_inner 				= doc.addObject("Part::Box", "JoinBlock_inner")	
+	JoinBlock_inner.Length 		= Elec_Distance
+	JoinBlock_inner.Width 			= min([Elec_RadiusA, Elec_RadiusB])*2
+	JoinBlock_inner.Height 		= DefaultFullHeight
+	JoinBlock_inner.Placement 		= App.Placement(App.Vector(-Elec_Distance/2,-JoinBlock_inner.Width/2,0), App.Rotation(0,0,0))
+	
+	JoinBlock_outer 				= doc.addObject("Part::Box", "JoinBlock_outer")
+	JoinBlock_outer.Length 		= Elec_Distance
+	JoinBlock_outer.Width 		= (min([Elec_RadiusA, Elec_RadiusB])+WallThickness)*2
+	JoinBlock_outer.Height 		= DefaultFullHeight
+	JoinBlock_outer.Placement 		= App.Placement(App.Vector(-Elec_Distance/2,-JoinBlock_outer.Width/2,0), App.Rotation(0,0,0))
+	
+	JoinBlock_grid 				= doc.addObject("Part::Box", "JoinBlock_grid")
+	JoinBlock_grid.Length 		= Elec_Distance
+	JoinBlock_grid.Width 			= (min([Elec_RadiusA, Elec_RadiusB])+GridLipThickness)*2
+	JoinBlock_grid.Height 			= GridDepth
+	JoinBlock_grid.Placement 		= App.Placement(App.Vector(-Elec_Distance/2,-JoinBlock_grid.Width/2, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))	
+
+# Create the connector block base
+if IncludeConnectorBase:
+	ConnectorBlock 				= doc.addObject("Part::Box", "ConnectorBlock")
+	ConnectorBlock.Length 		= CB_Length
+	ConnectorBlock.Width 		= CB_Width
+	ConnectorBlock.Height 		= CB_Height
+
+	# Fillet corners of connector block
+	ConnectorBlock_Fillet 			= FilletEdges(ConnectorBlock, "ConnectorBlock_Fillet", [1,3,5,7],CB_filletRadius)
+	doc.recompute()
+	doc.ConnectorBlock.Visibility 	= False
+	if UpdateGUI:
+		FreeCADGui.updateGui()
+
+	# Create ground wire hole and subtract from connector block base
+	print("Creating ground wire holes...\n")
+	CB_GWCylinder 				= doc.addObject("Part::Cylinder", "CB_GWcylinder")
+	CB_GWCylinder.Radius 		= CB_GroundWireDiameter/2 											
+	CB_GWCylinder.Height 		= CB_Height*3
+	CB_GWCylinder.Placement 		= App.Placement(App.Vector(0,0, 0), App.Rotation(0,-CB_GroundWire_Angle,0))
+	CB_GWfunnel 				= doc.addObject("Part::Cylinder", "CB_GWfunnel")
+	CB_GWfunnel.Radius 			= CB_GroundWireDiameter*2 											
+	CB_GWfunnel.Height 			= 4 
+	CB_GWfunnel.Placement		= App.Placement(App.Vector(-1,0,-3), App.Rotation(0,0,0)) 		
+	CB_GWfunnelUpper 			= doc.copyObject(CB_GWfunnel, True)			
+	CB_GWfunnelUpper.Placement 	= App.Placement(App.Vector(-4,0,CB_Height-2 ), App.Rotation(0,0,0)) 		
+	CB_GW_fused 				= bp.make_multi_fuse([ "CB_GWfunnel", "CB_GWcylinder", CB_GWfunnelUpper.Name,  ])								# Fuse channel with funnel
+	GW_Fillet 					= FilletEdges(CB_GW_fused , "GW_Fillet", [2,3,4,6,7,9], 0.5) 													# FIllet edges of GW channel
+	GW_Fillet.Placement 			= App.Placement(App.Vector(CB_GroundWire_XY[0], CB_GroundWire_XY[1], DefaultFullHeight-CB_Height), App.Rotation(0,0,0))	# Position GW channel relative to connector block base
+	ConnectorBlock_Fillet 			= bp.make_cut([ConnectorBlock_Fillet.Name, GW_Fillet.Name, ])	 											# Cut GW channel into connector block
+	ConnectorBlock_Fillet 			= bp.make_cut([ConnectorBlock_Fillet.Name, ScrewHoles_DM.Name, ])											# Cut DM screw holes into connector block
+
+	# Add cap screw holes to conenctor block
+	CB_ScrewHoleObj 			= []
+	ConnectorScrewHoles_XY 		= [[CB_Length*CB_SideHolePos, (CB_Width/2)-CapScrewHoleDepth+CapScrewCutDepth], [CB_Length*CB_SideHolePos,( -CB_Width/2)+CapScrewHoleDepth], [CB_Length-CapScrewHoleDepth, 0]]
+	ConnectorScrewHoles_RotXYZ 	= [[0,0,90], [0,0,90], [0,90,0]]
+	for c in range(len(ConnectorScrewHoles_XY)):
+		NewHole 			= Draft.clone(CapScrewHole_Orig)
+		NewHole.Placement 	= App.Placement(App.Vector(ConnectorScrewHoles_XY[c][0], ConnectorScrewHoles_XY[c][1], DefaultFullHeight - CapScrewHeight), App.Rotation(ConnectorScrewHoles_RotXYZ[c][0], ConnectorScrewHoles_RotXYZ[c][1], ConnectorScrewHoles_RotXYZ[c][2]))
+		CB_ScrewHoleObj.append(NewHole.Name)
+	
+	# Center connector block, fuse and subtract screw holes
+	ConnectorBlock			= Draft.move(ConnectorBlock, App.Vector(0, -CB_Width/2, DefaultFullHeight-CB_Height), copy=False)
+	CB_ScrewHolesfused 		= bp.make_multi_fuse(CB_ScrewHoleObj)
+	doc.ActiveObject.Label 	= "CB_ScrewHoles"
+	CB_ScrewHoles			= doc.ActiveObject
+	CB_withHoles			= bp.make_cut([ConnectorBlock_Fillet.Name, CB_ScrewHoles.Name,  ])
+	doc.ActiveObject.Label 	= "CB_withHoles"
+	#CB_withHoles			= doc.ActiveObject.Name
+	doc.recompute() 	
+	if UpdateGUI:
+		FreeCADGui.updateGui()
+
+	# Move connector block to requested angle & location
+	doc.ActiveObject.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
+##ConnectorBlock.Placement 		= App.Placement(App.Vector(0,-CB_Width/2,DefaultFullHeight-CB_Height), App.Rotation(CB_Rotation_X,0,0))
+
+print("Fusing chamber elements...\n")
+if (Elec_Distance < Elec_RadiusA+Elec_RadiusB):
+	# Fuse primitive cylinder objects together
+	InnerWell_fused 		= bp.make_multi_fuse(["ElecA_innerWell", "ElecB_innerWell", ])
+	GridWell_fused 		= bp.make_multi_fuse(["ElecA_gridWell", "ElecB_gridWell", ])
+	OuterChamber_fused 	= bp.make_multi_fuse(["ElecA_outerWall", "ElecB_outerWall", ])
+	FilletEdgeIndx = [9,10]
+
+elif (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
+	# Fuse primitive cylinder objects together
+	InnerWell_fused 		= bp.make_multi_fuse(["ElecA_innerWell", "ElecB_innerWell", "JoinBlock_inner", ])
+	GridWell_fused 		= bp.make_multi_fuse(["ElecA_gridWell", "ElecB_gridWell", "JoinBlock_grid", ])
+	OuterChamber_fused 	= bp.make_multi_fuse(["ElecA_outerWall", "ElecB_outerWall", "JoinBlock_outer", ])
+	FilletEdgeIndx = [8,14]
+   
+# Create smooth fillet joint between intersecting pairs of cylinders
+#if Elec_RadiusA != Elec_RadiusB:
+Inner_Fillet 	= FilletEdges(InnerWell_fused, "Inner_Fillet", FilletEdgeIndx,InnerChamber_filletRadius)
+Grid_Fillet 		= FilletEdges(GridWell_fused, "Grid_Fillet", FilletEdgeIndx,InnerChamber_filletRadius)
+Outer_Fillet 	= FilletEdges(OuterChamber_fused, "Outer_Fillet", FilletEdgeIndx,OuterChamber_filletRadius)
+if UpdateGUI:
+	FreeCADGui.updateGui()
+
+#elif Elec_RadiusA == Elec_RadiusB:
+#	Inner_Fillet 	= InnerWell_fused
+#	Grid_Fillet 		= GridWell_fused
+#	Outer_Fillet 	= OuterChamber_fused
+#	InnerWell_fused.La
+#	Inner_Fillet 	= doc.getObject("InnerWell_fused")
+#	Grid_Fillet 		=  doc.getObject("GridWell_fused ")
+#	Outer_Fillet 	=  doc.getObject("OuterChamber_fused")
+
+	#Inner_Fillet = App.ActiveDocument.getObjectsByLabel("Concrete wall")[0]
+
+
+# Hide primitive objects
+doc.ScrewHole_Cap.Visibility 	= False
+doc.CapScrewHole_Orig.Visibility 	= False
+doc.Fusion.Visibility 			= False
+doc.Fusion001.Visibility 		= False
+doc.Fusion002.Visibility 		= False
+
+# Fuse connector block to outer chamber
+if IncludeConnectorBase:
+	OuterChamber_fused 		= bp.make_multi_fuse(["Outer_Fillet", CB_withHoles.Name, ])
+	doc.ActiveObject.Label 	= "OuterChamberSurf"
+	OuterChamberSurf 		= doc.ActiveObject.Name
+else:
+	OuterChamberSurf 		= Outer_Fillet.Name
+
+# Subtract cap screw holes from chamber surface
+bp.make_cut([OuterChamberSurf, CapScrewsObject,  ])
+doc.ActiveObject.Label 	=  "OuterChamber_wHoles"
+OuterChamberSurface	= doc.ActiveObject.Name
+doc.recompute() 	
+if UpdateGUI:
+	FreeCADGui.updateGui()
+
+# Duplciate outer surface and convert to chamfered 'ridge'
+print("Generating outer chamber surface ridges...\n")
+doc.recompute() 												# Display results in GUI
+App.ActiveDocument.copyObject(App.ActiveDocument.Outer_Fillet, True)
+doc.getObject('ElecA_outerWall001').Height 	= 1
+doc.getObject('ElecB_outerWall001').Height 	= 1
+doc.getObject('ElecA_outerWall001').Radius 	= Elec_RadiusA + WallThickness +RidgeHeight/2
+doc.getObject('ElecB_outerWall001').Radius 	= Elec_RadiusB + WallThickness +RidgeHeight/2
+Ridge 		= doc.getObject('Outer_Fillet001')
+NoEdges 		= int(len(Ridge.Shape.Edges))
+RidgeEdgeIndx 	= list(range(1,  NoEdges+1))
+ChamferEdges(Ridge, "Ridge",  RidgeEdgeIndx, (RidgeHeight /2)-0.05)
+
+# Stack ridges along height of chamber
+doc.recompute() 												# Display results in GUI
+NoRidges 		= int(np.floor((DefaultFullHeight-CapLipDepth)/RidgeHeight))-1
+RidgeHeights 	= np.linspace(RidgeHeight, DefaultFullHeight-CapLipDepth, NoRidges-1)
+AllRidges 		= ["Ridge"]
+for r in range(0, NoRidges-1):
+	NewRidge 			= Draft.clone(doc.Ridge)
+	NewRidge.Placement 	= App.Placement(App.Vector(0,0, RidgeHeights[r]), App.Rotation(0,0,0))
+	#print(NewRidge.Name)
+	AllRidges.append(NewRidge.Name)
+	del NewRidge
+	if UpdateGUI:
+		FreeCADGui.updateGui()
+
+# Merge Ridges
+Ridges_fused 			= bp.make_multi_fuse(AllRidges)
+doc.ActiveObject.Label 	= "Ridges"
+Ridges 				= doc.ActiveObject.Name
+doc.recompute() 	
+
+print("Fusing chamber components...\n")
+
+# Fuse inner chamber parts
+Inner_fused 			= bp.make_multi_fuse([ "Inner_Fillet", "Grid_Fillet",  ])
+doc.ActiveObject.Label 	= "InnerChamber"
+InnerChamber 			= doc.ActiveObject.Name
+doc.recompute() 	
+if UpdateGUI:
+	FreeCADGui.updateGui()
+
+# Fuse outer chamber parts
+Outer_fused 			= bp.make_multi_fuse([Ridges, OuterChamberSurface,  ])
+doc.ActiveObject.Label 	= "OuterChamber"
+OuterChamber 			= doc.ActiveObject.Name
+doc.recompute() 	
+
+# Subtract inner chamber well from outer chamber walls
+bp.make_cut([OuterChamber, InnerChamber,  ])
+doc.ActiveObject.Label 	= "ChamberSurface"
+if UpdateGUI:
+	FreeCADGui.updateGui()
+
+#================ Generate Grid =======================
+print("Generating chamber grids...\n")
+
+# Copy and resize inner parts for INNER grid
+GridBottom 					= doc.copyObject(doc.Inner_Fillet, True)
+GridTop 						= doc.copyObject(doc.Grid_Fillet, True)
+GridTop.Label 					= "Grid Top"
+GridBottom.Label 				= "Grid Bottom"
+
+doc.ElecA_gridWell001.Height 		= GridDepth/2
+doc.ElecB_gridWell001.Height 		= GridDepth/2
+doc.ElecA_gridWell001.Radius	 	= Elec_RadiusA+GridLipThickness-FitTolerance
+doc.ElecB_gridWell001.Radius	 	= Elec_RadiusB+GridLipThickness-FitTolerance
+
+doc.ElecA_innerWell001.Height 		= GridInnerHeight
+doc.ElecB_innerWell001.Height 		= GridInnerHeight
+doc.ElecA_innerWell001.Radius	 	= Elec_RadiusA-FitTolerance
+doc.ElecB_innerWell001.Radius	 	= Elec_RadiusB-FitTolerance
+doc.Inner_Fillet001.Placement 		= App.Placement(App.Vector(0, 0, DefaultFullHeight-GridDepth-GridInnerHeight), App.Rotation(0,0,0))
+LowerGrid_blank 				= bp.make_multi_fuse([GridTop.Name, GridBottom.Name,  ])
+LowerGrid_blank.Label 			= "LowerGrid_blank"
+
+# Copy and resize inner parts for TEMPORARY cap
+print("Generating temporary cap...\n")
+UpperGridInner 					= doc.copyObject(GridTop, True)
+UpperGridInnerLabel 				= "UpperGrid_Inner"
+UpperGridInner.Placement 			= App.Placement(App.Vector(0, 0, GridDepth/2), App.Rotation(0,0,0))
+UpperGridNegative 				= doc.copyObject(doc.Outer_Fillet, True)
+UpperGridOuter 					= doc.copyObject(doc.Outer_Fillet, True)
+if IncludeConnectorBase:
+	ConnectorOuter 					= doc.copyObject(doc.ConnectorBlock_Fillet, True)
+	ConnectorInner 					= doc.copyObject(doc.ConnectorBlock_Fillet, True)
+
+doc.ElecA_outerWall002.Radius		= Elec_RadiusA+WallThickness+FitTolerance
+doc.ElecB_outerWall002.Radius		= Elec_RadiusB+WallThickness+FitTolerance
+doc.ElecA_outerWall002.Height 		= CapLipDepth
+doc.ElecB_outerWall002.Height 		= CapLipDepth
+UpperGridNegative.Placement	 	= App.Placement(App.Vector(0, 0, DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+
+doc.ElecA_outerWall003.Radius		= Elec_RadiusA+WallThickness+CapThickness
+doc.ElecB_outerWall003.Radius		= Elec_RadiusB+WallThickness+CapThickness
+doc.ElecA_outerWall003.Height 		= CapLipDepth+CapThickness
+doc.ElecB_outerWall003.Height 		= CapLipDepth+CapThickness
+UpperGridOuter.Placement	 		= App.Placement(App.Vector(0, 0, DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+
+if IncludeConnectorBase:
+	doc.ConnectorBlock001.Length		= CB_Length +2*CapThickness
+	doc.ConnectorBlock001.Width		= CB_Width  +2*CapThickness
+	doc.ConnectorBlock001.Height		= CapLipDepth +CapThickness
+	doc.ConnectorBlock001.Placement 	= App.Placement(App.Vector(-CapThickness, -(CB_Width/2 +CapThickness), DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+	#doc.ConnectorBlock_Fillet001.
+	ConnectorOuter.Placement 			= App.Placement(App.Vector(0, 0, 0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
+	
+	doc.ConnectorBlock002.Length		= CB_Length +2*FitTolerance
+	doc.ConnectorBlock002.Width		= CB_Width  +2*FitTolerance
+	doc.ConnectorBlock002.Height 		= CapLipDepth
+	doc.ConnectorBlock002.Placement 	= App.Placement(App.Vector(-FitTolerance, -(CB_Width/2 +FitTolerance), DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+	ConnectorInner.Placement 			= App.Placement(App.Vector(0, 0, 0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
+
+
+FilletEdgeIndx 		= "all"
+CapOuter 			= FilletEdges(UpperGridOuter, "CapOuter", FilletEdgeIndx, CapCornerRadius)
+if IncludeConnectorBase:
+	ConnectorOuter 		= FilletEdges(ConnectorOuter, "ConnectorOuter", FilletEdgeIndx, CapCornerRadius)
+	CapFull			= bp.make_multi_fuse([CapOuter.Name,  ConnectorOuter.Name, ]) 				# Fuse chamber and connector block outer cap surfaces
+	CapSubtract		= bp.make_multi_fuse([UpperGridNegative.Name,  ConnectorInner.Name, ]) 		# Fuse chamber and connector block inner cap surfaces
+else:
+	CapFull			= CapOuter
+	CapSubtract		= UpperGridNegative
+
+CapCut 			= bp.make_cut([CapFull.Name, CapSubtract.Name, ]) 						# Subtract inner surface from outer surface
+Cap_fused 		= bp.make_multi_fuse([UpperGridInner.Name, CapCut.Name,  ])				# Fuse the inner grid to the cap
+
+# Copy scap crew holes and subtract
+CapScrewHoles		= doc.copyObject(CapScrews_fused, True)
+if IncludeConnectorBase:
+	CBScrews	 		= doc.copyObject(CB_ScrewHoles, True)
+	CBScrews.Placement 	= App.Placement(App.Vector(0, 0, 0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
+	CapScrewHoles 		= bp.make_multi_fuse([CapScrewHoles.Name, CBScrews.Name,  ])	
+
+Cap_fused  		= bp.make_cut([Cap_fused.Name, CapScrewHoles.Name, ])
+Cap_fused.Label 	= "TemporaryCap"
+Cap_fused.ViewObject.Transparency = 50
+setObjColor(Cap_fused, (1,1,0))
+
+# Copy and resize inner parts for surgery 1 HOLDER
+print("Generating chamber holder for surgery #1...\n")
+
+
+
+
+# Copy and resize inner parts for MRI SCANNING grid
+print("Generating post-surgical MRI localization grid...\n")
+
+
+
+
+
+
+
+#============ Finish up
+print("Generating post-surgical MRI localization grid...\n")
+FreeCADGui.updateGui()
+doc.recompute() 						# Display results in GUI
+Gui.SendMsgToActiveView("ViewFit")			# Set GUI window view to fit
+Gui.activeDocument().activeView().viewTop() 		# Set GUI window view from top
+#doc.saveAs([filename,'.FCStd'])						# Save file?
+
+# Export .STL file
