@@ -6,7 +6,7 @@ This repository contains a suite of Python scripts designed for use with a colle
 
 | Software | GitHub | Description | License |
 | --- | --- | --- | --- |
-| <img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Slicer_Icon.svg" height="40px"> | <a href="https://github.com/Slicer/Slicer"> Slicer </a> | Medical imaging analysis software | BSD |
-| <img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Freecad_Icon.svg" height="40px"> | <a href="https://github.com/FreeCAD/FreeCAD"> FreeCAD </a> | Computer aided design software | GPL |
-| <img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Blender_Icon.svg" height="40px"> | <a href="https://github.com/blender/blender"> Blender </a> | 3D computer graphic visualization software | GPL |
+| <a href="https://www.slicer.org"><img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Slicer_Icon.svg" height="40px"></a> | <a href="https://github.com/Slicer/Slicer"> Slicer </a> | Medical imaging analysis software | BSD |
+| <a href="https://www.freecad.org"><img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Freecad_Icon.svg" height="40px"></a> | <a href="https://github.com/FreeCAD/FreeCAD"> FreeCAD </a> | Computer aided design software | GPL |
+| <a href="https://www.blender.org"><img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Blender_Icon.svg" height="40px"></a> | <a href="https://github.com/blender/blender"> Blender </a> | 3D computer graphic visualization software | GPL |
 
