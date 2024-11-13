@@ -24,17 +24,19 @@ def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
 
 #=============== Set parameters
 filename 			= "TEST"
-Outer_Diameter 		= 18
+Outer_Diameter 		= 20
 GridHole_Diameter 	= 1
-GridHole_Depth 		= 20
+GridHole_Depth 		= 50
 AlignmentDepth 		= 4
-BaseDepth 		= 5
-Base_Diameter 		= 20
+Base_Depth 		= 5
+Base_Diameter 		= 34
 
-GridHole_angles 		= [10,0,0]
-NoGridHoles 		= 8
-GridHole_ArrayRadii   = [5, 7]
-
+GridHole_angles 			= [0,0,0]
+GridHole_NoPerRing 		= [8, 8, 16]
+GridHole_ArrayRadii   		= [3, 5, 8]*GridHole_Diameter
+ScrewHole_Diameter 		= 3
+ScrewHole_HeadRadius 	= ScrewHole_Diameter*0.75
+ 
 
 #=============== Create and save document
 FullFilename = "ImagingGrid_%s" % (filename)
@@ -50,12 +52,15 @@ OuterCylinder.Radius 			= Outer_Diameter/2
 OuterCylinder.Height 			= GridHole_Depth+AlignmentDepth+2
 OuterCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
 OuterCylinder 				= FilletEdges(OuterCylinder, "OuterCylinder", "all", 2)
-OuterCylinder.ViewObject.Transparency = 50
 
+# Create base cylinder
 BaseCylinder 				= doc.addObject("Part::Cylinder", "BaseCylinder")
 BaseCylinder.Radius 			= Base_Diameter/2
-BaseCylinder.Height 			= BaseDepth
-BaseCylinder.Placement 		= App.Placement(App.Vector(0,0,-BaseDepth), App.Rotation(0,0,0))
+BaseCylinder.Height 			= Base_Depth
+BaseCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0,0,0))
+
+OuterGrid					= bp.make_multi_fuse([OuterCylinder.Name, BaseCylinder.Name, ])
+OuterGrid.ViewObject.Transparency = 50
 
 # Create the origin grid hole cylinder
 GridCylinder 				= doc.addObject("Part::Cylinder", "GridCylinder")
@@ -64,25 +69,63 @@ GridCylinder.Height 			= GridHole_Depth
 GridCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
 
 # Create additional grid holes
-GridHole_RadialAngles 		= np.deg2rad(np.linspace(0,360, NoGridHoles+1))
-for n in range(0, NoGridHoles):
-	for r in range(0, len(GridHole_ArrayRadii)):
+GridHoles 					= [GridCylinder.Name]
+for c in range(0, len(GridHole_NoPerRing)):
+	GridHole_RadialAngles 		= np.deg2rad(np.linspace(0,360, GridHole_NoPerRing[c]+1))
+	for n in range(0, GridHole_NoPerRing[c]):
 		NewHole 	= Draft.clone(GridCylinder)
-		Pos 		= [np.sin(GridHole_RadialAngles[n])*GridHole_ArrayRadii[r], np.cos(GridHole_RadialAngles[n])*GridHole_ArrayRadii[r]]
+		Pos 		= [np.sin(GridHole_RadialAngles[n])*GridHole_ArrayRadii[c], np.cos(GridHole_RadialAngles[n])*GridHole_ArrayRadii[c]]
 		NewHole.Placement = App.Placement(App.Vector(Pos[0],Pos[1],0),  App.Rotation(GridHole_angles[0],GridHole_angles[1],GridHole_angles[2]))
+		GridHoles.append(NewHole.Name)
+
+AllGridHoles 	= bp.make_multi_fuse(GridHoles)
 
 # Create base alignment blocks
 Block_A					= doc.addObject("Part::Box", "Block_A")	
-Block_A.Length 				= Outer_Diameter*2
+Block_A.Length 				= Base_Diameter*2
 Block_A.Width 				= AlignmentDepth*2
 Block_A.Height 				= AlignmentDepth*2
-VertOffset 				= np.sin(np.deg2rad(45))*AlignmentDepth
-Block_A.Placement 			= App.Placement(App.Vector(-Outer_Diameter*0.75, 0, -VertOffset), App.Rotation(0,0,45))
+VertOffset 				= np.sin(np.deg2rad(45))*AlignmentDepth*2
+Block_A.Placement 			= App.Placement(App.Vector(-Base_Diameter*0.75, 0, AlignmentDepth-VertOffset*2), App.Rotation(0,0,45))
 Block_B 					= Draft.clone(Block_A)
-Block_B.Placement 			= App.Placement(App.Vector(0, -Outer_Diameter*0.75, -VertOffset), App.Rotation(90,0,45))
+Block_B.Placement 			= App.Placement(App.Vector(0, -Base_Diameter*0.75, AlignmentDepth-VertOffset*2), App.Rotation(90,0,45))
 AlignBlock_Lower 			= bp.make_multi_fuse([Block_A.Name, Block_B.Name, ])
 AlignBlock_Upper 			= Draft.clone(AlignBlock_Lower)
-AlignBlock_Upper.Placement 	= App.Placement(App.Vector(0, 0 , GridHole_Depth+AlignmentDepth), App.Rotation(0,0,0))
+AlignBlock_Upper.Placement 	= App.Placement(App.Vector(0, 0 , GridHole_Depth+AlignmentDepth+3+VertOffset), App.Rotation(0,0,0))
+OuterGrid 					= bp.make_cut([OuterGrid.Name, AlignBlock_Lower.Name, ])
+OuterGrid 					= bp.make_cut([OuterGrid.Name, AlignBlock_Upper.Name, ])
+
+# Import screw STEP files
+IgniteDir 		= '/Volumes/NIFVAULT/projects/murphyap_NIF/NIF_Code/IGNITE/FreeCAD/'
+ScrewFile 		= os.path.join(IgniteDir, 'Parts/Screws/96295A120_Narrow Cheese Head Slotted Screws.STEP')
+Screw 		= App.ActiveDocument.addObject("Part::Feature","M3_screw")
+Screw.Shape 	= Part.read(ScrewFile)
+
+# Create cap attachment screw holes
+ScrewHole 				= doc.addObject("Part::Cylinder", "ScrewHole")
+ScrewHole.Radius 			= ScrewHole_Diameter/2
+ScrewHole.Height 			= Base_Depth +2
+ScrewHole.Placement 			= App.Placement(App.Vector(0,0,-1), App.Rotation(0,0,0))
+ScrewHoles 				= []
+ScrewHole_XY 				= [[-1,1], [1,1],[1,-1],[-1,-1]]
+ScrewHole_Offset 			= ((Base_Diameter/2)*np.sin(np.deg2rad(45)))-ScrewHole_Diameter
+ScrewHead 				= doc.addObject("Part::Cylinder", "ScrewHead")
+ScrewHead.Radius 			= ScrewHole_HeadRadius
+ScrewHead.Height 			= GridHole_Depth
+ScrewHead.Placement 		= App.Placement(App.Vector(0,0,Base_Depth), App.Rotation(0,0,0))
+ScrewHole 				= bp.make_multi_fuse([ScrewHole.Name, ScrewHead.Name, ])
+
+for s in range(0, len(ScrewHole_XY)):
+	NewHole 			= Draft.clone(ScrewHole)
+	NewHole.Placement 	= App.Placement(App.Vector(ScrewHole_XY[s][0]*ScrewHole_Offset, ScrewHole_XY[s][1]*ScrewHole_Offset,0), App.Rotation(0,0,0))
+	ScrewHoles.append(NewHole.Name)
+	NewScrew 			= Draft.clone(Screw)
+	NewScrew.Placement 	= App.Placement(App.Vector(ScrewHole_XY[s][0]*ScrewHole_Offset, ScrewHole_XY[s][1]*ScrewHole_Offset,Base_Depth), App.Rotation(0,0,0))
+
+ScrewHole.Visibility 	= False
+Screw.Visibility 		= False
+AllScrewHoles 		= bp.make_multi_fuse(ScrewHoles)
+OuterGrid 			= bp.make_cut([OuterGrid.Name, AllScrewHoles.Name, ])
 
 
 #============ Finish up

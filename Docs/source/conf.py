@@ -67,9 +67,9 @@ pygments_style = 'monokai' #'sphinx'
 html_theme = 'nature'
 
 html_static_path = ['_static']
-html_title = 'NIF Toolbar'
-html_short_title = 'NIF Toolbar'
-html_logo = './_images/Logos/NTB Logo w.png'
+html_title = 'IGNITE'
+html_short_title = 'IGNITE'
+#html_logo = './_images/Logos/NTB Logo w.png'
 
 html_show_sourcelink = False
 

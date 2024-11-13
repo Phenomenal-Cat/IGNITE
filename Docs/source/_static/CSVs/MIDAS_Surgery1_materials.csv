@@ -1,12 +1,13 @@
-﻿Item,Source,Details,Lab location
-Electrode chamber(s),Stratasys Direct,,
-Low-profile chamber cap(s),Stratasys Direct,,
-Nylon screws,McMaster-Carr," 4-40, Philips head",
-Screwdriver,,"Phillips head, #4",
-Ceramic screws,Thomas Recording,,
-Ground pins,NIMH SI,,
-Copper wire,,Shoul dbe pre-coiled,
-Dental cement,BioMet,Cobalt HV,
-Hemostatic gel,Vista Dental,`Quick-Stat FS <https://www.henryschein.com/us-en/dental/p/crown-bridge/retraction-materials/quick-stat-fs-standard-kit/1071130>`_,
-High vacuum grease,Dow Corning,`976V <>`_,
-Dual-cure resin,DenMat,`Geristore <https://www.denmat.com/products/restorative/ionomers.html>`_,
+﻿Item,Manufacturer,Model,Source,URL,Location,Sterilization
+,,,,,,
+Screwdriver,,"Phillips head, #4",,,CAF OR #3,
+Ceramic screws,Rogue Research,"M3, Philips head",Rogue Research,,B1-C60,
+,,,,,,
+Ground pins,NIMH SI,"Hex head M3, PEEK + gold",,,B1-A19,
+Ground pin driver,NIMH SI,Customized M3 hex driver,,,CAF OR #3,Autoclave
+Hemostatic gel,Vista Apex,`Quick-Stat FS <https://www.henryschein.com/us-en/dental/p/crown-bridge/retraction-materials/quick-stat-fs-standard-kit/1071130>`_,,,CAF OR #3,None
+Dental varnish,Cooley & Cooley,Copalite,,,CAF OR #3,None
+Denal Adhesive,Bisco,`All-Bond Universal <https://www.bisco.com/all-bond-universal-/>`_,,,CAF OR #3,
+Dental cement,Lang Dental,Orthojet,,,,
+Chamber cap screws,McMaster-Carr,"M3, Philips head",,,B1-A19,ETO
+High vacuum grease,Dow Corning,`976V <>`_,,,CAF OR #3,

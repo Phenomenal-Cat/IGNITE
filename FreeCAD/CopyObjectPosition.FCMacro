@@ -1,15 +1,30 @@
 # CopyObjectPosition.py
 
 import FreeCAD as App
+from PySide import QtGui
+import numpy as np
 
-# Get selected object psoition
+#========== Get selected object psoition
 sel 	= FreeCADGui.Selection.getSelection('',0)[0]
-pos 	= sel.Object.Placement
+pos 	= sel.Placement
 print("Selected object: 	%s" % (sel.Label))
-print("Position:			%d, %dd, %d" % (pos.Base))
-print("Rotation:			%d, %d, %d" % (pos.Rotation))
+print("Position (x,y,z):		%.2f, %.2f, %.2f" % (pos.Base[0], pos.Base[1],pos.Base[2]))
+print("Rotation angle:		%d°" % (np.rad2deg(pos.Rotation.Angle)))
+print("Rotation axis:		%d %d %d" % (pos.Rotation.Axis[0], pos.Rotation.Axis[1], pos.Rotation.Axis[2]))
 
+#========== Display message box in GUI
+msgBox = QtGui.QMessageBox()
+msgBox.setIcon(QtGui.QMessageBox.Question)
+msgBox.setText(u"Copied position and rotation parameters from selected object: " + sel.Label + ".\n\nPlease select the target object to apply these paremeters to...")
+ProcessButton = msgBox.addButton(u"Apply parameters", QtGui.QMessageBox.AcceptRole)
+CloseButton = msgBox.addButton(QtGui.QMessageBox.Close)
+msgBox.exec_()
 
-# Set selected object psoition
-#sel 	= FreeCADGui.Selection.getSelection('',0)[0]
-#sel.Object.Placement = App.Placement(pos.Base, pos.Rotation)
+#========== Apply parameters to target object
+if msgBox.clickedButton() == CloseButton:
+      print ("Cancelled copying object parameters")
+
+elif msgBox.clickedButton() == ProcessButton:
+	 print ("Select object to apply parameters to")
+	
+	

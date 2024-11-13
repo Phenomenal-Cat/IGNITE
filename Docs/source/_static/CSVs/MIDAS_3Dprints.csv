@@ -1,0 +1,4 @@
+﻿Part,Printer,Material,Plastic-like,Process,Color
+Chamber,3D Systems `Projet 6000 <https://www.3dsystems.com/3d-printers/projet-6000-hd>`_,`Accura ClearVue <https://www.3dsystems.com/materials/accura-clearvue>`_,Polycarbonate,SLA,Clear
+Cap,Markforged `Mark Two <https://markforged.com/3d-printers/mark-two>`_,`Markforged Onyx <https://markforged.com/materials/plastics/onyx>`_,Carbon-fiber filled nylon,FDM,Black
+Microdrive,Stratasys `Objet260 Connex3 <https://support.stratasys.com/en/Printers/PolyJet-Legacy/Objet260-Connex-1-2-3>`_,`Rigur (RGD450) <https://support.stratasys.com/en/materials/polyjet/rigur-durus>`_,Polypropylene,FDM,White
