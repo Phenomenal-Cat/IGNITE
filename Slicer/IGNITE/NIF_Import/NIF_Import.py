@@ -29,16 +29,16 @@ class NIF_Import(ScriptedLoadableModule):
         self.parent.title = "NIF_Import"  # TODO: make this more human readable by adding spaces
         self.parent.categories = ["Examples"]  # TODO: set categories (folders where the module shows up in the module selector)
         self.parent.dependencies = []  # TODO: add here list of module names that this module requires
-        self.parent.contributors = ["John Doe (AnyWare Corp.)"]  # TODO: replace with "Firstname Lastname (Organization)"
+        self.parent.contributors = ["Aidan P. Murphy (National Institutes of Health)"]
         # TODO: update with short description of the module and a link to online module documentation
         self.parent.helpText = """
-This is an example of scripted loadable module bundled in an extension.
-See more information in <a href="https://github.com/organization/projectname#NIF_Import">module documentation</a>.
+This module is designed specifically for importing imaging data from the Neurophysiology Imaging Facility (NIF) core at the
+National Institutes of Health (NIH). Users must be connected to the NIH network and have read permission for mounting the
+NIFVAULT network storage where the DICOM data is stored. For further information, see the <a href="https://nif.nimh.nih.gov">NIF intranet site</a>.
 """
         # TODO: replace with organization, grant and thanks
         self.parent.acknowledgementText = """
-This file was originally developed by Jean-Christophe Fillion-Robin, Kitware Inc., Andras Lasso, PerkLab,
-and Steve Pieper, Isomics, Inc. and was partially funded by NIH grant 3P41RR013218-12S1.
+This file was developed by Aidan Murphy.
 """
 
         # Additional initialization step after application startup is complete
