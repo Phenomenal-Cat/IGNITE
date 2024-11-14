@@ -1,18 +1,35 @@
 
 
-#==================== AlignStereotaxic.py ====================
+#=========================== AlignStereotaxic.py ==============================
 # This script currently contains snippets of code that can be used
 # to initialize fiducial control points for stereotaxic alignment of
 # MRI in the Slicer GUI. This involves:
 #
 # 	1. automatically creating fiducial markers for earbar and orbit bar tips
-#	2. the user manually adjusting the placement
+#	2. the user manually adjusting the placement of these markers
 #	3. translating the volume to make the stereotaxic origin the volume origin
 #	4. rotating the volume to make the axial plan parallel to the Frankfurt plane
-#	5. 
+#	5. reslicing the volume(s) in stereotaxic coordinates and saving
 #
-# - 11/13/2024 - Aidan Murphy
+#     _________  ________     ____    ___  _________  _________  _______
+#    /__   ___/ /  _____/    /    |  /  / /__   ___/ /__   ___/ /  ____/
+#      /  /    /  / ___     /     | /  /    /  /       /  /    /  /___
+#     /  /    |  | |_  |   /  /|  |/  /    /  /       /  /    /  ____/
+#  __/  /__   |  \__/  /  /  / |     /  __/  /__     /  /    /  /____
+# /_______/    \______/  /__/  |____/  /_______/    /__/    /_______/
+#
+# Image-Guided Neural Implantation Targeting Extensions
+# https://github.com/Phenomenal-Cat/IGNITE
+# Developed by Aidan P. Murphy, Ph.D
+#============================================================================= 
 
+
+
+def InitTransformMatrix(Translation):
+	m = np.zeros((4,4))
+	np.fill_diagonal(m, 1)
+	m[[0,1,2],3] = Translation
+	return m
 
 
 #========== Initialize default stereotaxic fiducial points
@@ -21,40 +38,49 @@ Macaque_IAD			= 76			# Average inter-aural distance (mm) for adult macaque
 Macaque_IOAD		= 52			# Average inter orbital-auditory meatus distance (mm) for adult macaque
 
 Fiducial_names 		= ['Earbar_R','Earbar_L','Orbit_R','Orbit_L','Volume_Origin']
-Fiducial_xyz 	= [[Macaque_IAD/2, 0, 0], [-Macaque_IAD/2, 0, 0], [Macaque_IPD/2, Macaque_IOAD, 0], [-Macaque_IPD/2, Macaque_IOAD, 0],[0,0,0]]
+Fiducial_xyz 		= [[Macaque_IAD/2, 0, 0], [-Macaque_IAD/2, 0, 0], [Macaque_IPD/2, Macaque_IOAD, 0], [-Macaque_IPD/2, Macaque_IOAD, 0],[0,0,0]]
 
-pointListNode 		= getNode("vtkMRMLMarkupsFiducialNode1")
+pointListNode 		= slicer.mrmlScene.AddNewNodeByClass("vtkMRMLMarkupsFiducialNode")
+pointListNode.SetName('Frankfurt plane')
 for f in range(0, len(Fiducial_names)):
 	n = pointListNode.AddControlPoint(Fiducial_xyz[f][0], Fiducial_xyz[f][1], Fiducial_xyz[f][2])
 	pointListNode.SetNthControlPointLabel(n, Fiducial_names[f])
 
-
-
-
+# Activate Markup module in GUI?
+interactionNode = slicer.app.applicationLogic().GetInteractionNode()
+selectionNode 	= slicer.app.applicationLogic().GetSelectionNode()
+selectionNode.SetActivePlaceNodeID(pointListNode.GetID())
+interactionNode.SetCurrentInteractionMode(interactionNode.Place)
 
 
 #========== Calculate stereotaxic origin
-fn = slicer.util.getNode('F')
-fn.SetName('Frankfurt plane')
-
 points = []
-for f in range(0, fn.GetNumberOfControlPoints()):
-	Label 	= fn.GetNthControlPointLabel(f)
-	Pos 	= fn.GetNthControlPointPosition(f)
+for f in range(0, pointListNode.GetNumberOfControlPoints()):
+	Label 	= pointListNode.GetNthControlPointLabel(f)
+	Pos 	= pointListNode.GetNthControlPointPosition(f)
 	points.append((Label, Pos))
 
-
-Earbar_Right 	= np.array(fn.GetNthControlPointPosition(0), dtype='float32')
-Earbar_Left 	= np.array(fn.GetNthControlPointPosition(1), dtype='float32')
-Earbar_Offset 	= np.diff([Earbar_Right, Earbar_Left], axis=0)
+Earbar_Right 	= np.array(points[0][1], dtype='float32')
+Earbar_Left 	= np.array(points[1][1], dtype='float32')
+Earbar_Offset 	= np.diff([Earbar_Right, Earbar_Left], axis=0)[0]
 Earbar_Midpoint = Earbar_Right + (Earbar_Offset/2)
+Earbar_Rotation = np.arctan(Earbar_Offset[1]/Earbar_Offset[0]) 
 
 
-Fiducial_names 	= ['Volume_Origin', 'Stereotaxic_Origin']
-Fiducial_xyz 	= [[0,0,0], Earbar_Midpoint.tolist()[0]]
+
+Fiducial_names 	= ['Stereotaxic_Origin']
+Fiducial_xyz 	= [Earbar_Midpoint.tolist()[0]]
 for f in range(0, len(Fiducial_names)):
 	n = pointListNode.AddControlPoint(Fiducial_xyz[f][0], Fiducial_xyz[f][1], Fiducial_xyz[f][2])
 	pointListNode.SetNthControlPointLabel(n, Fiducial_names[f])
+
+# Display Frankfurt plane target in GUI
+planeNode = slicer.mrmlScene.AddNewNodeByClass('vtkMRMLMarkupsPlaneNode')
+planeNode.SetName('Frankfurt_plane')
+center = [0,0,0]							# Centered on volume origin
+normal = [0,0,1] 							# Horizontal (axial slice) plane
+planeNode.SetCenter(center)		
+planeNode.SetNormal(normal)
 
 
 #========== Fit plane to markup control points
@@ -75,7 +101,25 @@ sliceNode.SetSliceToRASByNTP(n[0], n[1], n[2], t[0], t[1], t[2], p1[0], p1[1], p
 
 
 
-#====== Create transform
+#====== Translate volume origin to stereotaxic origin
+mTranslate		= InitTransformMatrix(-Earbar_Midpoint)				# Create a 4x4 translation matrix as a Numpy array
+SlicerMatrix 	= slicer.util.vtkMatrixFromArray(mTranslate)		# Convert 4x4 matrix to VTK object
+transformNode 	= slicer.vtkMRMLTransformNode() 					# Create Slicer transform node
+transformNode.SetName('Orig_2_Stereotax') 							# Give transform node a name
+slicer.mrmlScene.AddNode(transformNode) 							# Add node to scene
+transformNode.SetAndObserveMatrixTransformToParent(SlicerMatrix) 	# Update matrix in transform node
+
+dsa = 
+dsa.SetAndObserveTransformNodeID(transformNode)
+slicer.vtkSlicerTransformLogic().hardenTransform(dsa)				# Harden transforms
+
+
+#m = vtk.vtkMatrix4x4() 											# Create transform matrix
+#transformNode.SetMatrixTransformToParent(m) 					# Set 
+#vtk.vtkMatrix4x4.DeepCopy(narray.ravel())
+#slicer.util.arrayFromTransformMatrix(transformNode)				# Get transform matrix as 4x4 array
+
+#====== Rotate Frankfurt plane to axial slice
 
 
 

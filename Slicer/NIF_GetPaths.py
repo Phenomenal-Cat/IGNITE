@@ -43,11 +43,11 @@ if len(CT_Match) > 0:
 #===== Find all scans from selected session dates and search for specific sequences
 SequenceStrings = ['T1_MPRAGE', 'T2_space','tof_fl3d', 'MEAN']
 SequenceLabels  = ['T1', 'T2', 'TOF', 'Average']
-
 SessionFullpath = os.path.join(DcmDir, "MR", MR_Match[0], Sessions_MR[SessionIndx_MR])
-SessionScansAll = [os.path.split(f.path)[1]  for f in os.scandir(SessionFullpath) if f.is_dir()]
-
-
+SessionScansAll = os.listdir(SessionFullpath)
+for s in range(0, len(SequenceStrings)):
+	StrMatch = [phrase for phrase in SessionScansAll if SequenceStrings[s] in phrase]
+	
 
 v1 = slicer.util.loadVolume(os.path.join(DcmDir, "MR", Sessions_MR[SessionIndx_MR]))
 
