@@ -25,6 +25,7 @@ snowballstemmer
 sphinxcontrib-bibtex
 sphinx-inline-tabs
 sphinx_panels
+sphinx-design
 sphinx_fontawesome
 sphinx-notfound-page
 sphinx-csv-filter
