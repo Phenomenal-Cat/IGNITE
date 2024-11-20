@@ -35,7 +35,7 @@ Imaging-Guided Neural Implant Targeting Extensions
          .. image:: _images/Screenshots/Slicer/Slicer_CT-MR_reg.png
             :align: left
             :width: 100%
-            :target: https://www.slicer.org
+            :target: Slicer
             :alt: Slicer screenshot
 
          Slicer is an open-source, cross-platform 3D medical imaging software that is Python scriptable. 
