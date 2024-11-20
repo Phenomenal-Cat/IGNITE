@@ -38,9 +38,10 @@ extensions = [
     # 'zot4rst.sphinx',
     'sphinx.ext.intersphinx',
     'sphinx_inline_tabs',
-    #'sphinx_panels',
+    'sphinx_panels',
     'sphinx_design',
     'matplotlib.sphinxext.plot_directive',
+    'sphinx_tippy',
     #'sphinxcontrib.video',
 ]
 
@@ -95,5 +96,7 @@ html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 
 # Custom CSS
 html_css_files = [
     'css/ignite.css',
+    'css/tippy',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',
 ]
+tippy_add_class = "has-tippy"
