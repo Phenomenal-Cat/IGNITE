@@ -3,7 +3,7 @@
 Imaging-Guided Neural Implant Targeting Extensions
 =======================================================
 
-'IGNITE' is a suite of Python-based **Imaging-Guided Neural Implant Targeting Extensions** that are designed for use with various open-source software that allow researchers to use neuroimaging data to create custom neural implant hardware for experimental use in scientific research.
+'IGNITE' is a suite of Python-based **Imaging-Guided Neural Implant Targeting Extensions** that are designed to help neuroscientists harness existing open-source software in order create customized neural implants for scientific research.
 
 
 
@@ -15,17 +15,17 @@ Imaging-Guided Neural Implant Targeting Extensions
          :color: success
          :class-card: sd-text-white
 
-          ..image:: _images/Logos/Slicer_Logo.svg
-               :align: left
-               :width: 100%
+         ..image:: _images/Logos/Slicer_Logo.svg
+            :align: left
+            :width: 100%
 
-          ^^^
-          Card content
+         ^^^
+         Card content
 
-          +++
-          Footer
+         +++
+         Footer
 
-.. grid-item::
+   .. grid-item::
 
       .. card:: FreeCAD
          :color: primary
@@ -41,7 +41,7 @@ Imaging-Guided Neural Implant Targeting Extensions
           +++
           Footer
 
-.. grid-item::
+   .. grid-item::
 
       .. card:: Blender
          :color: warning
