@@ -3,31 +3,153 @@
 Imaging-Guided Neural Implant Targeting Extensions
 =======================================================
 
-.. image:: _images/Logos/Ignite_Logo.svg
+.. image:: _images/Screenshots/Slicer/ExampleScreenshot.png
   :align: right
-  :width: 30%
-  :alt: Ignite logo
+  :width: 50%
+  :alt: Slicer Example Screenshot
+  :class: no-scaled-link
 
 
-**Imaging-Guided Neural Implant Targeting Extensions** ('IGNITE') is a Python-based suite of functions designed to help neuroscientists harness multiple existing open-source software in order create customized neural implants for experimental research.
+**Imaging-Guided Neural Implant Targeting Extensions** (IGNITE) is a Python-based suite of functions designed to help neuroscientists harness multiple existing open-source software in order create customized neural implants for experimental research. This site documents some of the available functions, and guides new users through the entire process.
 
 
+
+
+- :fa:`download` Installation
+- :fa:`brain` Image processing
+- :fa:`ruler-combined` Implant design
+- :fa:`wrench` Implant customization
+- :fa:`python` Modifying code
+
+
+
+:fa:`forward` Processes
+===========================
+
+.. grid:: 5
+   :gutter: 2
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-success sd-text-white sd-rounded-3
+         :link: Install
+         :link-type: ref
+      
+         :fa:`download` Installation 
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-success sd-text-white sd-rounded-3
+         :link: ImageProc
+         :link-type: ref
+      
+         :fa:`brain` Image processing
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-success sd-text-white sd-rounded-3
+         :link: Design
+         :link-type: ref
+      
+         :fa:`ruler-combined` Implant design
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-success sd-text-white sd-rounded-3
+         :link: Customize
+         :link-type: ref
+
+         :fa:`wrench` Implant customization
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-success sd-text-white sd-rounded-3
+         :link: code
+         :link-type: ref
+
+         :fa:`python` Modifying code
+
+
+:fa:`link` Resources
+=====================
+
+.. grid:: 5
+   :gutter: 2
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-primary sd-text-white sd-rounded-3
+         :link: https://github.com/Phenomenal-Cat/IGNITE/
+         :link-alt: github.com/Phenomenal-Cat/IGNITE/
+      
+         :fa:`github` GitHub 
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-primary sd-text-white sd-rounded-3
+         :link: https://app.readthedocs.org/projects/py-ignite/
+         :link-alt: app.readthedocs.org/projects/py-ignite
+      
+         :fa:`book` Documents
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-primary sd-text-white sd-rounded-3
+         :link: https://vimeo
+      
+         :fa:`video` Tutorials 
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-primary sd-text-white sd-rounded-3
+         :link: https://www.thingiverse.com/
+         :link-alt: thingiverse.com
+
+         :fa:`cube` 3D models
+
+   .. grid-item::
+
+      .. card::
+         :class-card: sd-bg-primary sd-text-white sd-rounded-3
+         :link: https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif
+
+         :fa:`envelope` Contact
+
+
+.. |spacer| image:: _images/spacer.png
+   :height: 2px
+   :class: no-scaled-link
+
+
+:fa:`unlock` Software
+====================================
+
+IGNITE consists of :fa:`python` Python code that uses modules associated with various :fa:`unlock` open-source software.
 
 .. grid:: 3
-   :gutter: 1
+   :gutter: 2
    :margin: 0
 
    .. grid-item::
 
       .. card::
-         :class-card: sd-text-white sd-rounded-3
+         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
          :margin: 1
-         :class-header: sd-bg-success
+         :class-header: sd-bg-success sd-rounded-3
          :class-footer: sd-bg-dark
 
          .. image:: _images/Logos/Slicer_Logo.svg
             :align: left
-            :height: 100px
+            :height: 80px
             :target: https://www.slicer.org
             :alt: Slicer Logo
 
@@ -66,14 +188,14 @@ Imaging-Guided Neural Implant Targeting Extensions
    .. grid-item::
 
       .. card::
-         :class-card: sd-text-white sd-rounded-3
-         :class-header: sd-bg-primary
+         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
+         :class-header: sd-bg-primary  sd-rounded-3
          :class-footer: sd-bg-dark
          :margin: 1
 
          .. image:: _images/Logos/Freecad_Logo.svg
             :align: left
-            :height: 100px
+            :height: 80px
             :target: https://www.freecad.org
             :alt: FreeCAD Logo
 
@@ -111,14 +233,14 @@ Imaging-Guided Neural Implant Targeting Extensions
    .. grid-item::
 
       .. card:: 
-         :class-card: sd-text-white sd-rounded-3
-         :class-header: sd-bg-warning
+         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
+         :class-header: sd-bg-warning  sd-rounded-3
          :class-footer: sd-bg-dark
          :margin: 1
 
          .. image:: _images/Logos/Blender_Logo.svg
             :align: left
-            :height: 100px
+            :height: 80px
             :target: https://www.blender.org
             :alt: Blender Logo
 
@@ -153,6 +275,13 @@ Imaging-Guided Neural Implant Targeting Extensions
             :target: https://www.blender.org/about/license/
 
 
+Background
+===============
+
+IGNITE has been developed by researchers in the `Neurophysiology Imaging Facility (NIF) <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ Core at the `National Institutes of Health (NIH) <https://www.nih.gov/>`_. The complete pipeline was developed to facilitate a specific method for longitudinal extracellular neuronal recordings, which was developed in the laboratory of Dr David Leopold at the NIH over the last decade. 
+
+
+
 .. toctree::
    :maxdepth: 2
    :hidden:
@@ -160,5 +289,6 @@ Imaging-Guided Neural Implant Targeting Extensions
     Slicer <Slicer>
     FreeCAD <FreeCAD>
     Blender <Blender>
+    Microwire Arrays <MicrowireArrays>
 
 
