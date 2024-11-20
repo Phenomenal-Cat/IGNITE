@@ -3,7 +3,7 @@ Jinja2
 MarkupSafe
 PyYAML
 Pygments
-Sphinx
+Sphinx>=5.0
 alabaster
 commonmark
 cycler
