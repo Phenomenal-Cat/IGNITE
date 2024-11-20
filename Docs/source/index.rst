@@ -3,7 +3,7 @@
 Imaging-Guided Neural Implant Targeting Extensions
 =======================================================
 
-'IGNITE' is a suite of Python-based **Imaging-Guided Neural Implant Targeting Extensions** that are designed to help neuroscientists harness existing open-source software in order create customized neural implants for scientific research.
+**Imaging-Guided Neural Implant Targeting Extensions** ('IGNITE') is a Python-based suite of functions designed to help neuroscientists harness multiple existing open-source software in order create customized neural implants for experimental research.
 
 
 
@@ -12,7 +12,8 @@ Imaging-Guided Neural Implant Targeting Extensions
    .. grid-item::
 
       .. card:: Slicer
-         :color: success
+         :link: slicer_main
+         :link-type: ref
          :class-card: sd-text-white
 
          ..image:: _images/Logos/Slicer_Logo.svg
@@ -20,42 +21,57 @@ Imaging-Guided Neural Implant Targeting Extensions
             :width: 100%
 
          ^^^
-         Card content
+         Slicer.org
 
+
+         +++
+         ..image:: _images/Logos/Slicer_Icon.svg
+            :align: left
+            :height: 50px
+
+         ..image:: _images/Logos/GitHub.svg
+            :align: left
+            :height: 50px
+
+         ..image:: _images/Logos/GitHub.svg
+            :align: left
+            :height: 50px
+
+
+   .. grid-item::
+
+      .. card:: FreeCAD
+         :link: freecad_main
+         :link-type: ref
+         :class-card: sd-text-white
+
+         ..image:: _images/Logos/Freecad_Logo.svg
+            :align: left
+            :width: 100%
+
+         ^^^
+         Card content
+          
          +++
          Footer
 
    .. grid-item::
 
-      .. card:: FreeCAD
-         :color: primary
-         :class-card: sd-text-white
-
-          ..image:: _images/Logos/Freecad_Logo.svg
-               :align: left
-               :width: 100%
-
-          ^^^
-          Card content
-          
-          +++
-          Footer
-
-   .. grid-item::
-
       .. card:: Blender
-         :color: warning
+         :link: blender_main
+         :link-type: ref
          :class-card: sd-text-black
 
-          ..image:: _images/Logos/Blender_Logo.svg
-               :align: left
-               :width: 100%
+         ..image:: _images/Logos/Blender_Logo.svg
+            :align: left
+            :width: 100%
 
-          ^^^
-          Card content
+         ^^^
+         Card content
           
-          +++
-          Footer
+         +++
+         Footer
+
 
 .. toctree::
    :maxdepth: 2
