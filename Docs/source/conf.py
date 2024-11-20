@@ -64,12 +64,12 @@ pygments_style = 'monokai' #'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'nature'
+html_theme          = 'nature'
 
-html_static_path = ['_static']
-html_title = 'IGNITE'
-html_short_title = 'IGNITE'
-#html_logo = './_images/Logos/NTB Logo w.png'
+html_static_path    = ['_static']
+html_title          = 'IGNITE'
+html_short_title    = 'IGNITE'
+html_logo           = './_images/Logos/Ignite_Logo.svg'
 
 html_show_sourcelink = False
 

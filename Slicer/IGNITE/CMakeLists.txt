@@ -5,7 +5,7 @@ project(IGNITE)
 #-----------------------------------------------------------------------------
 # Extension meta-information
 set(EXTENSION_HOMEPAGE "https://www.slicer.org/wiki/Documentation/Nightly/Extensions/IGNITE")
-set(EXTENSION_CATEGORY "Examples")
+set(EXTENSION_CATEGORY "Custom")
 set(EXTENSION_CONTRIBUTORS "Aidan P. Murphy (National Institutes of Health)")
 set(EXTENSION_DESCRIPTION "Imaging-Guided Neural Implant Targeting Extension")
 set(EXTENSION_ICONURL "https://www.example.com/Slicer/Extensions/IGNITE.png")

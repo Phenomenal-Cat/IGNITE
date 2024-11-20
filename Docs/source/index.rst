@@ -3,15 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Ignite documentation
+Ignite 
 ====================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+This repository contains a suite of Python scripts designed for use with a collection of open-source software, in order to use neuro-imaging data (MRI and CT) to create custom neural implant hardware for experimental use in scientific research.
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
