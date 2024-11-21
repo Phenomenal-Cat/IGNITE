@@ -10,16 +10,7 @@ Imaging-Guided Neural Implant Targeting Extensions
   :class: no-scaled-link
 
 
-**Imaging-Guided Neural Implant Targeting Extensions** (IGNITE) is a Python-based suite of functions designed to help neuroscientists harness multiple existing open-source software in order create customized neural implants for experimental research. This site documents some of the available functions, and guides new users through the entire process.
-
-
-
-
-- :fa:`download` Installation
-- :fa:`brain` Image processing
-- :fa:`ruler-combined` Implant design
-- :fa:`wrench` Implant customization
-- :fa:`python` Modifying code
+Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`python;sd-text-primary` :bdg-link-primary:`Python <https://www.python.org>`-based toolbox of functions designed to help neuroscientists harness multiple existing :fas:`unlock;sd-text-success` :bdg-link-success:`open-source <https://opensource.org/>` software in order to **create customized neural implants for experimental research**. This site documents some of the available functions, and guides new users through the entire process. 
 
 
 
@@ -29,50 +20,45 @@ Imaging-Guided Neural Implant Targeting Extensions
 .. grid:: 5
    :gutter: 2
 
-   .. grid-item::
+   .. grid-item-card::
+      :class-card: sd-bg-success sd-text-white sd-rounded-3
+      :link: Installation
+      :link-type: doc
+      :text-align: center
+   
+      :fa:`download` Installation 
 
-      .. card::
-         :class-card: sd-bg-success sd-text-white sd-rounded-3
-         :link: Install
-         :link-type: ref
-      
-         :fa:`download` Installation 
+   .. grid-item-card::
+      :class-card: sd-bg-success sd-text-white sd-rounded-3
+      :link: ImageProcessing
+      :link-type: doc
+      :text-align: center
+   
+      :fa:`brain` Image processing
 
-   .. grid-item::
+   .. grid-item-card::
+      :class-card: sd-bg-success sd-text-white sd-rounded-3
+      :link: ImplantDesign
+      :link-type: doc
+      :text-align: center
+   
+      :fa:`ruler-combined` Implant design
 
-      .. card::
-         :class-card: sd-bg-success sd-text-white sd-rounded-3
-         :link: ImageProc
-         :link-type: ref
-      
-         :fa:`brain` Image processing
+   .. grid-item-card::
+      :class-card: sd-bg-success sd-text-white sd-rounded-3
+      :link: ImplantCustomization
+      :link-type: doc
+      :text-align: center
 
-   .. grid-item::
+      :fa:`wrench` Implant customization
 
-      .. card::
-         :class-card: sd-bg-success sd-text-white sd-rounded-3
-         :link: Design
-         :link-type: ref
-      
-         :fa:`ruler-combined` Implant design
+   .. grid-item-card::
+      :class-card: sd-bg-success sd-text-white sd-rounded-3
+      :link: Code
+      :link-type: doc
+      :text-align: center
 
-   .. grid-item::
-
-      .. card::
-         :class-card: sd-bg-success sd-text-white sd-rounded-3
-         :link: Customize
-         :link-type: ref
-
-         :fa:`wrench` Implant customization
-
-   .. grid-item::
-
-      .. card::
-         :class-card: sd-bg-success sd-text-white sd-rounded-3
-         :link: code
-         :link-type: ref
-
-         :fa:`python` Modifying code
+      :fab:`python` Modifying code
 
 
 :fa:`link` Resources
@@ -88,7 +74,7 @@ Imaging-Guided Neural Implant Targeting Extensions
          :link: https://github.com/Phenomenal-Cat/IGNITE/
          :link-alt: github.com/Phenomenal-Cat/IGNITE/
       
-         :fa:`github` GitHub 
+         :fab:`github` GitHub 
 
    .. grid-item::
 
@@ -130,165 +116,172 @@ Imaging-Guided Neural Implant Targeting Extensions
    :class: no-scaled-link
 
 
-:fa:`unlock` Software
+.. _Dependencies:
+
+:fa:`unlock` Dependencies
 ====================================
 
-IGNITE consists of :fa:`python` Python code that uses modules associated with various :fa:`unlock` open-source software.
+IGNITE consists of :fab:`python` Python code that calls modules provided by various :fas:`unlock;sd-text-success` :bdg-link-success:`open-source <https://opensource.org/>` software. Each of these software programs have been developed by various groups over decades, which means that they all have:
+
+ - :fa:`display` refined **graphical user interfaces**
+ - :fab:`windows` :fab:`apple` :fab:`linux` **cross-platform** support
+ - :fa:`book` comprehensive online **documentation**
+ - :fa:`comments` large and active online **user communities**
+ - :fa:`graduation-cap` plentiful online **tutorials** and learning resources
+
+While the task of designing customized neural implants using these software tools can be performed manually, there is a learning curve to navigating each software's graphical user interface (GUI). IGNITE simplifies the process as much as possible, by scripting steps that a user would otherwise have to learn to perform through GUI interactions. Click the icons below to explore resources related to each of the selected software.
 
 .. grid:: 3
-   :gutter: 2
+   :gutter: 1
    :margin: 0
 
-   .. grid-item::
+   .. grid-item-card::
+      :margin: 1
+      :columns: 4
+      :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
+      :class-header: sd-bg-success sd-rounded-3
+      :class-footer: sd-bg-dark
 
-      .. card::
-         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-         :margin: 1
-         :class-header: sd-bg-success sd-rounded-3
-         :class-footer: sd-bg-dark
+      .. image:: _images/Logos/Slicer_Logo.svg
+         :align: left
+         :height: 50px
+         :target: https://www.slicer.org
+         :alt: Slicer Logo
 
-         .. image:: _images/Logos/Slicer_Logo.svg
-            :align: left
-            :height: 80px
-            :target: https://www.slicer.org
-            :alt: Slicer Logo
+      ^^^
+      .. image:: _images/Screenshots/Slicer/Slicer_CT-MR_reg.png
+         :align: left
+         :width: 100%
+         :target: Slicer
+         :alt: Slicer screenshot
 
-         ^^^
-         .. image:: _images/Screenshots/Slicer/Slicer_CT-MR_reg.png
-            :align: left
-            :width: 100%
-            :target: Slicer
-            :alt: Slicer screenshot
-
-         Slicer is an open-source, cross-platform 3D medical imaging software that is Python scriptable. 
-
-
-         +++
-         .. image:: _images/Logos/Slicer_Icon.svg
-            :height: 30px
-            :target: www.slicer.org
-
-         .. image:: _images/Logos/GitHub_Icon_w.svg
-            :height: 30px
-            :target: https://github.com/Slicer/Slicer
-
-         .. image:: _images/Logos/Wikipedia_Logo_w.svg
-            :height: 30px
-            :target: https://www.slicer.org/wiki/Main_Page
-
-         .. image:: _images/Logos/Discourse_Icon.svg
-            :height: 30px
-            :target: https://discourse.slicer.org/
-
-         .. image:: _images/Logos/BSD_Icon.svg
-            :height: 30px
-            :target: https://www.slicer.org/commercial-use.html
+      Slicer is a 3D medical imaging software.
 
 
-   .. grid-item::
+      +++
+      .. image:: _images/Logos/Slicer_Icon.svg
+         :height: 30px
+         :target: www.slicer.org
 
-      .. card::
-         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-         :class-header: sd-bg-primary  sd-rounded-3
-         :class-footer: sd-bg-dark
-         :margin: 1
+      .. image:: _images/Logos/GitHub_Icon_w.svg
+         :height: 30px
+         :target: https://github.com/Slicer/Slicer
 
-         .. image:: _images/Logos/Freecad_Logo.svg
-            :align: left
-            :height: 80px
-            :target: https://www.freecad.org
-            :alt: FreeCAD Logo
+      .. image:: _images/Logos/Wikipedia_Logo_w.svg
+         :height: 30px
+         :target: https://www.slicer.org/wiki/Main_Page
 
-         ^^^
-         .. image:: _images/Screenshots/FreeCAD/FreeCAD_Screenshot.png
-            :align: left
-            :width: 100%
-            :target: https://www.freecad.org
-            :alt: FreeCAD screenshot
+      .. image:: _images/Logos/Discourse_Icon.svg
+         :height: 30px
+         :target: https://discourse.slicer.org/
 
-         FreeCAD is an open-source, cross-platform Computer Aided Design (CAD) software that is Python scriptable. 
-          
-         +++
-         .. image:: _images/Logos/Freecad_Icon.svg
-            :height: 30px
-            :target: https://www.slicer.org
-
-         .. image:: _images/Logos/GitHub_Icon_w.svg
-            :height: 30px
-            :target: https://github.com/FreeCAD/FreeCAD
-
-         .. image:: _images/Logos/Wikipedia_Logo_w.svg
-            :height: 30px
-            :target: https://wiki.freecad.org/
-
-         .. image:: _images/Logos/SpeechBubble_Icon_w.svg
-            :height: 30px
-            :target: https://forum.freecad.org/
-
-         .. image:: _images/Logos/LGPLv3_Logo.svg
-            :height: 30px
-            :target: https://wiki.freecad.org/license
+      .. image:: _images/Logos/BSD_Icon.svg
+         :height: 30px
+         :target: https://www.slicer.org/commercial-use.html
 
 
-   .. grid-item::
+   .. grid-item-card::
+      :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
+      :class-header: sd-bg-success  sd-rounded-3
+      :class-footer: sd-bg-dark
+      :margin: 1
+      :columns: 4
 
-      .. card:: 
-         :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-         :class-header: sd-bg-warning  sd-rounded-3
-         :class-footer: sd-bg-dark
-         :margin: 1
+      .. image:: _images/Logos/Freecad_Logo.svg
+         :align: left
+         :height: 50px
+         :target: https://www.freecad.org
+         :alt: FreeCAD Logo
 
-         .. image:: _images/Logos/Blender_Logo.svg
-            :align: left
-            :height: 80px
-            :target: https://www.blender.org
-            :alt: Blender Logo
+      ^^^
+      .. image:: _images/Screenshots/FreeCAD/FreeCAD_Screenshot.png
+         :align: left
+         :width: 100%
+         :target: https://www.freecad.org
+         :alt: FreeCAD screenshot
 
-         ^^^
-         .. image:: _images/Screenshots/Blender/Blender_screenshot.png
-            :align: left
-            :width: 100%
-            :target: https://www.blender.org
-            :alt: Blender screenshot
+      FreeCAD is a Computer Aided Design (CAD) software. 
+       
+      +++
+      .. image:: _images/Logos/Freecad_Icon.svg
+         :height: 30px
+         :target: https://www.slicer.org
 
-         Blender is an open-source, cross-platform 3D modeling and animation software that is Python scriptable. 
-          
-         +++
-         .. image:: _images/Logos/Blender_Icon.svg
-            :height: 30px
-            :target: https://www.blender.org
+      .. image:: _images/Logos/GitHub_Icon_w.svg
+         :height: 30px
+         :target: https://github.com/FreeCAD/FreeCAD
 
-         .. image:: _images/Logos/GitHub_Icon_w.svg
-            :height: 30px
-            :target: https://github.com/blender/blender
+      .. image:: _images/Logos/Wikipedia_Logo_w.svg
+         :height: 30px
+         :target: https://wiki.freecad.org/
 
-         .. image:: _images/Logos/Wikipedia_Logo_w.svg
-            :height: 30px
-            :target: https://docs.blender.org/
+      .. image:: _images/Logos/SpeechBubble_Icon_w.svg
+         :height: 30px
+         :target: https://forum.freecad.org/
 
-         .. image:: _images/Logos/StackExchange_Icon.svg
-            :height: 30px
-            :target: https://blender.stackexchange.com/
-
-         .. image:: _images/Logos/GPLv3_Logo.svg
-            :height: 30px
-            :target: https://www.blender.org/about/license/
+      .. image:: _images/Logos/LGPLv3_Logo.svg
+         :height: 30px
+         :target: https://wiki.freecad.org/license
 
 
-Background
-===============
+   .. grid-item-card::
+      :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
+      :class-header: sd-bg-success sd-rounded-3
+      :class-footer: sd-bg-dark
+      :margin: 1
+      :columns: 4
 
-IGNITE has been developed by researchers in the `Neurophysiology Imaging Facility (NIF) <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ Core at the `National Institutes of Health (NIH) <https://www.nih.gov/>`_. The complete pipeline was developed to facilitate a specific method for longitudinal extracellular neuronal recordings, which was developed in the laboratory of Dr David Leopold at the NIH over the last decade. 
+      .. image:: _images/Logos/Blender_Logo.svg
+         :align: left
+         :height: 50px
+         :target: https://www.blender.org
+         :alt: Blender Logo
 
+      ^^^
+      .. image:: _images/Screenshots/Blender/Blender_screenshot.png
+         :align: left
+         :width: 100%
+         :target: https://www.blender.org
+         :alt: Blender screenshot
+
+      Blender is a 3D modeling and animation software. 
+       
+      +++
+      .. image:: _images/Logos/Blender_Icon.svg
+         :height: 30px
+         :target: https://www.blender.org
+
+      .. image:: _images/Logos/GitHub_Icon_w.svg
+         :height: 30px
+         :target: https://github.com/blender/blender
+
+      .. image:: _images/Logos/Wikipedia_Logo_w.svg
+         :height: 30px
+         :target: https://docs.blender.org/
+
+      .. image:: _images/Logos/StackExchange_Icon.svg
+         :height: 30px
+         :target: https://blender.stackexchange.com/
+
+      .. image:: _images/Logos/GPLv3_Logo.svg
+         :height: 30px
+         :target: https://www.blender.org/about/license/
+
+
+:fa:`landmark` Background
+============================
+
+IGNITE has been developed by researchers in the `Neurophysiology Imaging Facility (NIF) <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ Core at the `National Institutes of Health (NIH) <https://www.nih.gov/>`_. The complete pipeline was developed to facilitate a specific method for longitudinal extracellular neuronal recordings, which was developed at the NIH over the last decade. 
 
 
 .. toctree::
    :maxdepth: 2
    :hidden:
 
-    Slicer <Slicer>
-    FreeCAD <FreeCAD>
-    Blender <Blender>
-    Microwire Arrays <MicrowireArrays>
+   Installation
+   ImageProcessing
+   ImplantDesign
+   ImplantCustomization
+   MicrowireArrays
 
 

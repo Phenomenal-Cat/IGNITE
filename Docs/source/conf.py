@@ -41,7 +41,7 @@ extensions = [
     'sphinx_panels',
     'sphinx_design',
     'matplotlib.sphinxext.plot_directive',
-    'sphinx_tippy',
+    #'sphinx_tippy',
     #'sphinxcontrib.video',
 ]
 
@@ -75,7 +75,7 @@ html_logo           = './_images/Logos/Ignite_Logo.svg'
 
 html_show_sourcelink = False
 
-#html_favicon = './_images/Logos/NIF_favicon.ico'
+html_favicon = './_images/Logos/Ignite_Icon.svg'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -95,8 +95,10 @@ html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 
 
 # Custom CSS
 html_css_files = [
-    'css/ignite.css',
+   # 'css/ignite.css',
+    'css/mf3d.css',
     'css/tippy',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',
+    #'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css',
 ]
 tippy_add_class = "has-tippy"
