@@ -4,6 +4,9 @@
 :fa:`brain` Image processing
 =========================================
 
+Anatomical 3D imaging of the brain and head can be extremely useful for planning various types of surgical interventions. The tools described below harness the power of :bdg-link-success:`3D Slicer <https://www.slicer.org>` via Python scripting, to streamline certain processes that facilitate surgical planning.
+
+
 .. contents:: :local:
 
 
@@ -16,9 +19,18 @@
 
 
 
-.. dropdown:: :fa:`server` Data storage and access for :bdg-link-danger:`NIF <>` users
-  :color: primary
+.. dropdown:: :fa:`server` Data import module for :bdg-link-warning:`NIF <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>` users
+  :color: info
   :chevron: down-up
+
+  .. image:: _images/Screenshots/Slicer/NIF_Import_Module.png
+  	:width: 30%
+  	:align: right
+
+  A Slicer module named :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` is provided specifically for researchers at NIH who use the `Neurophysiology Imaging Facility (NIF) Core <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ to acquire their imaging data. It requires the user's computer to be connected to the NIH network, and to have the NIFVAULT network storage volume mounted. Users on the NIH network can access information on how to do this via the `NIF's intranet documentation site <https://nif.nimh.nih.gov/doc/NIF-DataAccess.html#nifvault-server>`_.
+
+  To use the :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` module, type a subject's name or ID in the :bdg-success:
+
 
 
 
@@ -53,7 +65,7 @@
   :align: right
   :alt: 3D rendered skull
 
-The subject's skull is the surface that most implanted neural hardware needs to attach to. 
+Most implanted neural hardware attaches to the solid anchor point of the skull surface. 
 
 
 
