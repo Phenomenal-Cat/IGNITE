@@ -15,21 +15,39 @@ Anatomical 3D imaging of the brain and head can be extremely useful for planning
 
 
 
+Stereotaxes
+---------------
+
+The `Horsley-Clarke stereotaxic frame <https://en.wikipedia.org/wiki/Stereotactic_surgery#History>`_ was invented over a century ago, but continues to be the primary method of stabilizing and orienting the head of anesthetized animals during surgical procedures. The basic design utilizes four points of contact with bony anatomical landmarks of the skull, to define a horizontal plane known as the 'Frankfurt plane'. These points are the external auditory meatus (or `ear canal <https://en.wikipedia.org/wiki/Ear_canal>`_) and the `infraorbital margin <https://en.wikipedia.org/wiki/Infraorbital_margin>`_ (bilaterally). Additionally, a palette bar applies upward pressure on the `palatine process of maxilla <https://en.wikipedia.org/wiki/Palatine_process_of_maxilla>`_, in order to push the infraorbital margins up into the stereotax orbit bars.
+
+Modern commercial producers of stereotaxic frames include Kopf Instruments, who produce MRI compatible models (e.g. `1430M <https://kopfinstruments.com/product/model-1430m-mri-stereotaxic-instrument/>`_)
 
 
 
 
-.. dropdown:: :fa:`server` Data import module for :bdg-link-warning:`NIF <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>` users
-  :color: info
-  :chevron: down-up
+.. |NIF_Import| image:: _images/Logos/NIF_Logo.png
+	:height: 25px
 
-  .. image:: _images/Screenshots/Slicer/NIF_Import_Module.png
-  	:width: 30%
-  	:align: right
+.. dropdown:: :fa:`server` Data import module for |NIF_Import| users
+	:color: info
+	:chevron: down-up
+	:class-body: sd-bg-secondary sd-text-dark
 
-  A Slicer module named :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` is provided specifically for researchers at NIH who use the `Neurophysiology Imaging Facility (NIF) Core <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ to acquire their imaging data. It requires the user's computer to be connected to the NIH network, and to have the NIFVAULT network storage volume mounted. Users on the NIH network can access information on how to do this via the `NIF's intranet documentation site <https://nif.nimh.nih.gov/doc/NIF-DataAccess.html#nifvault-server>`_.
+	.. image:: _images/Screenshots/Slicer/NIF_Import_Module.png
+		:width: 30%
+		:align: right
 
-  To use the :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` module, type a subject's name or ID in the :bdg-success:
+	A Slicer module named :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` is provided specifically for researchers at NIH who use the `Neurophysiology Imaging Facility (NIF) Core <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ to acquire their imaging data. It requires the user's computer to be connected to the NIH network, and to have the NIFVAULT network storage volume mounted. Users on the NIH network can access information on how to do this via the `NIF's intranet documentation site <https://nif.nimh.nih.gov/doc/NIF-DataAccess.html#nifvault-server>`_.
+
+	To use the :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` module, type a subject's name or ID in the :bdg-success:`Subject name / ID` field. The module will then search NIFVAULT's DICOM directories for MRI and CT data folders that contain matching strings, and list the session dates of any data it finds in the :bdg-success:`MRI session` and :bdg-success:`CT session` fields below. The user should select a single session for each modality and the module will hen locate appropriate volumes within each session folder, to load into the viewer via SLicer's :bdg-link-primary:`DICOM <https://slicer.readthedocs.io/en/latest/user_guide/modules/dicom.html>` module. 
+
+	Optionally, the following processes can be applied after importing the selected volumes:
+
+		- :bdg-success:`Apply de-sphinx rotation?` - This is checked by default, and should always be used for raw DICOM data coming from the NIF's Siemens Prisma 3T MRI scanner.
+		- :bdg-success:`Initialize stereotax control points?` - Checking this box will generate an initial set of control points within Slicer's :bdg-link-primary:`Markups <https://slicer.readthedocs.io/en/latest/user_guide/modules/markups.html>` module, which can be manually positioned to define the Frankfurt plane of stereotaxic coordinate system (see below).
+		- :bdg-success:`Export skull surface?` -  Checking this box will generate an initial segmentation using Slicer's :bdg-link-primary:`Segmentations <https://slicer.readthedocs.io/en/latest/user_guide/modules/segmentations.html>` of the selected CT volume that aims to separate bone from air and tissue. 
+
+
 
 
 
@@ -42,6 +60,8 @@ Anatomical 3D imaging of the brain and head can be extremely useful for planning
 
 1. Localize stereotaxic frame
 ------------------------------------------
+
+
 
 
 2. Calculate and apply transform
