@@ -12,6 +12,14 @@ Imaging-Guided Neural Implant Targeting Extensions
 
 Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`python;sd-text-primary` :bdg-link-primary:`Python <https://www.python.org>`-based toolbox of functions designed to help neuroscientists harness multiple existing :fas:`unlock;sd-text-success` :bdg-link-success:`open-source <https://opensource.org/>` software in order to **create customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical **magnetic resonance imaging** :bdg-primary:`MRI` and **computer tomography** :bdg-primary:`CT` volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
 
+
+.. image:: _images/Figures/PipelineFigure_V1.png
+  :align: right
+  :width: 50%
+  :alt: Slicer Example Screenshot
+  :class: no-scaled-link
+
+
 .. contents:: :local:
 
 
@@ -20,9 +28,11 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
 
 .. grid:: 5
    :gutter: 2
+   :margin: 0
+   :padding: 0
 
    .. grid-item-card::
-      :class-card: sd-bg-primary sd-text-white sd-rounded-3
+      :class-card: sd-bg-primary sd-text-white sd-rounded-3 sd-font-weight-bold
       :link: Installation
       :link-type: doc
       :text-align: center
@@ -30,7 +40,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
       :fa:`download` Installation 
 
    .. grid-item-card::
-      :class-card: sd-bg-primary sd-text-white sd-rounded-3
+      :class-card: sd-bg-primary sd-text-white sd-rounded-3 sd-font-weight-bold
       :link: ImageProcessing
       :link-type: doc
       :text-align: center
@@ -38,7 +48,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
       :fa:`brain` Image processing
 
    .. grid-item-card::
-      :class-card: sd-bg-primary sd-text-white sd-rounded-3
+      :class-card: sd-bg-primary sd-text-white sd-rounded-3 sd-font-weight-bold
       :link: ImplantDesign
       :link-type: doc
       :text-align: center
@@ -46,7 +56,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
       :fa:`ruler-combined` Implant design
 
    .. grid-item-card::
-      :class-card: sd-bg-primary sd-text-white sd-rounded-3
+      :class-card: sd-bg-primary sd-text-white sd-rounded-3 sd-font-weight-bold
       :link: ImplantCustomization
       :link-type: doc
       :text-align: center
@@ -54,7 +64,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
       :fa:`wrench` Implant customization
 
    .. grid-item-card::
-      :class-card: sd-bg-primary sd-text-white sd-rounded-3
+      :class-card: sd-bg-primary sd-text-white sd-rounded-3 sd-font-weight-bold
       :link: Code
       :link-type: doc
       :text-align: center
@@ -68,15 +78,15 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
 ====================================
 
 .. grid:: 3
-   :gutter: 1
+   :gutter: 2
    :margin: 0
-   :padding: 0
+   :padding: 2 2 0 0
 
    .. grid-item-card::
       :margin: 0
       :columns: 4
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-      :class-header: sd-bg-success sd-rounded-3
+      :class-header: sd-bg-info sd-rounded-3
       :class-footer: sd-bg-dark
 
       .. image:: _images/Logos/Slicer_Logo.svg
@@ -119,7 +129,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
 
    .. grid-item-card::
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-      :class-header: sd-bg-success  sd-rounded-3
+      :class-header: sd-bg-info  sd-rounded-3
       :class-footer: sd-bg-dark
       :margin: 0
       :columns: 4
@@ -163,7 +173,7 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
 
    .. grid-item-card::
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
-      :class-header: sd-bg-success sd-rounded-3
+      :class-header: sd-bg-info sd-rounded-3
       :class-footer: sd-bg-dark
       :margin: 0
       :columns: 4
@@ -213,7 +223,7 @@ IGNITE consists of :fab:`python` Python code that calls modules provided by vari
  - :fa:`comments` large and active online **user communities**
  - :fa:`graduation-cap` plentiful online **tutorials** and learning resources
 
-While the task of designing customized neural implants using these software tools can be performed manually, there is a learning curve to navigating each software's graphical user interface (GUI). IGNITE simplifies the process as much as possible, by scripting steps that a user would otherwise have to learn to perform through GUI interactions. Click the icons below to explore resources related to each of the selected software.
+While the task of designing customized neural implants using these software tools can be performed manually, there is a learning curve to navigating each software's graphical user interface (GUI). IGNITE simplifies the process as much as possible, by scripting steps that a user would otherwise have to learn to perform through GUI interactions. 
 
 
 

@@ -26,6 +26,7 @@
 *Chronically implanted* electrodes offer the ability to record extracellular neuronal action potentials (‘spikes’) in vivo, over longer time periods (`Schmidt et al., 1978 <https://doi.org/10.1016/0014-4886(78)90252-2>`_).
 
 
+.. _MBA:
 
 :fa:`broom` Microwire Brush Array (MBA) Electrodes
 ====================================================
@@ -91,16 +92,20 @@ When ordering MBAs from `MicroProbes for Life Sciences <https://microprobes.com/
 Ide-McMahon Microdrive
 -------------------------------
 
-.. image:: _images/Guides/MBAs/McMahon_2014.jpeg
+.. figure:: _images/Guides/MBAs/McMahon_2014.jpeg
   :align: right
+  :width: 100%
+  :figwidth: 100%
   :alt: Ide-McMahon microdrive design
+
+  **Figure 1**. Photograph and illustration of the original microdrive design (with permission from `McMahon et al. (2014) <https://www.physiology.org/doi/10.1152/jn.00052.2014>`_).
 
 .. image:: _images/spacer.png
   :width: 1
 
-This original design for a chronically implantable microdrive was conceived at NIH by David Ide (`Section on Instrumentation <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/section-on-instrumentation/index.shtml>`__) and David McMahon (SCNI), and was published in `McMahon et al., 2014 <https://www.physiology.org/doi/10.1152/jn.00052.2014>`_. The original drive design consists of three `polyetherimide (PEI / Ultem) <https://en.wikipedia.org/wiki/Polyetherimide>`_ disks, stacked on three ceramic rods, with a single central `Polyether ether ketone (PEEK) <https://en.wikipedia.org/wiki/Polyether_ether_ketone>`_ drive screw. Turning the drive screw (accessible from the top of the drive) advances or retracts the central drive disk, to which the electrode shaft is clamped. The drive mounts to a cylindrical (19mm diameter) PEI chamber base via two nylon screws, and is protected by an PEI cap, which attaches via four brass set screws. 
+This original design for a chronically implantable microdrive was developed at the National Institutes of Health and published by `McMahon et al. (2014) <https://www.physiology.org/doi/10.1152/jn.00052.2014>`_. This drive design consists of three `polyetherimide (PEI / Ultem) <https://en.wikipedia.org/wiki/Polyetherimide>`_ disks, stacked on three ceramic rods, with a single central `Polyether ether ketone (PEEK) <https://en.wikipedia.org/wiki/Polyether_ether_ketone>`_ drive screw. Turning the drive screw (accessible from the top of the drive) advances or retracts the central drive disk, to which the electrode shaft is clamped. The drive mounts to a cylindrical (19mm diameter) PEI chamber base via two nylon screws, and is protected by an PEI cap, which attaches via four brass set screws. 
 
-The microdrive is intended for use with a single :ref:`microwire brush array <mba>`, as described by McMahon et al (2014) and currently sold by `MicroProbes <https://microprobes.com/products/multichannel-arrays/mba>`_. The system is is entirely MR-compatible, provided that nickel-free Omnetics connectors are used in electrode construction.
+The microdrive is intended for use with a single :ref:`microwire brush array <MBA>`, as described by McMahon et al (2014) and currently sold by `MicroProbes <https://microprobes.com/products/multichannel-arrays/mba>`_. The system is is entirely MR-compatible, provided that nickel-free Omnetics connectors are used in electrode construction.
 
 .. figure:: _images/Guides/MBAs/Microdrive_McMahon_CAD.jpg
   :align: right
@@ -109,7 +114,7 @@ The microdrive is intended for use with a single :ref:`microwire brush array <mb
 
   **Figure 1**. Photograph and illustration of the original microdrive design (with permission from `McMahon et al. (2014) <https://www.physiology.org/doi/10.1152/jn.00052.2014>`_).
 
-The original design was CNC machined from Ultem rods by the `Section on Instrumentation <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/section-on-instrumentation>`_ at NIH. Since the design was published, it is now also manufactured by `Hybex Innovations <http://hybex.com/portfolio/chronic-microdrive/>`_ and commercially available from `Rogue Research <https://www.rogue-research.com/veterinary/tools-implants/>`_ with minor modifications, and retails for $742.00 each. As a lower cost alternative, we also provide .stl files for 3D-printing this microdrive `here <https://www.thingiverse.com/thing:3501708>`__, and a list of additional parts needed for assembly is provided below. However, researchers interested in 3D-printed microdrives are advised to check out our newer designs that are more compact, require less user finishing and assembly, and offer several other improvements.
+The original design was CNC machined from Ultem rods by the `Section on Instrumentation <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/section-on-instrumentation>`_ at NIH. Since the design was published, it is now also manufactured by `Hybex Innovations <http://hybex.com/portfolio/chronic-microdrive/>`_ and commercially available from `Rogue Research <https://www.rogue-research.com/veterinary/tools-implants/>`_ with minor modifications. As a lower cost alternative, we also provide .stl files for 3D-printing this microdrive `here <https://www.thingiverse.com/thing:3501708>`__, and a list of additional parts needed for assembly is provided below. However, researchers interested in 3D-printed microdrives are advised to check out our newer designs that are more compact, require less user finishing and assembly, and offer several other improvements.
    
 
 .. link-button:: https://www.thingiverse.com/thing:3501708
@@ -124,129 +129,134 @@ The original design was CNC machined from Ultem rods by the `Section on Instrume
   :align: left
 
 
-:fa:`notes-medical` Surgical Implantation Procedure
+:fa:`notes-medical` Surgical Implantation Procedures
 ======================================================
+
+.. raw:: html
+
+    <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1033730031?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="MBA Surgery #1"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
 
 The panel below provides an illustrated step-by-step overview for the typical surgical procedure of implanting the Ide-McMahon microdrive system with a single pre-loaded MBA electrode. 
 
 	
-.. tabs::
+.. tab-set::
 
-	.. tab:: 1. Mark locations
+  .. tab-item:: 1. Mark locations
 
-    	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide1.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide1.png
+      	:align: right
+      	:width: 100%
 
-    	- Clean the skull surface
-      	- Position chamber using stereotax
-      	- Check clearance from headpost (with attachment)
-      	- Mark chamber location
-      	- Mark screw locations
+  	- Clean the skull surface
+    	- Position chamber using stereotax
+    	- Check clearance from headpost (with attachment)
+    	- Mark chamber location
+    	- Mark screw locations
 
-    .. tab:: 2. Drill skull
+  .. tab-item:: 2. Drill skull
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide2.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide2.png
+    	:align: right
+    	:width: 100%
 
-      	- Drill and tap screw holes
-      	- Insert ceramic screws
-      	- Mark craniotomy location by lowering guide tube and stylet in stereotax
-      	- Drill craniotomy
+  	- Drill and tap screw holes
+  	- Insert ceramic screws
+  	- Mark craniotomy location by lowering guide tube and stylet in stereotax
+  	- Drill craniotomy
 
-    .. tab:: 3. Insert guide tube
+  .. tab-item:: 3. Insert guide tube
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide4.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide4.png
+    	:align: right
+    	:width: 100%
 
-      	- Lower guide tube and stylet on stereotaxic arm
-      	- Stop at appropriate target depth
-      	- Fill in the craniotomy around the guide tube with bone wax
-      	- Coat the bone surface with Copalite varnish to seal it
+  	- Lower guide tube and stylet on stereotaxic arm
+  	- Stop at appropriate target depth
+  	- Fill in the craniotomy around the guide tube with bone wax
+  	- Coat the bone surface with Copalite varnish to seal it
 
-    .. tab:: 4. Place chamber
+  .. tab-item:: 4. Place chamber
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide5.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide5.png
+    	:align: right
+    	:width: 100%
 
-      	- Slide the chamber down over the guide tube
-      	- Position the chamber base against the skull surface
-      	- Apply a thin layer of dental acrylic between the skull and the chamber
+  	- Slide the chamber down over the guide tube
+  	- Position the chamber base against the skull surface
+  	- Apply a thin layer of dental acrylic between the skull and the chamber
 
-    .. tab:: 5. Build acrylic cap
+  .. tab-item:: 5. Build acrylic cap
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide6.png
-        	:align: right
-       	 	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide6.png
+    	:align: right
+   	 	:width: 100%
 
-      	- Build up the dental acrylic around the chamber to cover the screws
-      	- Ensure that acrylic does not impede attachment of the cap
-      	- Make the contour of the acrylic as smooth as possible
+  	- Build up the dental acrylic around the chamber to cover the screws
+  	- Ensure that acrylic does not impede attachment of the cap
+  	- Make the contour of the acrylic as smooth as possible
 
-    .. tab:: 6. Remove the stylet
+  .. tab-item:: 6. Remove the stylet
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide7.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide7.png
+    	:align: right
+    	:width: 100%
 
-      	- Fix the guide tube in place with a small drop of glue
-      	- Once glue is dry, slowly remove the stylet
-      	- Cut the top of the guide tube diagonally, just below the top of the chamber
+  	- Fix the guide tube in place with a small drop of glue
+  	- Once glue is dry, slowly remove the stylet
+  	- Cut the top of the guide tube diagonally, just below the top of the chamber
 
-    .. tab:: 7. Insert the electrode
+  .. tab-item:: 7. Insert the electrode
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide8.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide8.png
+    	:align: right
+    	:width: 100%
 
-      	- Mount the electrode (loaded into the microdive) onto the stereotaxic arm
-      	- Lower the electrode until the tip approaches the guide tube
-      	- Tie a loose loop of vicryl suture around the tip of the brush, to reduce the splay
-      	- See :ref:`detailed description of electrode insertion procedure <MBA_insertion>` below.
+  	- Mount the electrode (loaded into the microdive) onto the stereotaxic arm
+  	- Lower the electrode until the tip approaches the guide tube
+  	- Tie a loose loop of vicryl suture around the tip of the brush, to reduce the splay
+  	- See :ref:`detailed description of electrode insertion procedure <MBA_insertion>` below.
 
 
-    .. tab:: 8. Lower the drive
+  .. tab-item:: 8. Lower the drive
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide9.png
-        	:align: right
-        	:width: 100% 
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide9.png
+    	:align: right
+    	:width: 100% 
 
-      	- Carefully lower the brush tip just below the top of the guide tube
-      	- Move the electrode in the M-L or A-P direction to get the wires into the diagonal cut
-      	- Lower until the microdrive is seated on the chamber
+  	- Carefully lower the brush tip just below the top of the guide tube
+  	- Move the electrode in the M-L or A-P direction to get the wires into the diagonal cut
+  	- Lower until the microdrive is seated on the chamber
 
-    .. tab:: 9. Secure microdrive
+  .. tab-item:: 9. Secure microdrive
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide10.png
-       	 	:align: right
-        	:width: 100% 
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide10.png
+   	 	:align: right
+    	:width: 100% 
 
-      	- Insert nylon screws to fix microdrive firmly to the chamber
-      	- Fill in around the guide tube-electrode interface with Kwik-Cast silicone
+  	- Insert nylon screws to fix microdrive firmly to the chamber
+  	- Fill in around the guide tube-electrode interface with Kwik-Cast silicone
 
-    .. tab:: 10. Advance microdrive
+  .. tab-item:: 10. Advance microdrive
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide11.png
-        	:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide11.png
+    	:align: right
+    	:width: 100%
 
-      	- Turn the drive screw to lower the electrode
-      	- Lower until the electrode tip is <1mm inside the guide tube
-      	- Further electrode advancement should be done during neural recording
+  	- Turn the drive screw to lower the electrode
+  	- Lower until the electrode tip is <1mm inside the guide tube
+  	- Further electrode advancement should be done during neural recording
 
-    .. tab:: 11. Secure cap
+  .. tab-item:: 11. Secure cap
 
-      	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide12.png
-       		:align: right
-        	:width: 100%
+  	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide12.png
+   		:align: right
+    	:width: 100%
 
-      	- Lower cap over microdrive 
-      	- Run electrode wire under cap through wire channel in chamber
-      	- Secure the cap with set screws (careful not to press on wire)
-      	- Attach electrode connectors in dental acrylic
+  	- Lower cap over microdrive 
+  	- Run electrode wire under cap through wire channel in chamber
+  	- Secure the cap with set screws (careful not to press on wire)
+  	- Attach electrode connectors in dental acrylic
 
 
 .. _MBA_insertion:
@@ -494,7 +504,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
 		.. _Zaldivar2022:
 
-		`Zaldivar, D., Koyano, K. W., Ye, F. Q., Godlove, D. C., Park, S. H., Russ, B. E., ... & Leopold, D. A. (2022). <>`_ **Brain-wide functional connectivity of face patch neurons during rest**. :bdg-link-primary:`PNAS <>`, 119(36), e2206559119.
+		`Zaldivar, D., Koyano, K. W., Ye, F. Q., Godlove, D. C., Park, S. H., Russ, B. E., ... & Leopold, D. A. (2022). <https://doi.org/10.1073/pnas.2206559119>`_ **Brain-wide functional connectivity of face patch neurons during rest**. :bdg-link-primary:`PNAS <https://www.pnas.org/doi/10.1073/pnas.2206559119>`, 119(36), e2206559119.
 
 
 	.. grid-item-card::
@@ -505,7 +515,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
 		.. _Park2022:
 
-		`Park, S. H., Koyano, K. W., Russ, B. E., Waidmann, E. N., McMahon, D. B., & Leopold, D. A. (2022). <>`_ **Parallel functional subnetworks embedded in the macaque face patch system.** :bdg-link-primary:`Science Advances <>`, 8(10), eabm2054.
+		`Park, S. H., Koyano, K. W., Russ, B. E., Waidmann, E. N., McMahon, D. B., & Leopold, D. A. (2022). <https://doi.org/10.1126/sciadv.abm2054>`_ **Parallel functional subnetworks embedded in the macaque face patch system.** :bdg-link-primary:`Science Advances <https://www.science.org/doi/10.1126/sciadv.abm2054>`, 8(10), eabm2054.
 
 
 	.. grid-item-card::
@@ -549,7 +559,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
 		.. _Koyano2021:
 
-		`Koyano, K. W., Jones, A. P., McMahon, D. B., Waidmann, E. N., Russ, B. E., & Leopold, D. A. (2021). <>`_ **Dynamic suppression of average facial structure shapes neural tuning in three macaque face patches.** :bdg-link-primary:`Current Biology <>`,31(1), 1-12.
+		`Koyano, K. W., Jones, A. P., McMahon, D. B., Waidmann, E. N., Russ, B. E., & Leopold, D. A. (2021). <https://doi.org/10.1016/j.cub.2020.09.070>`_ **Dynamic suppression of average facial structure shapes neural tuning in three macaque face patches.** :bdg-link-primary:`Current Biology <https://www.cell.com/current-biology/fulltext/S0960-9822(20)31440-8>`,31(1), 1-12.
 
 
 	.. grid-item-card::
@@ -592,7 +602,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
 		.. _Park2017:
 
-		`Park, S. H., Russ, B. E., McMahon, D. B., Koyano, K. W., Berman, R. A., & Leopold, D. A. (2017). <>`_ **Functional subpopulations of neurons in a macaque face patch revealed by single-unit fMRI mapping.** :bdg-link-primary:`Neuron <>`, 95(4), 971-981.
+		`Park, S. H., Russ, B. E., McMahon, D. B., Koyano, K. W., Berman, R. A., & Leopold, D. A. (2017). <https://doi.org/10.1016/j.neuron.2017.07.014>`_ **Functional subpopulations of neurons in a macaque face patch revealed by single-unit fMRI mapping.** :bdg-link-primary:`Neuron <https://www.cell.com/neuron/fulltext/S0896-6273(17)30636-0>`, 95(4), 971-981.
 
 	.. grid-item-card::
 		:class-card: sd-rounded-3
@@ -602,7 +612,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
 		.. _McMahon2015:
 
-		`McMahon, D. B., Russ, B. E., Elnaiem, H. D., Kurnikova, A. I., & Leopold, D. A. (2015). <>`_ **Single-unit activity during natural vision: diversity, consistency, and spatial sensitivity among AF face patch neurons.** :bdg-link-primary:`J. Neuroscience <>`, 35(14), 5537-5548.
+		`McMahon, D. B., Russ, B. E., Elnaiem, H. D., Kurnikova, A. I., & Leopold, D. A. (2015). <https://doi.org/10.1523/jneurosci.3825-14.2015>`_ **Single-unit activity during natural vision: diversity, consistency, and spatial sensitivity among AF face patch neurons.** :bdg-link-primary:`J. Neuroscience <https://www.jneurosci.org/content/35/14/5537>`, 35(14), 5537-5548.
 		
 	.. grid-item-card::
 		:class-card: sd-rounded-3

@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 project = 'IGNITE'
 now     = datetime.datetime.now()       # Get current date
-author  = 'Aidan P. Murphy, Ph.D'
+author  = 'New Atlantis Laboratories'
 copyright = '%d, %s' % (now.year, author)
 version = '1.0'                     # The short X.Y version
 release = '1.0'                     # The full version, including alpha/beta/rc tags
@@ -41,6 +41,7 @@ extensions = [
     'sphinx_panels',
     'sphinx_design',
     'matplotlib.sphinxext.plot_directive',
+    'sphinx_copybutton',
     #'sphinx_tippy',
     #'sphinxcontrib.video',
 ]
@@ -98,7 +99,6 @@ html_css_files = [
    # 'css/ignite.css',
     'css/mf3d.css',
     'css/tippy',
-    #'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css',
 ]
 tippy_add_class = "has-tippy"

@@ -23,8 +23,8 @@ six
 snowballstemmer
 sphinxcontrib-bibtex
 recommonmark
-sphinx_panels
 sphinx-design
+sphinx-copybutton
 sphinx_fontawesome
 sphinx-notfound-page
 sphinx-csv-filter
