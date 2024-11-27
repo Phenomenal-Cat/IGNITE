@@ -93,7 +93,7 @@ Segmenting skull from MRI?
 ------------------------------
 
 
-.. dropdown:: :opticon:`info,mr-1` **Why use CT rather than MRI?**
+.. dropdown:: :octicon:`info,mr-1` **Why use CT rather than MRI?**
   :open:
   :color: primary
   :chevron: down-up
