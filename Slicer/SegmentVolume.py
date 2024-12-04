@@ -9,7 +9,6 @@
 #
 # Image-Guided Neural Implantation Targeting Extensions
 # https://github.com/Phenomenal-Cat/IGNITE
-# Developed by Aidan P. Murphy, Ph.D
 #============================================================================= 
 
 

@@ -83,6 +83,13 @@ When ordering MBAs from `MicroProbes for Life Sciences <https://microprobes.com/
 - **Materials**: MicroProbes offer two material choices of microwire: Nickel-Chromium (NiCr20AISi) and Platinum-Iridium (PlIr). The SCNI has always used Nickel-Chromium (`IsaOhm(R), Isabellenhuette, Germany <https://www.isabellenhuette.de/fileadmin/Daten/Praezisionslegierungen/Datenblaetter_Widerstand/Englisch/ISAOHM.pdf>`_). 
 
 
+Ground Pins
+----------------
+
+
+We have previously used 99.99% (4N Pure) Gold wire, 0.020" / 0.5mm / 24 gauge from `Supepure Chemetals <https://www.surepure.com/Gold-Wire-Rod-0.020-in.-0.5-mm-24-gauge/a/7,1,145?s=pa&o=20>`
+
+
 .. _chronicMicrodrives: 
 
 :fa:`ruler-vertical` Chronic Implanted Microdrives

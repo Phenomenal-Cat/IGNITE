@@ -19,6 +19,8 @@ Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`pytho
   :alt: Slicer Example Screenshot
   :class: no-scaled-link
 
+.. |NA| image:: _images/Logos/NALabs_b.png
+   :height: 30
 
 .. contents:: :local:
 
@@ -232,6 +234,8 @@ While the task of designing customized neural implants using these software tool
 
 .. grid:: 5
    :gutter: 2
+   :margin: 0
+   :padding: 0
 
    .. grid-item::
 

@@ -4,6 +4,7 @@ import FreeCAD as App
 import Part
 import Draft
 import numpy as np
+from BOPTools import BOPFeatures
 
 #======== Apply fillet to object edges
 def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
