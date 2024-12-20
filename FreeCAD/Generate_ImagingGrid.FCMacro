@@ -1,4 +1,18 @@
-
+#================== Generate_ImagingGrid.py ===================
+# This script generates a CAD model of a grid that can be attached to a temporary 
+# chamber cap for imaging the position of the implanted chamber relatvie to 
+# neural targets. The grid holes will need to be filled with contrast agent appropriate 
+# to the imaging modality.  For more information, see: https://py-ignite.readthedocs.io/en/latest/ImplantDesign.html
+#     _________  ________     ____    ___  _________  _________  _______
+#    /__   ___/ /  _____/    /    |  /  / /__   ___/ /__   ___/ /  ____/
+#      /  /    /  / ___     /     | /  /    /  /       /  /    /  /___
+#     /  /    |  | |_  |   /  /|  |/  /    /  /       /  /    /  ____/
+#  __/  /__   |  \__/  /  /  / |     /  __/  /__     /  /    /  /____
+# /_______/    \______/  /__/  |____/  /_______/    /__/    /_______/
+#
+# Image-Guided Neural Implantation Targeting Extensions
+# https://py-ignite.rtfd.io
+#=========================================================
 
 import FreeCAD as App
 import Part
@@ -24,20 +38,23 @@ def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
 
 
 #=============== Set parameters
-filename 			= "TEST"
-Outer_Diameter 		= 20
-GridHole_Diameter 	= 1
-GridHole_Depth 		= 50
-AlignmentDepth 		= 4
-Base_Depth 		= 5
-Base_Diameter 		= 34
+filename 				= "TEST"
+Outer_Diameter 			= 25 						# Outer diameter of main grid cylinder
+GridHole_Diameter 		= 1 						# Diameter of each grid hole (mm)
+GridHole_Depth 			= 30						# Length of grid holes
+AlignmentDepth 			= 4 						# 
+Base_Depth 			= 5						# Depth of the grid base
+Base_Diameter 			= 34 						# Diameter of the grid base (attahcment point to cap)
+GridHole_NoPerRing 		= [8, 8, 16]					# Number o fgrid holes for each concentric ring around the center hole
+GridHole_ArrayRadii   		= [3, 5, 7]*GridHole_Diameter	# Radius from center for each concentric ring of grid holes
+GridHole_angles 			= [0,0,0]					# Angles to rotate the grid holes in degrees about the X,Y and Z axes
+ScrewHole_Diameter 		= 3 						# Diameter of through-hole for attachment screws
+ScrewHole_HeadRadius 	= ScrewHole_Diameter*0.75 	# Daimater of screw head countersink holes
 
-GridHole_angles 			= [0,0,0]
-GridHole_NoPerRing 		= [8, 8, 16]
-GridHole_ArrayRadii   		= [3, 5, 8]*GridHole_Diameter
-ScrewHole_Diameter 		= 3
-ScrewHole_HeadRadius 	= ScrewHole_Diameter*0.75
- 
+# Check parameters are consistent
+if (GridHole_ArrayRadii[-1] + GridHole_Diameter) > Outer_Diameter:
+	print('Warning: selected grid hole array radius exceeds the requested outer diameter!')
+
 
 #=============== Create and save document
 FullFilename = "ImagingGrid_%s" % (filename)

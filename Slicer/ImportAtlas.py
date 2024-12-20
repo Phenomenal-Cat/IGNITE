@@ -17,11 +17,11 @@ if LabelExt == '.txt':
 	Labels = np.loadtxt(LabelFile, skiprows=0, dtype='str') 
 
 elif LabelExt == '.csv':
-	
+	Labels = []
 
 
 NoSegments = seg.GetNumberOfSegments()
-if NoSegments ~= len(Labels):
+if NoSegments != len(Labels):
 	print('Warning, number of labels (%d, from %s) does not match number of segments (%d, from %s)!' % (len(Labels), LabelFile, NoSegments, AtlasVolume))
 
 
@@ -29,3 +29,5 @@ if NoSegments ~= len(Labels):
 for s in range(0, len(Labels)):
 	segment = seg.GetNthSegment(int(Labels[s][0]))
 	segment.SetName(Labels[s][1])
+
+

@@ -8,7 +8,7 @@ STLfile = '/Users/murphyap/Documents/NIF_ImagingData/MR/Phelps_H73R/Phelps_STLs/
 Color 		= [0.5, 0.5, 0]
 Opacity 	= 0.5
 LineWidth 	= 3
-
+ 
 
 Model  		= slicer.util.loadModel(STLfile)
 DisplayNode = Model.GetDisplayNode()

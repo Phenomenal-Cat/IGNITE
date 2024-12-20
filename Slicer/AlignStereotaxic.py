@@ -8,8 +8,8 @@
 # 	1. automatically creating fiducial markers for earbar and orbit bar tips
 #	2. the user manually adjusting the placement of these markers
 #	3. translating the volume to make the stereotaxic origin the volume origin
-#	4. rotating the volume to make the axial plan parallel to the Frankfurt plane
-#	5. reslicing the volume(s) in stereotaxic coordinates and saving
+#	4. rotating the volume to make the axial plane parallel to the Frankfurt plane
+#	5. reslicing the volume(s) in stereotaxic coordinates and saving them
 #
 #     _________  ________     ____    ___  _________  _________  _______
 #    /__   ___/ /  _____/    /    |  /  / /__   ___/ /__   ___/ /  ____/
