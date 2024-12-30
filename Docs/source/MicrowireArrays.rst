@@ -8,13 +8,13 @@
 
 
 .. card::
-  :columns: 12
-  :header: bd-primary text-bold p-1 pl-2
-  :body: bg-light border-0 p-2
+  :class-header: sd-bd-primary sd-font-weight-bold p-1 pl-2
+  :class-card: sd-bg-light
+  :margin: 0
 
-  :opticon:`info,mr-1` **Note**
+  :fa:`info` **Note**
   ^^^^^^^^^^^^^^^^^^^^^^^^
-  The Ide-McMahon microdrive design was the SCNI's first generation of chronically implanted micro drive hardware for use with MBAs. However, development of implant designs and procedures is ongoing. Information on the Ide-McMahon design is provided here for reference, but the system now used for MBA implants in the SCNI is the :ref:`MIDAS system <Microdrive_MIDAS>`, which offers numerous improvements.
+  The :ref:`Ide-McMahon microdrive <IdeMcMahon>` design was the first-generation of chronically implanted microdrive hardware designed for use with :ref:`Microwire Brush Array (MBA) <MBA>` electrodes. However, development of implant designs and procedures is an ongoing process. Information on previous designs is provided here for reference.
 
 
 
@@ -38,12 +38,12 @@
 
   Coronal MR image and micro-CT showing an implanted chronic microwire multielectrode and an illustration of the 'brush' tip (MR image courtesy of McMahon et al., 2014).
 
-Microwire 'brush' array electrodes have been independently developed by multiple research laboratories. The variety that are currently commercially manufactured by `MicroProbes <https://microprobes.com/images/products/mc/mba/>`_ were originally developed at the University of Freiburg (`Bondar et al., 2009 <http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008222>`_; `Krüger et al., 2010 <https://doi.org/10.3389/fneng.2010.00006>`_) and further developed at the National Institutes of Health (:ref:`McMahon et al., 2014 <McMahon2014>`) over the past decade. 
+Microwire 'brush' array electrodes have been independently developed by multiple research laboratories. The variety that are currently commercially manufactured by `MicroProbes <https://microprobes.com/images/products/mc/mba/>`_ were originally developed at the University of Freiburg (`Bondar et al., 2009 <http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008222>`_; `Krüger et al., 2010 <https://doi.org/10.3389/fneng.2010.00006>`_) and further developed at the National Institutes of Health (:ref:`McMahon et al., 2014 <McMahon_2014>`) over the past decade. 
 
 The concept is to take a bundle of insulated microwires and insert them into the brain through a guide tube. As the electrode tip is lowered, the individual wires splay out in the tissue, allowing for stable isolation of extracellular spiking activity for a local population of neurons over long time periods (many months). Each microwire consists of a nickel-chromium-aluminum core of 12.5 µm diameter, insulated with polyimide by the manufacturer (`IsaOhm®, Isabellenhüete <https://www.isabellenhuette.de/en/precision-alloys/products/isaohmr>`_, Germany). These electrodes are currently commercially available from `MicroProbes (MD) <https://microprobes.com/products/multichannel-arrays/mba>`_ in lengths from 2.5 mm to 120 mm. 
 
 
-.. _MBA_TipDev_
+.. _MBA_TipDev:
 
 Microwire brush tip development notes
 -----------------------------------------
@@ -54,7 +54,7 @@ Microwire brush tip development notes
   :align: right
   :alt: MBA brush tip designs
 
-  **Figure 3.** Simulations of microwire brush tip trajectories in tissue. Columns show different brush tip preparations. Top row shows the state of the array tip prior to insertion in the guide tube. The second and third rows show the gradual deflection of individual microwires with distance emerged from the guide tube tip. (Figure courtesy of :ref:`Dr. Kenji Koyano <kwk>`). 
+  **Figure 3.** Simulations of microwire brush tip trajectories in tissue. Columns show different brush tip preparations. Top row shows the state of the array tip prior to insertion in the guide tube. The second and third rows show the gradual deflection of individual microwires with distance emerged from the guide tube tip. (Figure courtesy of `Dr. Kenji Koyano <https://www.researchgate.net/profile/Kenji-Koyano>`_). 
 
 In order to improve the cell yield per implant, we attempted moving from 64-channel bundles to 128-channel bundles several years ago. However, our experience was that 128-channel bundles do not produce comparable yield to 64-channel bundles, possibly due to the mechanical properties of the increased bundle size. We subsequently reverted to using 64-channel bundles, but also miniaturized the microdrive design in order to obtain between 128-256 channels per implant using multiple 64-channel bundles.
 
@@ -95,6 +95,7 @@ We have previously used 99.99% (4N Pure) Gold wire, 0.020" / 0.5mm / 24 gauge fr
 :fa:`ruler-vertical` Chronic Implanted Microdrives
 =======================================================
 
+.. _IdeMcMahon:
 
 Ide-McMahon Microdrive
 -------------------------------
@@ -121,13 +122,13 @@ The microdrive is intended for use with a single :ref:`microwire brush array <MB
 
   **Figure 1**. Photograph and illustration of the original microdrive design (with permission from `McMahon et al. (2014) <https://www.physiology.org/doi/10.1152/jn.00052.2014>`_).
 
+
 The original design was CNC machined from Ultem rods by the `Section on Instrumentation <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/section-on-instrumentation>`_ at NIH. Since the design was published, it is now also manufactured by `Hybex Innovations <http://hybex.com/portfolio/chronic-microdrive/>`_ and commercially available from `Rogue Research <https://www.rogue-research.com/veterinary/tools-implants/>`_ with minor modifications. As a lower cost alternative, we also provide .stl files for 3D-printing this microdrive `here <https://www.thingiverse.com/thing:3501708>`__, and a list of additional parts needed for assembly is provided below. However, researchers interested in 3D-printed microdrives are advised to check out our newer designs that are more compact, require less user finishing and assembly, and offer several other improvements.
    
 
-.. link-button:: https://www.thingiverse.com/thing:3501708
-    :type: url
+.. button-link:: https://www.thingiverse.com/thing:3501708
     :text: Download CAD files
-    :classes: btn-success
+    :color: success
 
 .. csv-table:: 
   :file: _static/CSVs/SCNI_IdeMcMahon_MicrodriveBOM.csv
@@ -152,8 +153,8 @@ The panel below provides an illustrated step-by-step overview for the typical su
   .. tab-item:: 1. Mark locations
 
   	.. image:: _images/Guides/MBAs/IdeMcMahon_ImplantProcedure/Slide1.png
-      	:align: right
-      	:width: 100%
+    	:align: right
+    	:width: 100%
 
   	- Clean the skull surface
     	- Position chamber using stereotax
@@ -374,10 +375,10 @@ Microdrive Variant Designs
 
 * Baeg et al (2021). `MRI Compatible, Customizable, and 3D-Printable Microdrive for Neuroscience Research. <https://doi.org/10.1523/ENEURO.0495-20.2021>`_
 * Bondar IV, Leopold DA, Richmond BJ, Victor JD, Logothetis NK (2009). `Long-Term Stability of Visual Pattern Selective Responses of Monkey Temporal Lobe Neurons. <https://doi.org/10.1371/journal.pone.0008222>`_
+* Englitz B, David S, Depireux DA, Shamma SA (2011). `The Array Drive : Optimizing the Yield and Flexibility of Chronic, Multielectrode Array Recordings <http://www.open-ephys.org/multielectrode-array-drive/>`_
+* Krüger J, Caruana F, & Rizzolatti G (2010). `Seven years of recording from monkey cortex with a chronically implanted multiple microelectrode. <https://doi.org/10.3389/fneng.2010.00006>`_ Frontiers in neuroengineering, 3, 1314.
 * McaMahon DBT, Afuwape OAT, Ide DC, Leopold DA (2014). `One month in the life of a neuron: longitudinal single-unit electrophysiology in the monkey visual system. <https://doi.org/10.1152/jn.00052.2014>`_
 * Mulliken GH, Bichot NP, Ghadooshahy A, Sharmab J, Kornblith S, Philcock M, Desimone R (2015). `Custom-fit radiolucent cranial implants for neurophysiological recording and stimulation. <https://doi.org/10.1016/j.jneumeth.2014.12.011>`_
-* Englitz B, David S, Depireux DA, Shamma SA (2011). `The Array Drive : Optimizing the Yield and Flexibility of Chronic, Multielectrode Array Recordings <http://www.open-ephys.org/multielectrode-array-drive/>`_
-
 
 
 
@@ -391,263 +392,379 @@ Microdrive Variant Designs
 
 Single unit neuronal data recorded from chronically implanted microwire brush array electrodes have featured the following :fas:`unlock;sd-text-success` :bdg-link-success:`open-access <https://publicaccess.nih.gov/>` publications.
 
-.. grid:: 1
-	:margin: 1
-	:gutter: 2
-	:padding: 1
+.. grid:: 1 1 1 1
+  :margin: 1
+  :gutter: 2
+  :padding: 1
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
 		.. _Koyano2023:
 
-		`Koyano, K. W., Esch, E. M., Hong, J. J., Waidmann, E. N., Wu, H., & Leopold, D. A. (2023). <https://doi.org/10.1126/sciadv.ade4648>`_ **Progressive neuronal plasticity in primate visual cortex during stimulus familiarization.** :bdg-link-primary:`Science Advances <https://www.science.org/doi/full/10.1126/sciadv.ade4648>`, 9(12), eade4648
+    `Koyano, K. W., Esch, E. M., Hong, J. J., Waidmann, E. N., Wu, H., & Leopold, D. A. (2023). <https://doi.org/10.1126/sciadv.ade4648>`_ **Progressive neuronal plasticity in primate visual cortex during stimulus familiarization.** :bdg-link-primary:`Science Advances <https://www.science.org/doi/full/10.1126/sciadv.ade4648>`, 9(12), eade4648.
+
+    .. image:: _images/Logos/PDF_button.png
+ 	  	:height: 28
+	   	:target: _static/PDFs/MBA_Papers/Koyano_2023.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/36961903/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cluster=17487080598340147442&hl
+
+    .. image:: _images/Logos/ResearchGate.png
+			:height: 28
+			:target: https://www.researchgate.net/publication/369508032_Progressive_neuronal_plasticity_in_primate_visual_cortex_during_stimulus_familiarization
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 
 
-	   	.. image:: _images/Logos/PDF_button.png
-	   	  	:height: 28
-	  	   	:target: _static/PDFs/MF3D_Papers/Khandhadia_2023-3D.pdf
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
-	   	.. image:: _images/Logos/PubMed_button.png
-	   		:height: 28
-	   		:target: https://pubmed.ncbi.nlm.nih.gov/36802419/
+    .. _Russ2023:
 
-	   	.. image:: _images/Logos/GoogleScholar.png
-	   		:height: 28
-	   		:target: https://scholar.google.com/
+    `Russ, B. E., Koyano, K. W., Day-Cooney, J., Perwez, N., & Leopold, D. A. (2023). <https://doi.org/10.1016/j.neuron.2022.12.021>`_ **Temporal continuity shapes visual responses of macaque face patch neurons.** :bdg-link-primary:`Neuron <https://www.cell.com/neuron/fulltext/S0896-6273(22)01116-3>`, 111(6), 903-914.
 
-		.. image:: _images/Logos/ResearchGate.png
+    .. image:: _images/Logos/PDF_button.png
+ 	  	:height: 28
+	   	:target: _static/PDFs/MBA_Papers/Russ_2023.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+   		:height: 28
+   		:target: https://pubmed.ncbi.nlm.nih.gov/36630962/
+
+    .. image:: _images/Logos/GoogleScholar.png
+   		:height: 28
+   		:target: https://scholar.google.com/scholar?cluster=14331428265093005949&hl=en&as_sdt=0,21
+
+    .. image:: _images/Logos/ResearchGate.png
+			:height: 28
+			:target: https://www.researchgate.net/publication/367035122_Temporal_continuity_shapes_visual_responses_of_macaque_face_patch_neurons
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
+
+
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
+
+    .. _Khandhadia2023:
+
+    `Khandhadia AP, Murphy AP, Esch EM, Koyano KW, Leopold DA (2023). <https://doi.org/10.1073/pnas.2214996120>`_ **Encoding of 3D physical dimensions by face-selective cortical neurons**. :bdg-link-primary:`PNAS <https://doi.org/10.1073/pnas.2214996120>`
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Khandhadia_2023.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/36802419/
+
+    .. image:: _images/Logos/GoogleScholar.png
+   		:height: 28
+   		:target: https://scholar.google.com/scholar?cluster=1792758152927350890&hl=en&as_sdt=0,21
+
+    .. image:: _images/Logos/ResearchGate.png
 			:height: 28
 			:target: https://www.researchgate.net/publication/368689311_Encoding_of_3D_physical_dimensions_by_face-selective_cortical_neurons
 
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/
-
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
-
-		.. _Russ2023:
-
-		`Russ, B. E., Koyano, K. W., Day-Cooney, J., Perwez, N., & Leopold, D. A. (2023). <https://doi.org/10.1016/j.neuron.2022.12.021>`_ **Temporal continuity shapes visual responses of macaque face patch neurons.** :bdg-link-primary:`Neuron <https://www.cell.com/neuron/fulltext/S0896-6273(22)01116-3>`, 111(6), 903-914.
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 
 
-	   	.. image:: _images/Logos/PDF_button.png
-	   	  	:height: 28
-	  	   	:target: _static/PDFs/MF3D_Papers/Khandhadia_2023-3D.pdf
-	
-	   	.. image:: _images/Logos/PubMed_button.png
-	   		:height: 28
-	   		:target: https://pubmed.ncbi.nlm.nih.gov/36802419/
-
-	   	.. image:: _images/Logos/GoogleScholar.png
-	   		:height: 28
-	   		:target: https://scholar.google.com/
-
-		.. image:: _images/Logos/ResearchGate.png
-			:height: 28
-			:target: https://www.researchgate.net/publication/368689311_Encoding_of_3D_physical_dimensions_by_face-selective_cortical_neurons
-
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/
-
-
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
-
-		.. _Khandhadia2023:
-
-		`Khandhadia AP, Murphy AP, Esch EM, Koyano KW, Leopold DA (2023). <https://doi.org/10.1073/pnas.2214996120>`_
-		**Encoding of 3D physical dimensions by face-selective cortical neurons**. :bdg-link-primary:`PNAS <https://doi.org/10.1073/pnas.2214996120>`
-
-
-	   	.. image:: _images/Logos/PDF_button.png
-	   	  	:height: 28
-	  	   	:target: _static/PDFs/MF3D_Papers/Khandhadia_2023-3D.pdf
-
-	   	.. image:: _images/Logos/PubMed_button.png
-	   		:height: 28
-	   		:target: https://pubmed.ncbi.nlm.nih.gov/36802419/
-
-	   	.. image:: _images/Logos/GoogleScholar.png
-	   		:height: 28
-	   		:target: https://scholar.google.com/
-
-		.. image:: _images/Logos/ResearchGate.png
-			:height: 28
-			:target: https://www.researchgate.net/publication/368689311_Encoding_of_3D_physical_dimensions_by_face-selective_cortical_neurons
-
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/
-
-
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
 		.. _Waidmann2022:
 
-		`Waidmann, EN, Koyano, K. W., Hong, J. J., Russ, B. E., & Leopold, D. A. (2022). <https://doi.org/10.1038/s41467-022-33240-w>`_ **Local features drive identity responses in macaque anterior face patches**. :bdg-link-primary:`Nature Communications <https://www.nature.com/articles/s41467-022-33240-w>`, 13(1), 5592.
+    `Waidmann, EN, Koyano, K. W., Hong, J. J., Russ, B. E., & Leopold, D. A. (2022). <https://doi.org/10.1038/s41467-022-33240-w>`_ **Local features drive identity responses in macaque anterior face patches**. :bdg-link-primary:`Nature Communications <https://www.nature.com/articles/s41467-022-33240-w>`, 13(1), 5592.
 
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Waidmann_2022.pdf
 
-		.. _Zaldivar2022:
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/36151142/
 
-		`Zaldivar, D., Koyano, K. W., Ye, F. Q., Godlove, D. C., Park, S. H., Russ, B. E., ... & Leopold, D. A. (2022). <https://doi.org/10.1073/pnas.2206559119>`_ **Brain-wide functional connectivity of face patch neurons during rest**. :bdg-link-primary:`PNAS <https://www.pnas.org/doi/10.1073/pnas.2206559119>`, 119(36), e2206559119.
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cluster=1255477967159804673&hl=en&as_sdt=0,21
 
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/363796944_Local_features_drive_identity_responses_in_macaque_anterior_face_patches
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
-
-		.. _Park2022:
-
-		`Park, S. H., Koyano, K. W., Russ, B. E., Waidmann, E. N., McMahon, D. B., & Leopold, D. A. (2022). <https://doi.org/10.1126/sciadv.abm2054>`_ **Parallel functional subnetworks embedded in the macaque face patch system.** :bdg-link-primary:`Science Advances <https://www.science.org/doi/10.1126/sciadv.abm2054>`, 8(10), eabm2054.
-
-
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
-
-		.. _Khandhadia2021:
-
-		`Khandhadia AP, Murphy AP, Romanksi LM, Bizley JK, Leopold DA (2021). <https://doi.org/10.1016/j.cub.2021.01.102>`_
-	  	**Audiovisual Integration in Macaque Face Patch Neurons**. :bdg-link-primary:`Current Biology <https://doi.org/10.1016/j.cub.2021.01.102>`
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 
 
-		.. image:: _images/Logos/PDF_button.png
-			:height: 28
-			:target: _static/PDFs/MF3D_Papers/Khandhadia_2021-Audiovisual.pdf
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
-		.. image:: _images/Logos/PubMed_button.png
-			:height: 28
-			:target: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8521527/
+    .. _Zaldivar2022:
 
-		.. image:: _images/Logos/GoogleScholar.png
-			:height: 28
-			:target: https://scholar.google.com/scholar?cites=3380824935233534645&as_sdt=20000005&sciodt=0,21&hl=en
+    `Zaldivar, D., Koyano, K. W., Ye, F. Q., Godlove, D. C., Park, S. H., Russ, B. E., ... & Leopold, D. A. (2022). <https://doi.org/10.1073/pnas.2206559119>`_ **Brain-wide functional connectivity of face patch neurons during rest**. :bdg-link-primary:`PNAS <https://www.pnas.org/doi/10.1073/pnas.2206559119>`, 119(36), e2206559119.
 
-		.. image:: _images/Logos/ResearchGate.png
-			:height: 28
-			:target: https://www.researchgate.net/publication/349626537_Audiovisual_integration_in_macaque_face_patch_neurons
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Zaldivar_2022.pdf
 
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/389d92cd-5f68-37fd-92a8-e09a623a36ff/
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/36044550/
 
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cluster=6254911816456031989&hl=en&as_sdt=0,21
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/363158273_Brain-wide_functional_connectivity_of_face_patch_neurons_during_rest
 
-		.. _Koyano2021:
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 
-		`Koyano, K. W., Jones, A. P., McMahon, D. B., Waidmann, E. N., Russ, B. E., & Leopold, D. A. (2021). <https://doi.org/10.1016/j.cub.2020.09.070>`_ **Dynamic suppression of average facial structure shapes neural tuning in three macaque face patches.** :bdg-link-primary:`Current Biology <https://www.cell.com/current-biology/fulltext/S0960-9822(20)31440-8>`,31(1), 1-12.
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
+    .. _Park2022:
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+    `Park, S. H., Koyano, K. W., Russ, B. E., Waidmann, E. N., McMahon, D. B., & Leopold, D. A. (2022). <https://doi.org/10.1126/sciadv.abm2054>`_ **Parallel functional subnetworks embedded in the macaque face patch system.** :bdg-link-primary:`Science Advances <https://www.science.org/doi/10.1126/sciadv.abm2054>`, 8(10), eabm2054.
 
-		.. _Murphy2019:
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Park_2022.pdf
 
-		`Murphy, A. P., & Leopold, D. A. (2019). <https://doi.org/10.1016/j.jneumeth.2019.06.001>`_ **A parameterized digital 3D model of the Rhesus macaque face for investigating the visual processing of social cues.** :bdg-link-primary:`J. Neuroscience Methods <https://www.sciencedirect.com/science/article/pii/S0165027019301591?via%3Dihub>`, 324, 108309.
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/35263138/
 
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cluster=9871791256205852590&hl=en&as_sdt=0,21
 
-		.. image:: _images/Logos/PDF_button.png
-			:height: 28
-			:target: _static/PDFs/MF3D_Papers/Khandhadia_2021-Audiovisual.pdf
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/355723106_Parallel_functional_subnetworks_embedded_in_the_macaque_face_patch_system
 
-		.. image:: _images/Logos/PubMed_button.png
-			:height: 28
-			:target: https://pubmed.ncbi.nlm.nih.gov/31229584/
-
-		.. image:: _images/Logos/GoogleScholar.png
-			:height: 28
-			:target: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=vXBEN9EAAAAJ&citation_for_view=vXBEN9EAAAAJ:5nxA0vEk-isC
-
-		.. image:: _images/Logos/ResearchGate.png
-			:height: 28
-			:target: https://www.researchgate.net/publication/333700889_A_parameterized_digital_3D_model_of_the_Rhesus_macaque_face_for_investigating_the_visual_processing_of_social_cues
-
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/389d92cd-5f68-37fd-92a8-e09a623a36ff/
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
-		.. _Park2017:
+    .. _Khandhadia2021:
 
-		`Park, S. H., Russ, B. E., McMahon, D. B., Koyano, K. W., Berman, R. A., & Leopold, D. A. (2017). <https://doi.org/10.1016/j.neuron.2017.07.014>`_ **Functional subpopulations of neurons in a macaque face patch revealed by single-unit fMRI mapping.** :bdg-link-primary:`Neuron <https://www.cell.com/neuron/fulltext/S0896-6273(17)30636-0>`, 95(4), 971-981.
+    `Khandhadia AP, Murphy AP, Romanksi LM, Bizley JK, Leopold DA (2021). <https://doi.org/10.1016/j.cub.2021.01.102>`_ **Audiovisual Integration in Macaque Face Patch Neurons**. :bdg-link-primary:`Current Biology <https://doi.org/10.1016/j.cub.2021.01.102>`
 
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Khandhadia_2021.pdf
 
-		.. _McMahon2015:
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8521527/
 
-		`McMahon, D. B., Russ, B. E., Elnaiem, H. D., Kurnikova, A. I., & Leopold, D. A. (2015). <https://doi.org/10.1523/jneurosci.3825-14.2015>`_ **Single-unit activity during natural vision: diversity, consistency, and spatial sensitivity among AF face patch neurons.** :bdg-link-primary:`J. Neuroscience <https://www.jneurosci.org/content/35/14/5537>`, 35(14), 5537-5548.
-		
-	.. grid-item-card::
-		:class-card: sd-rounded-3
-		:columns: 12
-		:margin: 0
-		:padding: 0
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cites=3380824935233534645&as_sdt=20000005&sciodt=0,21&hl=en
 
-		.. _McMahon2014:
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/349626537_Audiovisual_integration_in_macaque_face_patch_neurons
 
-		`McMahon, D. B., Bondar, I. V., Afuwape, O. A., Ide, D. C., & Leopold, D. A. (2014). <https://doi.org/10.1152/jn.00052.2014>`_ **One month in the life of a neuron: longitudinal single-unit electrophysiology in the monkey visual system.** :bdg-link-primary:`J. Neurophysiology <https://journals.physiology.org/doi/full/10.1152/jn.00052.2014>`, 112(7), 1748-1762.
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/389d92cd-5f68-37fd-92a8-e09a623a36ff/
 
-	   	.. image:: _images/Logos/PDF_button.png
-	   	  	:height: 28
-	  	   	:target: _static/PDFs/MF3D_Papers/
-	
-	   	.. image:: _images/Logos/PubMed_button.png
-	   		:height: 28
-	   		:target: https://pubmed.ncbi.nlm.nih.gov/24966298/
 
-	   	.. image:: _images/Logos/GoogleScholar.png
-	   		:height: 28
-	   		:target: https://scholar.google.com/
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
 
-		.. image:: _images/Logos/ResearchGate.png
-			:height: 28
-			:target: hhttps://www.researchgate.net/publication/263431014_One_month_in_the_life_of_a_neuron_Longitudinal_single-unit_electrophysiology_in_the_monkey_visual_system
+    .. _Koyano2021:
 
-		.. image:: _images/Logos/Mendeley.png
-			:height: 28
-			:target: https://www.mendeley.com/catalogue/
+    `Koyano, K. W., Jones, A. P., McMahon, D. B., Waidmann, E. N., Russ, B. E., & Leopold, D. A. (2021). <https://doi.org/10.1016/j.cub.2020.09.070>`_ **Dynamic suppression of average facial structure shapes neural tuning in three macaque face patches.** :bdg-link-primary:`Current Biology <https://www.cell.com/current-biology/fulltext/S0960-9822(20)31440-8>`,31(1), 1-12.
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Koyano_2021.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://www.ncbi.nlm.nih.gov/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com
+
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/
+
+
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
+
+    .. _Murphy2019:
+
+    `Murphy, A. P., & Leopold, D. A. (2019). <https://doi.org/10.1016/j.jneumeth.2019.06.001>`_ **A parameterized digital 3D model of the Rhesus macaque face for investigating the visual processing of social cues.** :bdg-link-primary:`J. Neuroscience Methods <https://www.sciencedirect.com/science/article/pii/S0165027019301591?via%3Dihub>`, 324, 108309.
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/MurphyLeopold_2019.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/31229584/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=vXBEN9EAAAAJ&citation_for_view=vXBEN9EAAAAJ:5nxA0vEk-isC
+
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/333700889_A_parameterized_digital_3D_model_of_the_Rhesus_macaque_face_for_investigating_the_visual_processing_of_social_cues
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/389d92cd-5f68-37fd-92a8-e09a623a36ff/
+
+
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
+
+    .. _Park2017:
+
+    `Park, S. H., Russ, B. E., McMahon, D. B., Koyano, K. W., Berman, R. A., & Leopold, D. A. (2017). <https://doi.org/10.1016/j.neuron.2017.07.014>`_ **Functional subpopulations of neurons in a macaque face patch revealed by single-unit fMRI mapping.** :bdg-link-primary:`Neuron <https://www.cell.com/neuron/fulltext/S0896-6273(17)30636-0>`, 95(4), 971-981.
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/Park2017.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/28757306/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: hhttps://scholar.google.com/scholar?cluster=3940165311179791264&hl=en&as_sdt=0,21
+
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/318740169_Functional_Subpopulations_of_Neurons_in_a_Macaque_Face_Patch_Revealed_by_Single-Unit_fMRI_Mapping
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
+
+
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
+
+    .. _McMahon2015:
+
+    `McMahon, D. B., Russ, B. E., Elnaiem, H. D., Kurnikova, A. I., & Leopold, D. A. (2015). <https://doi.org/10.1523/jneurosci.3825-14.2015>`_ **Single-unit activity during natural vision: diversity, consistency, and spatial sensitivity among AF face patch neurons.** :bdg-link-primary:`J. Neuroscience <https://www.jneurosci.org/content/35/14/5537>`, 35(14), 5537-5548.
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/McMahon2015.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/25855170/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/scholar?cluster=1326629601955003348&hl=en&as_sdt=0,21
+
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/274726566_Single-Unit_Activity_during_Natural_Vision_Diversity_Consistency_and_Spatial_Sensitivity_among_AF_Face_Patch_Neurons
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
+
+  .. grid-item-card::
+    :class-card: sd-rounded-3
+    :columns: 12
+    :margin: 0
+    :padding: 0
+
+    .. _McMahon_2014:
+
+    `McMahon, D. B., Bondar, I. V., Afuwape, O. A., Ide, D. C., & Leopold, D. A. (2014). <https://doi.org/10.1152/jn.00052.2014>`_ **One month in the life of a neuron: longitudinal single-unit electrophysiology in the monkey visual system.** :bdg-link-primary:`J. Neurophysiology <https://journals.physiology.org/doi/full/10.1152/jn.00052.2014>`, 112(7), 1748-1762.
+
+
+    .. image:: _images/Logos/PDF_button.png
+      :height: 28
+      :target: _static/PDFs/MBA_Papers/McMahon2014.pdf
+
+    .. image:: _images/Logos/PubMed_button.png
+      :height: 28
+      :target: https://pubmed.ncbi.nlm.nih.gov/24966298/
+
+    .. image:: _images/Logos/GoogleScholar.png
+      :height: 28
+      :target: https://scholar.google.com/
+
+    .. image:: _images/Logos/ResearchGate.png
+      :height: 28
+      :target: https://www.researchgate.net/publication/263431014_One_month_in_the_life_of_a_neuron_Longitudinal_single-unit_electrophysiology_in_the_monkey_visual_system
+
+    .. image:: _images/Logos/Mendeley.png
+      :height: 28
+      :target: https://www.mendeley.com/catalogue/
 

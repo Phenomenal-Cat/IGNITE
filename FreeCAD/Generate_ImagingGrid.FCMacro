@@ -40,7 +40,7 @@ def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
 #=============== Set parameters
 filename 				= "TEST"
 Outer_Diameter 			= 25 						# Outer diameter of main grid cylinder
-GridHole_Diameter 		= 1 						# Diameter of each grid hole (mm)
+GridHole_Diameter 		= 2 						# Diameter of each grid hole (mm)
 GridHole_Depth 			= 30						# Length of grid holes
 AlignmentDepth 			= 4 						# 
 Base_Depth 			= 5						# Depth of the grid base
