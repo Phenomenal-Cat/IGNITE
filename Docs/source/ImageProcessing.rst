@@ -20,7 +20,7 @@ Stereotaxes
 
 The `Horsley-Clarke stereotaxic frame <https://en.wikipedia.org/wiki/Stereotactic_surgery#History>`_ was invented over a century ago, but continues to be the primary method of stabilizing and orienting the head of anesthetized animals during surgical procedures. The basic design utilizes four points of contact with bony anatomical landmarks of the skull, to define a horizontal plane known as the 'Frankfurt plane'. These points are the external auditory meatus (or `ear canal <https://en.wikipedia.org/wiki/Ear_canal>`_) and the `infraorbital margin <https://en.wikipedia.org/wiki/Infraorbital_margin>`_ (bilaterally). Additionally, a palette bar applies upward pressure on the `palatine process of maxilla <https://en.wikipedia.org/wiki/Palatine_process_of_maxilla>`_, in order to push the infraorbital margins up into the stereotax orbit bars.
 
-Modern commercial producers of stereotaxic frames include Kopf Instruments, who produce MRI compatible models (e.g. `1430M <https://kopfinstruments.com/product/model-1430m-mri-stereotaxic-instrument/>`_)
+Modern commercial producers of stereotaxic frames include Kopf Instruments, who produce MRI compatible models (e.g. `1430M <https://kopfinstruments.com/product/model-1430m-mri-stereotaxic-instrument/>`_), and **Jerry Rig**. 
 
 
 
@@ -85,9 +85,12 @@ Modern commercial producers of stereotaxic frames include Kopf Instruments, who 
   :align: right
   :alt: 3D rendered skull
 
-Most implanted neural hardware attaches to the solid anchor point of the skull surface. 
+Implanted neural hardware typically involves an anchor point on the skull surface, even if the parts in contact with the brain are 'floating'. There are several advantages to generating a skull model for each individual subjects including customization of implant hardware to specific skull surface contours.
 
+.. container:: clearer
 
+    .. image :: _images/spacer.png
+       :width: 1
 
 Segmenting skull from MRI?
 ------------------------------

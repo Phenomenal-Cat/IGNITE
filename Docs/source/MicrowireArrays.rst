@@ -657,7 +657,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
     .. image:: _images/Logos/PDF_button.png
       :height: 28
-      :target: _static/PDFs/MBA_Papers/MurphyLeopold_2019.pdf
+      :target: _static/PDFs/MBA_Papers/Murphy_2019.pdf
 
     .. image:: _images/Logos/PubMed_button.png
       :height: 28
@@ -688,7 +688,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
     .. image:: _images/Logos/PDF_button.png
       :height: 28
-      :target: _static/PDFs/MBA_Papers/Park2017.pdf
+      :target: _static/PDFs/MBA_Papers/Park_2017.pdf
 
     .. image:: _images/Logos/PubMed_button.png
       :height: 28
@@ -719,7 +719,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
     .. image:: _images/Logos/PDF_button.png
       :height: 28
-      :target: _static/PDFs/MBA_Papers/McMahon2015.pdf
+      :target: _static/PDFs/MBA_Papers/McMahon_2015.pdf
 
     .. image:: _images/Logos/PubMed_button.png
       :height: 28
@@ -750,7 +750,7 @@ Single unit neuronal data recorded from chronically implanted microwire brush ar
 
     .. image:: _images/Logos/PDF_button.png
       :height: 28
-      :target: _static/PDFs/MBA_Papers/McMahon2014.pdf
+      :target: _static/PDFs/MBA_Papers/McMahon_2014.pdf
 
     .. image:: _images/Logos/PubMed_button.png
       :height: 28
