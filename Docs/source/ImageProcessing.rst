@@ -14,6 +14,7 @@ Anatomical 3D imaging of the brain and head can be extremely useful for planning
 ======================================
 
 
+.. _Stereotax:
 
 Stereotaxes
 ---------------
@@ -39,7 +40,7 @@ Modern commercial producers of stereotaxic frames include Kopf Instruments, who 
 
 	A Slicer module named :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` is provided specifically for researchers at NIH who use the `Neurophysiology Imaging Facility (NIF) Core <https://www.nimh.nih.gov/research/research-conducted-at-nimh/research-areas/research-support-services/nif>`_ to acquire their imaging data. It requires the user's computer to be connected to the NIH network, and to have the NIFVAULT network storage volume mounted. Users on the NIH network can access information on how to do this via the `NIF's intranet documentation site <https://nif.nimh.nih.gov/doc/NIF-DataAccess.html#nifvault-server>`_.
 
-	To use the :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` module, type a subject's name or ID in the :bdg-success:`Subject name / ID` field. The module will then search NIFVAULT's DICOM directories for MRI and CT data folders that contain matching strings, and list the session dates of any data it finds in the :bdg-success:`MRI session` and :bdg-success:`CT session` fields below. The user should select a single session for each modality and the module will hen locate appropriate volumes within each session folder, to load into the viewer via SLicer's :bdg-link-primary:`DICOM <https://slicer.readthedocs.io/en/latest/user_guide/modules/dicom.html>` module. 
+	To use the :bdg-link-primary:`NIF_Import <https://github.com/Phenomenal-Cat/IGNITE/tree/main/Slicer/IGNITE/NIF_Import>` module, type a subject's name or ID in the :bdg-success:`Subject name / ID` field. The module will then search NIFVAULT's DICOM directories for MRI and CT data folders that contain matching strings, and list the session dates of any data it finds in the :bdg-success:`MRI session` and :bdg-success:`CT session` fields below. The user should select a single session for each modality and the module will then locate appropriate volumes within each session folder, to load into the viewer via SLicer's :bdg-link-primary:`DICOM <https://slicer.readthedocs.io/en/latest/user_guide/modules/dicom.html>` module. 
 
 	Optionally, the following processes can be applied after importing the selected volumes:
 

@@ -10,7 +10,7 @@ Imaging-Guided Neural Implant Targeting Extensions
   :class: no-scaled-link
 
 
-Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`python;sd-text-primary` :bdg-link-primary:`Python <https://www.python.org>`-based toolbox of functions designed to help neuroscientists harness multiple existing :fas:`unlock;sd-text-success` :bdg-link-success:`open-source <https://opensource.org/>` software in order to **create customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical **magnetic resonance imaging** :bdg-primary:`MRI` and **computer tomography** :bdg-primary:`CT` volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
+Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`github;sd-text-success` :bdg-link-success:`repository <https://github.com/Phenomenal-Cat/IGNITE>` of :fab:`python` Python functions designed to help neuroscientists harness multiple existing :fas:`unlock` `open-source <https://opensource.org/>`_ software in order to create **customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical magnetic resonance imaging (MRI) and computer tomography (CT) volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <Stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
 
 
 .. image:: _images/Figures/PipelineFigure_V1.png
