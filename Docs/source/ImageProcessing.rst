@@ -19,7 +19,11 @@ Anatomical 3D imaging of the brain and head can be extremely useful for planning
 Stereotaxes
 ---------------
 
-The `Horsley-Clarke stereotaxic frame <https://en.wikipedia.org/wiki/Stereotactic_surgery#History>`_ was invented over a century ago, but continues to be the primary method of stabilizing and orienting the head of anesthetized animals during surgical procedures. The basic design utilizes four points of contact with bony anatomical landmarks of the skull, to define a horizontal plane known as the 'Frankfurt plane'. These points are the external auditory meatus (or `ear canal <https://en.wikipedia.org/wiki/Ear_canal>`_) and the `infraorbital margin <https://en.wikipedia.org/wiki/Infraorbital_margin>`_ (bilaterally). Additionally, a palette bar applies upward pressure on the `palatine process of maxilla <https://en.wikipedia.org/wiki/Palatine_process_of_maxilla>`_, in order to push the infraorbital margins up into the stereotax orbit bars.
+.. image:: _images/Guides/StereotaxModels/Stereotax_JerryRig.jpg
+	:width: 30%
+	:align: right
+
+The `Horsley-Clarke stereotaxic frame <https://en.wikipedia.org/wiki/Stereotactic_surgery#History>`_ was invented over a century ago, but continues to be the primary method of stabilizing and orienting the head of anesthetized animals during surgical procedures, as well as defining a 3-dimensional Cartesian coordinate frame. The basic design utilizes four points of contact with bony anatomical landmarks of the skull that are structurally capable of supporting the head, to define a horizontal plane known as the 'Frankfurt plane'. These points are the external auditory meatus (or `ear canal <https://en.wikipedia.org/wiki/Ear_canal>`_) and the `infraorbital margin <https://en.wikipedia.org/wiki/Infraorbital_margin>`_ (bilaterally). Additionally, a palette bar applies upward pressure on the `palatine process of maxilla <https://en.wikipedia.org/wiki/Palatine_process_of_maxilla>`_, in order to push the infraorbital margins up into the stereotax orbit bars. Thus, the ear bars define the stereotaxic coordinate system's origin in the medial-lateral (X), anterior-positerior (Y), and superior-inferior (Z) dimensions, while the horizontal Frankfurt plane defines the head's orientation about the medial-lateral axis. 
 
 Modern commercial producers of stereotaxic frames include Kopf Instruments, who produce MRI compatible models (e.g. `1430M <https://kopfinstruments.com/product/model-1430m-mri-stereotaxic-instrument/>`_), and **Jerry Rig**. 
 
@@ -62,6 +66,10 @@ Modern commercial producers of stereotaxic frames include Kopf Instruments, who 
 1. Localize stereotaxic frame
 ------------------------------------------
 
+The header information in a raw, unprocessed DICOM or NIFTI volume will contain an 'origin' field, that is based on the geometry of the scanner and the field-of-view that was defined at the console during acquisition. It therefore has an arbitrary relationship to the anatomically-defined stereotaxic origin. The first step in processing the anatomical imaging data is therefore to locate the steteotaxic origin and the Frankfurt plane, and update the volume to match this using an affine transformation.
+
+
+The script :bdg-link-primary:`AlignStereotaxic.py <https://github.com/Phenomenal-Cat/IGNITE/blob/main/Slicer/AlignStereotaxic.py>` begins this process by automaticlaly generating a set of 'control points' (fiducials) in Slicer's :bdg-link-success:`Markups <https://slicer.readthedocs.io/en/latest/user_guide/modules/markups.html>` module.
 
 
 
