@@ -69,7 +69,7 @@ Modern commercial producers of stereotaxic frames include Kopf Instruments, who 
 The header information in a raw, unprocessed DICOM or NIFTI volume will contain an 'origin' field, that is based on the geometry of the scanner and the field-of-view that was defined at the console during acquisition. It therefore has an arbitrary relationship to the anatomically-defined stereotaxic origin. The first step in processing the anatomical imaging data is therefore to locate the steteotaxic origin and the Frankfurt plane, and update the volume to match this using an affine transformation.
 
 
-The script :bdg-link-primary:`AlignStereotaxic.py <https://github.com/Phenomenal-Cat/IGNITE/blob/main/Slicer/AlignStereotaxic.py>` begins this process by automaticlaly generating a set of 'control points' (fiducials) in Slicer's :bdg-link-success:`Markups <https://slicer.readthedocs.io/en/latest/user_guide/modules/markups.html>` module.
+The script :bdg-link-primary:`AlignStereotaxic.py <https://github.com/Phenomenal-Cat/IGNITE/blob/main/Slicer/AlignStereotaxic.py>` begins this process by automatically generating a set of four 'control points' (fiducials) in Slicer's :bdg-link-success:`Markups <https://slicer.readthedocs.io/en/latest/user_guide/modules/markups.html>` module. 
 
 
 

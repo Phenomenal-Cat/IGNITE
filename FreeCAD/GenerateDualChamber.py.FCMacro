@@ -1,5 +1,17 @@
 #=============== NIF GenerateDualChamber.py ================
+# This script can be run as a macro in FreeCAD to generate a dual chamber
+# for chronic multielectrode implants based on user input parameters.
 # 
+#     _________  ________     ____    ___  _________  _________  _______
+#    /__   ___/ /  _____/    /    |  /  / /__   ___/ /__   ___/ /  ____/
+#      /  /    /  / ___     /     | /  /    /  /       /  /    /  /___
+#     /  /    |  | |_  |   /  /|  |/  /    /  /       /  /    /  ____/
+#  __/  /__   |  \__/  /  /  / |     /  __/  /__     /  /    /  /____
+# /_______/    \______/  /__/  |____/  /_______/    /__/    /_______/
+#
+# Image-Guided Neural Implantation Targeting Extensions
+# https://github.com/Phenomenal-Cat/IGNITE
+#=========================================================
 
 import FreeCAD as App
 import Part
@@ -9,6 +21,8 @@ from PySide import QtGui
 from BOPTools import BOPFeatures
 import os
 import csv
+import math
+from pivy import coin
 
 
 #======== Apply fillet to object edges
@@ -50,6 +64,15 @@ def setObjColor(obj, color):
 	print('[*] Object contains %d faces'%(len(colorlist),))
 	obj.ViewObject.DiffuseColor = colorlist
 
+#======== Capture screenshot
+def captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes):
+	ImFilename = os.path.join(ImCaptureDir, "%s_%d.png" % (filename, FrameNo))
+	FreeCADGui.SendMsgToActiveView("PerspectiveCamera")
+	FreeCADGui.SendMsgToActiveView("ViewAxo")
+	Gui.SendMsgToActiveView("ViewFit")
+	Gui.ActiveDocument.ActiveView.saveImage(ImFilename, ImRes[0], ImRes[1], "Transparent")
+	FrameNo = FrameNo +1
+	return FrameNo
 
 ## =============== Read parameters from file
 ParameterFile = os.path.join(os.path.split(__file__)[0], 'Params', 'DualDrive_DefaultParams.csv')
@@ -88,7 +111,7 @@ CapCornerRadius 			= 2		# Radius (mm) of cap corners
 CB_Width 					= 20			# Width of connector block base (4 x Omnetics 36-pin ~= 20mm)
 CB_Length					= 25	 		# Length of connector block base
 CB_Height 					= 6			# Height of connector block base
-CB_Rotation_XYZ 			= [120, 0, 0]		# Angle of connector block rotation relative to line orthogonal to line bisecting electrode centers
+CB_Rotation_XYZ 			= [120, 0, 0]	# Angle of connector block rotation relative to line orthogonal to line bisecting electrode centers
 CB_filletRadius 				= 3			# Radius of corner fillet on connector block
 CB_SideHolePos 			= 0.6			# Proportion of connector block base length (CB_Length) to position cap attachment holes
 CB_GroundWire_XY 			= [CB_Length*0.75, 0]
@@ -99,10 +122,10 @@ CB_MountingScrewDiameter 	= 2			# Drive mount screw hole diameter
 DM_XY 					= [CB_Length*0.5, (CB_Width/2)-CB_MountingScrewDiameter] 	# Drive mount screw hole locations on conenctor block
 
 # Chamber outer surface parameters
-DefaultFullHeight 			= 40 		# Starting height of full chamber (prior to customization)
-InnerChamber_filletRadius 		= 10 		# Radius of fillet used for smoothing inner chamber
-OuterChamber_filletRadius 		= 5 		# Radius of fillet used for smoothing outer chamber
-RidgeHeight 				= 1		# Height of each ridge on outer chamber surface
+DefaultFullHeight 			= 40 			# Starting height of full chamber (prior to customization)
+InnerChamber_filletRadius 		= 10 			# Radius of fillet used for smoothing inner chamber
+OuterChamber_filletRadius 		= 5 			# Radius of fillet used for smoothing outer chamber
+RidgeHeight 				= 1			# Height of each ridge on outer chamber surface
 
 #=============== Create and save document
 FullFilename = "%s_IE=%d_RA=%d_RB=%d_CAx=%d" % (filename, Elec_Distance, Elec_RadiusA, Elec_RadiusB, CB_Rotation_XYZ[0])
@@ -110,6 +133,25 @@ doc 	= FreeCAD.newDocument(FullFilename) 				# Create new document
 bp 	= BOPFeatures.BOPFeatures(App.activeDocument())		
 QtGui.QMessageBox.information(None, "NIF GenerateDualCHamber.py", "Generating default dual drive chamber...")
 
+#============== Set screen capture parameters
+SaveScreenshots	= True						# Save screenshots of each step as image files
+ImRes 			= [1920, 1080] 					# Image resolution (pixels) to save screen capture images at
+ImBackground 		= "Transparent"					# Image background color (options are "Current","White","Black","Transparent")
+ImCaptureDir 		= os.path.join("/Users/murphyap/Desktop", filename) 	# Name a folder to save screenshot images to
+FrameNo 			= 1
+
+if not os.path.exists(ImCaptureDir): 					# If folder doesn't exist...
+	try:
+		os.mkdir(ImCaptureDir) 						# Create folder
+		print(f"Image capture directory '{ImCaptureDir}' created successfully.")
+	except PermissionError:
+    		print(f"Permission denied: Unable to create '{ImCaptureDir}'.")
+
+cam				= FreeCADGui.ActiveDocument.ActiveView.getCameraNode() 	# get camera handle
+rot				 = coin.SbRotation() 				# Create rotation matrix
+rot.setValue(coin.SbVec3f(0,0,1),math.pi/2) 	 			# Initialize rotation matrix
+nrot 				= cam.orientation.getValue() * rot 		# Apply transform via matrix multiplication
+cam.orientation 		= nrot 						# Set new camera oreintation
 
 #=============== Generate primitives
 print("Creating chamber primitives...\n")
@@ -119,41 +161,49 @@ ElecA_InnerCylinder 			= doc.addObject("Part::Cylinder", "ElecA_innerWell")
 ElecA_InnerCylinder.Radius 		= Elec_RadiusA
 ElecA_InnerCylinder.Height 		= DefaultFullHeight
 ElecA_InnerCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0,0), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the outer Electrode A cylinder
 ElecA_OuterCylinder 			= doc.addObject("Part::Cylinder", "ElecA_outerWall")
 ElecA_OuterCylinder.Radius 		= Elec_RadiusA+WallThickness
 ElecA_OuterCylinder.Height 		= DefaultFullHeight
 ElecA_OuterCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0,0), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the outer Electrode A grid lip
 ElecA_GridCylinder 			= doc.addObject("Part::Cylinder", "ElecA_gridWell")
 ElecA_GridCylinder.Radius 		= Elec_RadiusA+GridLipThickness
 ElecA_GridCylinder.Height 		= GridDepth
 ElecA_GridCylinder.Placement 	= App.Placement(App.Vector(-Elec_Distance/2,0, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the inner Electrode B
 ElecB_InnerCylinder 			= doc.addObject("Part::Cylinder", "ElecB_innerWell")
 ElecB_InnerCylinder.Radius 		= Elec_RadiusB
 ElecB_InnerCylinder.Height 		= DefaultFullHeight
 ElecB_InnerCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0,0), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the outer Electrode B cylinder
 ElecB_OuterCylinder 			= doc.addObject("Part::Cylinder", "ElecB_outerWall")
 ElecB_OuterCylinder.Radius 		= Elec_RadiusB+WallThickness
 ElecB_OuterCylinder.Height 		= DefaultFullHeight
 ElecB_OuterCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0,0), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the outer Electrode B grid lip
 ElecB_GridCylinder 			= doc.addObject("Part::Cylinder", "ElecB_gridWell")
 ElecB_GridCylinder.Radius 		= Elec_RadiusB+GridLipThickness
 ElecB_GridCylinder.Height 		= GridDepth
 ElecB_GridCylinder.Placement 	= App.Placement(App.Vector(Elec_Distance/2,0, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 if UpdateGUI:
 	FreeCADGui.updateGui()
 	Gui.activeDocument().activeView().viewIsometric()
 	Gui.SendMsgToActiveView("ViewFit")	
+
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create top screw holes for drive mounting
 print("Creating screw holes...\n")
@@ -165,6 +215,7 @@ ScrewHole_DM2 				= doc.copyObject(ScrewHole_DriveMount, True)
 ScrewHole_DM2.Placement 			= App.Placement(App.Vector(DM_XY[0], -DM_XY[1], DefaultFullHeight-CB_MountingScrewDepth), App.Rotation(90,0,0))
 ScrewHoles_DM 					= bp.make_multi_fuse([ScrewHole_DriveMount.Name, ScrewHole_DM2.Name, ])
 ScrewHoles_DM.Label 			= "DriveMount_Holes"
+captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create cap screw hole
 ElecCenterX 					= [-Elec_Distance/2, Elec_Distance/2]
@@ -179,6 +230,7 @@ CapScrewHole_B.Label 			= "CapScrewHole_B"
 CapScrewHole_A.Placement 		= App.Placement(App.Vector(ElecCenterX[0], -Elec_RadiusA-CapScrewOffset, DefaultFullHeight - CapScrewHeight), App.Rotation(0,0,90))
 CapScrewHole_B.Placement 		= App.Placement(App.Vector(ElecCenterX[1], Elec_RadiusB+CapScrewCutDepth+CapScrewOffset, DefaultFullHeight - CapScrewHeight), App.Rotation(0,0,90))
 doc.recompute() 	
+captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Copy and rotate screw holes about electrode centers
 CapScrews 		= []
@@ -192,11 +244,13 @@ for e in range(0, 2):
 		CapScrews.append(NewHole.Name)
 		if UpdateGUI:
 			FreeCADGui.updateGui()
+			FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Fuse screw holes to single object
 CapScrews_fused 		= bp.make_multi_fuse(CapScrews)
 doc.ActiveObject.Label 	= "CapScrews_fused"
 CapScrewsObject		= doc.ActiveObject.Name
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Add joining blocks
 if (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
@@ -220,6 +274,7 @@ if (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
 	JoinBlock_grid.Width 			= (min([Elec_RadiusA, Elec_RadiusB])+GridLipThickness)*2
 	JoinBlock_grid.Height 			= GridDepth
 	JoinBlock_grid.Placement 		= App.Placement(App.Vector(-Elec_Distance/2,-JoinBlock_grid.Width/2, DefaultFullHeight-GridDepth), App.Rotation(0,0,0))	
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Create the connector block base
 if IncludeConnectorBase:
@@ -227,6 +282,7 @@ if IncludeConnectorBase:
 	ConnectorBlock.Length 		= CB_Length
 	ConnectorBlock.Width 		= CB_Width
 	ConnectorBlock.Height 		= CB_Height
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 	# Fillet corners of connector block
 	ConnectorBlock_Fillet 			= FilletEdges(ConnectorBlock, "ConnectorBlock_Fillet", [1,3,5,7],CB_filletRadius)
@@ -234,6 +290,7 @@ if IncludeConnectorBase:
 	doc.ConnectorBlock.Visibility 	= False
 	if UpdateGUI:
 		FreeCADGui.updateGui()
+		FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 	# Create ground wire hole and subtract from connector block base
 	print("Creating ground wire holes...\n")
@@ -252,6 +309,7 @@ if IncludeConnectorBase:
 	GW_Fillet.Placement 			= App.Placement(App.Vector(CB_GroundWire_XY[0], CB_GroundWire_XY[1], DefaultFullHeight-CB_Height), App.Rotation(0,0,0))	# Position GW channel relative to connector block base
 	ConnectorBlock_Fillet 			= bp.make_cut([ConnectorBlock_Fillet.Name, GW_Fillet.Name, ])	 											# Cut GW channel into connector block
 	ConnectorBlock_Fillet 			= bp.make_cut([ConnectorBlock_Fillet.Name, ScrewHoles_DM.Name, ])											# Cut DM screw holes into connector block
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 	# Add cap screw holes to conenctor block
 	CB_ScrewHoleObj 			= []
@@ -261,7 +319,8 @@ if IncludeConnectorBase:
 		NewHole 			= Draft.clone(CapScrewHole_Orig)
 		NewHole.Placement 	= App.Placement(App.Vector(ConnectorScrewHoles_XY[c][0], ConnectorScrewHoles_XY[c][1], DefaultFullHeight - CapScrewHeight), App.Rotation(ConnectorScrewHoles_RotXYZ[c][0], ConnectorScrewHoles_RotXYZ[c][1], ConnectorScrewHoles_RotXYZ[c][2]))
 		CB_ScrewHoleObj.append(NewHole.Name)
-	
+		FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
+
 	# Center connector block, fuse and subtract screw holes
 	ConnectorBlock			= Draft.move(ConnectorBlock, App.Vector(0, -CB_Width/2, DefaultFullHeight-CB_Height), copy=False)
 	CB_ScrewHolesfused 		= bp.make_multi_fuse(CB_ScrewHoleObj)
@@ -273,6 +332,7 @@ if IncludeConnectorBase:
 	doc.recompute() 	
 	if UpdateGUI:
 		FreeCADGui.updateGui()
+		FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 	# Move connector block to requested angle & location
 	doc.ActiveObject.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
@@ -285,6 +345,7 @@ if (Elec_Distance < Elec_RadiusA+Elec_RadiusB):
 	GridWell_fused 		= bp.make_multi_fuse(["ElecA_gridWell", "ElecB_gridWell", ])
 	OuterChamber_fused 	= bp.make_multi_fuse(["ElecA_outerWall", "ElecB_outerWall", ])
 	FilletEdgeIndx = [9,10]
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 elif (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
 	# Fuse primitive cylinder objects together
@@ -292,6 +353,7 @@ elif (Elec_Distance >= Elec_RadiusA+Elec_RadiusB):
 	GridWell_fused 		= bp.make_multi_fuse(["ElecA_gridWell", "ElecB_gridWell", "JoinBlock_grid", ])
 	OuterChamber_fused 	= bp.make_multi_fuse(["ElecA_outerWall", "ElecB_outerWall", "JoinBlock_outer", ])
 	FilletEdgeIndx = [8,14]
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
    
 # Create smooth fillet joint between intersecting pairs of cylinders
 #if Elec_RadiusA != Elec_RadiusB:
@@ -300,6 +362,7 @@ Grid_Fillet 		= FilletEdges(GridWell_fused, "Grid_Fillet", FilletEdgeIndx,InnerC
 Outer_Fillet 	= FilletEdges(OuterChamber_fused, "Outer_Fillet", FilletEdgeIndx,OuterChamber_filletRadius)
 if UpdateGUI:
 	FreeCADGui.updateGui()
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 #elif Elec_RadiusA == Elec_RadiusB:
 #	Inner_Fillet 	= InnerWell_fused
@@ -319,6 +382,7 @@ doc.CapScrewHole_Orig.Visibility 	= False
 doc.Fusion.Visibility 			= False
 doc.Fusion001.Visibility 		= False
 doc.Fusion002.Visibility 		= False
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Fuse connector block to outer chamber
 if IncludeConnectorBase:
@@ -327,6 +391,7 @@ if IncludeConnectorBase:
 	OuterChamberSurf 		= doc.ActiveObject.Name
 else:
 	OuterChamberSurf 		= Outer_Fillet.Name
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Subtract cap screw holes from chamber surface
 bp.make_cut([OuterChamberSurf, CapScrewsObject,  ])
@@ -335,6 +400,7 @@ OuterChamberSurface	= doc.ActiveObject.Name
 doc.recompute() 	
 if UpdateGUI:
 	FreeCADGui.updateGui()
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Duplciate outer surface and convert to chamfered 'ridge'
 print("Generating outer chamber surface ridges...\n")
@@ -348,6 +414,7 @@ Ridge 		= doc.getObject('Outer_Fillet001')
 NoEdges 		= int(len(Ridge.Shape.Edges))
 RidgeEdgeIndx 	= list(range(1,  NoEdges+1))
 ChamferEdges(Ridge, "Ridge",  RidgeEdgeIndx, (RidgeHeight /2)-0.05)
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Stack ridges along height of chamber
 doc.recompute() 												# Display results in GUI
@@ -359,9 +426,10 @@ for r in range(0, NoRidges-1):
 	NewRidge.Placement 	= App.Placement(App.Vector(0,0, RidgeHeights[r]), App.Rotation(0,0,0))
 	#print(NewRidge.Name)
 	AllRidges.append(NewRidge.Name)
-	del NewRidge
 	if UpdateGUI:
 		FreeCADGui.updateGui()
+		FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
+	del NewRidge
 
 # Merge Ridges
 Ridges_fused 			= bp.make_multi_fuse(AllRidges)
@@ -378,6 +446,7 @@ InnerChamber 			= doc.ActiveObject.Name
 doc.recompute() 	
 if UpdateGUI:
 	FreeCADGui.updateGui()
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Fuse outer chamber parts
 Outer_fused 			= bp.make_multi_fuse([Ridges, OuterChamberSurface,  ])
@@ -390,6 +459,7 @@ bp.make_cut([OuterChamber, InnerChamber,  ])
 doc.ActiveObject.Label 	= "ChamberSurface"
 if UpdateGUI:
 	FreeCADGui.updateGui()
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 #================ Generate Grid =======================
 print("Generating chamber grids...\n")
