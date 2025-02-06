@@ -1,4 +1,4 @@
-<img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Ignite_bg_v1.png" width="300px" align="left"> 
+<img src="https://github.com/Phenomenal-Cat/IGNITE/blob/main/Docs/source/_images/Logos/Ignite_bg_v1.png" width="200px" align="left"> 
 
 # Imaging-Guided Neural Implant Targeting Extensions
 
