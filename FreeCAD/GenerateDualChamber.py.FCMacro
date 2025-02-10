@@ -453,6 +453,7 @@ Outer_fused 			= bp.make_multi_fuse([Ridges, OuterChamberSurface,  ])
 doc.ActiveObject.Label 	= "OuterChamber"
 OuterChamber 			= doc.ActiveObject.Name
 doc.recompute() 	
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Subtract inner chamber well from outer chamber walls
 bp.make_cut([OuterChamber, InnerChamber,  ])
@@ -499,12 +500,14 @@ doc.ElecB_outerWall002.Radius		= Elec_RadiusB+WallThickness+FitTolerance
 doc.ElecA_outerWall002.Height 		= CapLipDepth
 doc.ElecB_outerWall002.Height 		= CapLipDepth
 UpperGridNegative.Placement	 	= App.Placement(App.Vector(0, 0, DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 doc.ElecA_outerWall003.Radius		= Elec_RadiusA+WallThickness+CapThickness
 doc.ElecB_outerWall003.Radius		= Elec_RadiusB+WallThickness+CapThickness
 doc.ElecA_outerWall003.Height 		= CapLipDepth+CapThickness
 doc.ElecB_outerWall003.Height 		= CapLipDepth+CapThickness
 UpperGridOuter.Placement	 		= App.Placement(App.Vector(0, 0, DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 if IncludeConnectorBase:
 	doc.ConnectorBlock001.Length		= CB_Length +2*CapThickness
@@ -519,7 +522,7 @@ if IncludeConnectorBase:
 	doc.ConnectorBlock002.Height 		= CapLipDepth
 	doc.ConnectorBlock002.Placement 	= App.Placement(App.Vector(-FitTolerance, -(CB_Width/2 +FitTolerance), DefaultFullHeight - CapLipDepth), App.Rotation(0,0,0))
 	ConnectorInner.Placement 			= App.Placement(App.Vector(0, 0, 0), App.Rotation(CB_Rotation_XYZ[0],CB_Rotation_XYZ[1],CB_Rotation_XYZ[2]))
-
+	FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 FilletEdgeIndx 		= "all"
 CapOuter 			= FilletEdges(UpperGridOuter, "CapOuter", FilletEdgeIndx, CapCornerRadius)
@@ -533,6 +536,7 @@ else:
 
 CapCut 			= bp.make_cut([CapFull.Name, CapSubtract.Name, ]) 						# Subtract inner surface from outer surface
 Cap_fused 		= bp.make_multi_fuse([UpperGridInner.Name, CapCut.Name,  ])				# Fuse the inner grid to the cap
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Copy scap crew holes and subtract
 CapScrewHoles		= doc.copyObject(CapScrews_fused, True)
@@ -545,6 +549,7 @@ Cap_fused  		= bp.make_cut([Cap_fused.Name, CapScrewHoles.Name, ])
 Cap_fused.Label 	= "TemporaryCap"
 Cap_fused.ViewObject.Transparency = 50
 setObjColor(Cap_fused, (1,1,0))
+FrameNo = captureScreen(SaveScreenshots, ImCaptureDir, FrameNo, ImRes)
 
 # Copy and resize inner parts for surgery 1 HOLDER
 print("Generating chamber holder for surgery #1...\n")
