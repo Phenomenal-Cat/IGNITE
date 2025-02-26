@@ -13,6 +13,19 @@ Imaging-Guided Neural Implant Targeting Extensions
       Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`github;sd-text-success` :bdg-link-success:`repository <https://github.com/Phenomenal-Cat/IGNITE>` of :fab:`python` Python functions designed to help neuroscientists harness multiple existing :fas:`unlock` `open-source <https://opensource.org/>`_ software in order to create **customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical magnetic resonance imaging (MRI) and computer tomography (CT) volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <Stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
 
 
+      .. card:: 
+         :margin: 0 0 2 2
+         :width: 75%
+         :class-card: sd-rounded-3
+         :class-body: sd-bg-light 
+
+         - :fa:`forward` `Processes`_
+         - :fa:`unlock` `Software Dependencies`_
+         - :fa:`link` `Resources`_
+         - :fa:`landmark` `Background`_
+
+
+
    .. grid-item::
       :columns: 4
       :margin: 0
@@ -27,7 +40,7 @@ Imaging-Guided Neural Implant Targeting Extensions
 .. |NA| image:: _images/Logos/NALabs_b.png
    :height: 30
 
-.. contents:: :local:
+
 
 
 :fa:`forward` Processes
@@ -85,7 +98,6 @@ Imaging-Guided Neural Implant Targeting Extensions
 ====================================
 
 .. grid:: 3
-   :gutter: 2
    :margin: 0
    :padding: 2 2 0 0
 
@@ -94,7 +106,7 @@ Imaging-Guided Neural Implant Targeting Extensions
       :columns: 4
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
       :class-header: sd-bg-info sd-rounded-3
-      :class-footer: sd-bg-dark
+      :class-footer: sd-bg-dark sd-rounded-3
 
       .. image:: _images/Logos/Slicer_Logo.svg
          :align: left
@@ -137,7 +149,7 @@ Imaging-Guided Neural Implant Targeting Extensions
    .. grid-item-card::
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
       :class-header: sd-bg-info  sd-rounded-3
-      :class-footer: sd-bg-dark
+      :class-footer: sd-bg-dark sd-rounded-3
       :margin: 0
       :columns: 4
 
@@ -181,7 +193,7 @@ Imaging-Guided Neural Implant Targeting Extensions
    .. grid-item-card::
       :class-card: sd-bg-secondary sd-text-dark sd-rounded-3 sd-border-0
       :class-header: sd-bg-info sd-rounded-3
-      :class-footer: sd-bg-dark
+      :class-footer: sd-bg-dark sd-rounded-3
       :margin: 0
       :columns: 4
 
