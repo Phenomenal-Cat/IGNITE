@@ -11,19 +11,25 @@ Dual Chamber Parameters
 ==============================
 
 
+.. grid::
 
-Dual Chamber Parameters
-==============================
-
-.. image:: _images/Figures/Multidrive_parameters.png
-  :align: right
-  :width: 50%
-  :alt: Parameters for a dual drive chamber
+  .. grid-item::
+    :columns: 8
+    :margin: 0
+    :padding: 0 0 0 3
 
 
-To accelerate and simplify the process of designing custom chambers for chronic electode recording implants using :bdg-success:`FreeCAD <https://www.freecad.org>, the design of these chambers can be constrained and parameterized. The Python script :bdg-link-primary:`GenerateDualChamber.py <https://github.com/Phenomenal-Cat/IGNITE/blob/main/FreeCAD/GenerateDualChamber.py.FCMacro>` functions as a macro in FreeCAD, and takes user-specified parameters (illustrated in the figure on the right and listed in the table below) to automatically generate a CAD design for a 'dual chamber' that can accommodate two :ref:`MBA electrodes <MicrowireArrays>` with independent microdrives. 
+    To accelerate and simplify the process of designing custom chambers for chronic electode recording implants using :bdg-link-success:`FreeCAD <https://www.freecad.org>`, the design of these chambers can be constrained and parameterized. The Python script :bdg-link-primary:`GenerateDualChamber.py <https://github.com/Phenomenal-Cat/IGNITE/blob/main/FreeCAD/GenerateDualChamber.py.FCMacro>` functions as a macro in FreeCAD, and takes user-specified parameters (illustrated in the figure on the right and listed in the table below) to automatically generate a CAD design for a 'dual chamber' that can accommodate two :ref:`MBA electrodes <MicrowireArrays>` with independent microdrives. 
 
+  .. grid-item::
+    :columns: 4
+    :margin: 0
+    :padding: 0 0 2 0
 
+    .. image:: _images/Figures/Multidrive_parameters.png
+      :align: right
+      :width: 100%
+      :alt: Parameters for a dual drive chamber
 
 
 :fa:`bullseye` Post-surgical Localization Grid 

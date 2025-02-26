@@ -3,21 +3,26 @@
 Imaging-Guided Neural Implant Targeting Extensions
 =======================================================
 
-.. image:: _images/Figures/VirtualStereotaxDemo.png
-  :align: right
-  :width: 40%
-  :alt: Slicer Example Screenshot
-  :class: no-scaled-link
+.. grid::
+
+   .. grid-item::
+      :columns: 8
+      :margin: 0
+      :padding: 0
+
+      Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`github;sd-text-success` :bdg-link-success:`repository <https://github.com/Phenomenal-Cat/IGNITE>` of :fab:`python` Python functions designed to help neuroscientists harness multiple existing :fas:`unlock` `open-source <https://opensource.org/>`_ software in order to create **customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical magnetic resonance imaging (MRI) and computer tomography (CT) volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <Stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
 
 
-Imaging-Guided Neural Implant Targeting Extensions (**IGNITE**) is a :fab:`github;sd-text-success` :bdg-link-success:`repository <https://github.com/Phenomenal-Cat/IGNITE>` of :fab:`python` Python functions designed to help neuroscientists harness multiple existing :fas:`unlock` `open-source <https://opensource.org/>`_ software in order to create **customized neural implants for experimental research**. For maximum customization and surgical precision, the process uses anatomical magnetic resonance imaging (MRI) and computer tomography (CT) volumes, at least one of which should be acquired with the anesthetized subject held in a :ref:`stereotaxic frame <Stereotax>`. This site documents some of the available functions, and guides new users through the entire process. 
+   .. grid-item::
+      :columns: 4
+      :margin: 0
+      :padding: 0
 
+      .. image:: _images/Figures/VirtualStereotaxDemo.png
+        :width: 100%
+        :alt: Slicer Example Screenshot
+        :class: no-scaled-link
 
-.. image:: _images/Figures/PipelineFigure_V1.png
-  :align: right
-  :width: 50%
-  :alt: Slicer Example Screenshot
-  :class: no-scaled-link
 
 .. |NA| image:: _images/Logos/NALabs_b.png
    :height: 30

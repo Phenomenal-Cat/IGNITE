@@ -96,8 +96,7 @@ html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 
 
 # Custom CSS
 html_css_files = [
-   # 'css/ignite.css',
-    'css/mf3d.css',
+    'css/ignite.css',
     'css/tippy',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css',
 ]
