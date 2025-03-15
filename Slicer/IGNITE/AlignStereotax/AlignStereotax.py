@@ -26,18 +26,17 @@ class AlignStereotax(ScriptedLoadableModule):
 
     def __init__(self, parent):
         ScriptedLoadableModule.__init__(self, parent)
-        self.parent.title = "Align Stereotax"
-        self.parent.categories = ["Examples"]  # TODO: set categories (folders where the module shows up in the module selector)
+        self.parent.title = "AlignStereotax"  # TODO: make this more human readable by adding spaces
+        self.parent.categories = ["IGNITE"]  # TODO: set categories (folders where the module shows up in the module selector)
         self.parent.dependencies = []  # TODO: add here list of module names that this module requires
-        self.parent.contributors = ["IGNITE (New Atlantis Laboratories)"] 
+        self.parent.contributors = ["New Atlantis Laboratories"]  # TODO: replace with "Firstname Lastname (Organization)"
         # TODO: update with short description of the module and a link to online module documentation
         self.parent.helpText = """
-This is a scripted loadable module bundled in an extension.
-For more information visit the <a href="https://py-ignite.readthedocs.io/en/latest/">IGNITE documentation</a>.
+See the <a href="https://py-ignite.rtfd.io"> IGNITE documentation</a>.
 """
         # TODO: replace with organization, grant and thanks
         self.parent.acknowledgementText = """
-This file was originally developed by New Atlantis Laboratories.
+This file was originally developed by New Atlantis laboratories.
 """
 
         # Additional initialization step after application startup is complete
