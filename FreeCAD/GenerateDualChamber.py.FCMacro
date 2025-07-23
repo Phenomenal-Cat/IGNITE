@@ -82,11 +82,11 @@ print(data)
 
 
 ## =============== Set chamber parameters
-filename 					= 'NIF_DualChamber'
+filename 					= 'SD_DualChamber_Post'
 UpdateGUI 				= True 	# Display updates in GUI window as script executes?
-Elec_Distance 				= 9		# Distance between the 2 electrodes
-Elec_RadiusA  				= 4		# Radius of ichamber aroudn electrode A
-Elec_RadiusB 				= 6		# Radius of chamber around electrode B
+Elec_Distance 				= 2		# Distance between the 2 electrodes
+Elec_RadiusA  				= 5		# Radius of ichamber aroudn electrode A
+Elec_RadiusB 				= 5		# Radius of chamber around electrode B
 WallThickness 				= 4 		# Minimum thickness of chamber walls at base
 FitTolerance 				= 0.25	# Gap size (mm) to leave for parts that fit together (allowing for 3D print method)
 IncludeConnectorBase 		= True
@@ -110,8 +110,8 @@ CapCornerRadius 			= 2		# Radius (mm) of cap corners
 # Connector block size and orientation
 CB_Width 					= 20			# Width of connector block base (4 x Omnetics 36-pin ~= 20mm)
 CB_Length					= 25	 		# Length of connector block base
-CB_Height 					= 6			# Height of connector block base
-CB_Rotation_XYZ 			= [120, 0, 0]	# Angle of connector block rotation relative to line orthogonal to line bisecting electrode centers
+CB_Height 					= 30			# Height of connector block base
+CB_Rotation_XYZ 			= [0, 0, 0]	# Angle of connector block rotation relative to line orthogonal to line bisecting electrode centers
 CB_filletRadius 				= 3			# Radius of corner fillet on connector block
 CB_SideHolePos 			= 0.6			# Proportion of connector block base length (CB_Length) to position cap attachment holes
 CB_GroundWire_XY 			= [CB_Length*0.75, 0]

@@ -1,0 +1,87 @@
+#================== Generate_DriveTower.py ===================
+# This script generates a CAD model of a microdrive tower that can be 
+# imported into a milti-drive assembly.
+# For more information, see: https://py-ignite.readthedocs.io/en/latest/ImplantDesign.html
+#     _________  ________     ____    ___  _________  _________  _______
+#    /__   ___/ /  _____/    /    |  /  / /__   ___/ /__   ___/ /  ____/
+#      /  /    /  / ___     /     | /  /    /  /       /  /    /  /___
+#     /  /    |  | |_  |   /  /|  |/  /    /  /       /  /    /  ____/
+#  __/  /__   |  \__/  /  /  / |     /  __/  /__     /  /    /  /____
+# /_______/    \______/  /__/  |____/  /_______/    /__/    /_______/
+#
+# Image-Guided Neural Implantation Targeting Extensions
+# https://py-ignite.rtfd.io
+#=========================================================
+
+import FreeCAD as App
+import Part
+import Draft
+import numpy as np
+from BOPTools import BOPFeatures
+
+
+#=============== Create and save document
+filename = 'TEST'
+FullFilename = "DriveTower_%s" % (filename)
+doc 	= FreeCAD.newDocument(FullFilename) 				# Create new document
+bp 	= BOPFeatures.BOPFeatures(App.activeDocument())	
+
+# Set Drive Screw parameters and load to scene
+DS_Thread 	= "2-56"				# Drive screw thread
+DS_LengthInch 	= 0.75				# Drive screw length (from underside of head) in inches
+DS_Head 		= "Slotted"				# Drive screw head type
+DS_LengthMm 	= DS_LengthInch*25.4		# Convert screw length from inches to mm
+if (DS_Thread == "2-56"):
+	DS_HoleDiameter = 0.07*25.4	
+
+# Import screw STEP file
+IgniteDir 		= '/Volumes/NIFVAULT/projects/murphyap_NIF/NIF_Code/IGNITE/FreeCAD/'
+DS_Filename 	= 'DriveScrew_%s_L%s.STEP' % (DS_Thread, DS_LengthInch)
+DS_FullFile 	= os.path.join(IgniteDir, 'Parts/Screws/DriveScrews', DS_Thread, DS_Filename)
+Screw 		= App.ActiveDocument.addObject("Part::Feature","DriveScrew")
+Screw.Shape 	= Part.read(DS_FullFile)
+
+# Set drive shuttle parameters
+Sh_WallThickness 	= 1		# Thickness of drive shuttle wall around drive screw (mm)
+Sh_Height 			= 6		# Height of drive shuttle (mm)
+Sh_WingLength 		= 2		# Distance 'wings' protrude for the outer surface of the cylinder
+Sh_NoWings 		= 2		# Number of wings to add
+Sh_BlockWidth		= 2 		# Width of electrode holder block (mm)
+Sh_BlockDepth 		= 3		# Distance electrode block protrudes from shuttle cylinder (mm)
+Sh_ShaftDiameter 	= 1		# Diameter of cutout to accomodate electrode shaft (mm). This should be larger than the electrode shaft's actual diameter.
+
+# Create the main outer cylinder
+OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
+OuterCylinder.Radius 			= (DS_HoleDiameter/2)+Sh_WallThickness
+OuterCylinder.Height 			= Sh_Height 
+OuterCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0,0,0))
+
+# Create the untapped drive screw hole in the shuttle
+InnerCylinder 				= doc.addObject("Part::Cylinder", "ScrewHole")
+InnerCylinder .Radius 			= DS_HoleDiameter/2
+InnerCylinder .Height 			= Sh_Height 
+InnerCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0, 0,0))
+
+# Create the electrode holder block
+BlockOffset 				= (DS_HoleDiameter/2)+Sh_WallThickness
+Block						= doc.addObject("Part::Box", "ElectrodeBlock")	
+Block.Length 				= Sh_BlockDepth
+Block.Width 				= Sh_BlockWidth
+Block.Height 				= Sh_Height 	
+Block.Placement 			= App.Placement(App.Vector(-Block.Width/2, BlockOffset, 0), App.Rotation(0,0,0))
+
+# Cut a half-cylinder in the electrode block to ccomodate the electrode shaft
+ElectrodeShaft 				= doc.addObject("Part::Cylinder", "ElectrodeCylinder")
+ElectrodeShaft.Radius 		= Sh_ShaftDiameter/2
+ElectrodeShaft.Height 		= Sh_Height 
+ElectrodeShaft.Placement 		= App.Placement(App.Vector(0,BlockOffset+Sh_BlockDepth,0), App.Rotation(0,0,0))
+ElectrodeHolder 				= bp.make_cut([Block.Name, ElectrodeShaft.Name, ])
+
+# Create drive shuttle wings
+Sh_WingANgles 		= 360/Sh_NoWings
+
+	
+
+
+
+
