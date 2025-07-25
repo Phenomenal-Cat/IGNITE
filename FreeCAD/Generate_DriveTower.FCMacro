@@ -17,6 +17,7 @@ import FreeCAD as App
 import Part
 import Draft
 import numpy as np
+import math
 from BOPTools import BOPFeatures
 
 #======== Apply fillet to object edges
@@ -51,9 +52,17 @@ def ChamferEdges(Object, ChamferName, ChamferEdges, ChamferRadius):
 	return Chamfer
 
 #======== Clear FeeCAD 'report view' window
-def clear_report_view_console():
+def clear_report_view():
 	Gui.getMainWindow().findChild(QtGui.QTextEdit, "Report view").clear()
 
+#======== Set color of object in GUI
+def setObjColor(obj, color):
+	colorlist=[]
+	for i in range(len(obj.Shape.Faces)):
+		colorlist.append(color)
+	if (len(colorlist) == 0):
+		print('Warning: Object ''%s'' contains %d faces - unable to set color.\n'%(obj.Name, len(colorlist),))
+	obj.ViewObject.DiffuseColor = colorlist
 
 #=============== Create and save document
 filename = 'TEST'
@@ -61,47 +70,71 @@ FullFilename = "DriveTower_%s" % (filename)
 doc 	= FreeCAD.newDocument(FullFilename) 				# Create new document
 bp 	= BOPFeatures.BOPFeatures(App.activeDocument())	
 
+#=========== PARAMETERS
+print("Setting microdrive build parameters...\n")
+
 # Set Drive Screw parameters and load to scene
 DS_Thread 	= "2-56"				# Drive screw thread
 DS_LengthInch 	= 0.75				# Drive screw length (from underside of head) in inches
 DS_Head 		= "Slotted"				# Drive screw head type
 DS_LengthMm 	= DS_LengthInch*25.4		# Convert screw length from inches to mm
+DS_Clearance 	= 0.1					# Extra space between clearance hole walls and shuttle (mm)
 if (DS_Thread == "2-56"):
-	DS_HoleDiameter = 0.07*25.4	
+	DS_TapHoleDiameter 		= 0.07*25.4	
+	DS_ClearanceHoleDiameter 	= 0.086*25.4
+	DS_HeadDiameter 		= 0.167*25.4
+	DS_HeadHeight 			= 2
+
+DS_ClearanceHoleDiameter 		= DS_ClearanceHoleDiameter+DS_Clearance
+DS_HeadDiameterClear 		= math.ceil(DS_HeadDiameter+DS_Clearance)
 
 # Set drive shuttle parameters
 Sh_WallThickness 	= 1		# Thickness of drive shuttle wall around drive screw (mm)
 Sh_Height 			= 6		# Height of drive shuttle (mm)
-Sh_WingLength 		= 1		# Distance 'wings' protrude for the outer surface of the cylinder
+Sh_WingLength 		= 1.0		# Distance 'wings' protrude for the outer surface of the cylinder
 Sh_NoWings 		= 2		# Number of wings to add
 Sh_BlockWidth		= 2 		# Width of electrode holder block (mm)
-Sh_BlockDepth 		= 3		# Distance electrode block protrudes from center of drive screw (mm)
+Sh_BlockDepth 		= 4		# Distance electrode block protrudes from center of drive screw (mm)
 Sh_ShaftDiameter 	= 1		# Diameter of cutout to accomodate electrode shaft (mm). This should be larger than the electrode shaft's actual diameter.
-DS_OuterRadius 	= (DS_HoleDiameter/2)+Sh_WallThickness
+DS_OuterRadius 	= (DS_TapHoleDiameter/2)+Sh_WallThickness
+
+# Set drive tower parameters
+DT_Width 			= 8 		# Width of drive tower - parallel to shuttle wings (mm)
+DT_Depth 			= 6 		# Depth of drive tower - parallel to shuttle electrode holder (mm)
+DT_ChamferRad 	= 1		# Chamfer radius for corners of drive tower (mm)
+DT_CapThickness 	= 1		# Thickness of drive screw retaining cap (mm)
+DT_CapHeight 		= 3		# Total height of drive screw retaining cap (mm)
+DT_ScrewRecess	= 2		# Depth of recess for screw into base (mm)
 
 # Import screw STEP file
+Cd = os.getcwd()
+print(Cd)
 IgniteDir 		= '/Volumes/NIFVAULT/projects/murphyap_NIF/NIF_Code/IGNITE/FreeCAD/'
 DS_Filename 	= 'DriveScrew_%s_L%s.STEP' % (DS_Thread, DS_LengthInch)
 DS_FullFile 	= os.path.join(IgniteDir, 'Parts/Screws/DriveScrews', DS_Thread, DS_Filename)
 Screw 		= App.ActiveDocument.addObject("Part::Feature","DriveScrew")
 Screw.Shape 	= Part.read(DS_FullFile)
 Screw.Placement = App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
-Screw.Visibility 	= False
+#Screw.Visibility 	= False
+setObjColor(Screw, (0.0, 1.0, 0.0))
+
+#=========== DRIVE SHUTTLE
+print("- Creating drive shuttle...\n")
 
 # Create the main outer cylinder
 OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
-OuterCylinder.Radius 			= (DS_HoleDiameter/2)+Sh_WallThickness
+OuterCylinder.Radius 			= (DS_TapHoleDiameter/2)+Sh_WallThickness
 OuterCylinder.Height 			= Sh_Height 
 OuterCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
 
 # Create the untapped drive screw hole in the shuttle
 InnerCylinder 				= doc.addObject("Part::Cylinder", "ScrewHole")
-InnerCylinder .Radius 			= DS_HoleDiameter/2
+InnerCylinder .Radius 			= DS_TapHoleDiameter/2
 InnerCylinder .Height 			= Sh_Height 
 InnerCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0, 0,0))
 
 # Create the electrode holder block
-BlockOffset 				= (DS_HoleDiameter/2)+Sh_WallThickness
+BlockOffset 				= (DS_TapHoleDiameter/2)+Sh_WallThickness
 Block						= doc.addObject("Part::Box", "ElectrodeBlock")	
 Block.Length 				= Sh_BlockWidth
 Block.Width 				= Sh_BlockDepth
@@ -110,14 +143,12 @@ Block.Placement 			= App.Placement(App.Vector(-Sh_BlockWidth/2, -Sh_BlockDepth, 
 BlockChamferRad 			= (Sh_BlockWidth-Sh_ShaftDiameter)/2
 Block_chamfer 				= ChamferEdges(Block, "Block_chamfer", [3,7], BlockChamferRad)
 
-
-# Cut a half-cylinder in the electrode block to ccomodate the electrode shaft
+# Cut a half-cylinder in the electrode block to accomodate the electrode shaft
 ElectrodeShaft 				= doc.addObject("Part::Cylinder", "ElectrodeCylinder")
 ElectrodeShaft.Radius 		= Sh_ShaftDiameter/2
 ElectrodeShaft.Height 		= Sh_Height 
 ElectrodeShaft.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0,0,0))
 ElectrodeHolder 				= bp.make_cut([Block_chamfer.Name, ElectrodeShaft.Name])
-
 
 # Create drive shuttle wings
 p1 			= App.Vector(0, 0-Sh_BlockDepth-DS_OuterRadius*0.9, 0)
@@ -128,20 +159,117 @@ Tri_Points[1] 	= [p1, p2, App.Vector(-Sh_WingLength-DS_OuterRadius, -Sh_BlockDep
 Wing 		= [[],[]]
 Tri 			= [[],[]]
 face 			= [[],[]]
-for t in range(0, 1):
-	Tri[t] 			= Part.makePolygon(Tri_Points[t])
+WingObj 		= [[],[]]
+for t in range(0, 2):
+	Tri[t] 				= Part.makePolygon(Tri_Points[t])
 	face[t] 			= Part.Face(Tri[t])
-	Wing[t] 		= face[t].extrude(App.Vector(0, 0, Sh_Height ))
-	Part.show(Wing[t])
-	#Wing.Label 		= "ShuttleWing_%d" % (t+1)
-
+	Wing[t] 			= face[t].extrude(App.Vector(0, 0, Sh_Height ))
+	WingObj[t] 		= doc.addObject("Part::Feature", "ShuttleWing_%d" % (t+1))
+	WingObj[t].Shape 	= Wing[t]
 	
 # Complete Boolean operations (fuse and cut)
-Shuttle_fused 			= bp.make_multi_fuse([ElectrodeHolder.Name, OuterCylinder.Name, Wing[0], Wing[1]])
+Shuttle_fused 			= bp.make_multi_fuse([ElectrodeHolder.Name, OuterCylinder.Name, WingObj[0].Name, WingObj[1].Name, ])
 Shuttle_cut			= bp.make_cut([Shuttle_fused.Name, InnerCylinder.Name])
+Shuttle_cut.Label 		= "DriveShuttle"
+Shuttle_cut.Placement 	= App.Placement(App.Vector(0,0,DS_LengthMm-DT_CapHeight -Sh_Height), App.Rotation(0,0,0))
+setObjColor(Shuttle_cut, (0.0, 1.0, 0.0))
+
+#===========  DRIVE TOWER
+print("- Creating drive tower...\n")
+
+# Create drive tower block
+DT_block				= doc.addObject("Part::Box", "DriveTower_Block")	
+DT_block.Width 			= DT_Depth
+DT_block.Length 		= DT_Width
+DT_block.Height 		= DS_LengthMm+DS_HeadHeight
+DT_block.Placement 		= App.Placement(App.Vector(-DT_Width/2, (-DT_Depth/2)-Sh_BlockDepth, 0), App.Rotation(0,0,0))
+DT_block_chamfer 		= ChamferEdges(DT_block, "DT_chamfer", [1,3,5,7], DT_ChamferRad)
+
+# Create screw clearance hole
+ScrewHole 				= doc.addObject("Part::Cylinder", "ScrewHole")
+ScrewHole.Radius 			= (DS_TapHoleDiameter/2)+Sh_WallThickness+DS_Clearance
+ScrewHole.Height 			= DS_LengthMm+DS_HeadHeight
+ScrewHole.Placement 			= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
+#ScrewHole_chamfer 			= ChamferEdges(ScrewHole, "ScrewHole_chamfer", "All", 0.5)
+
+# Create screw head hole
+ScrewHeadHole 				= doc.addObject("Part::Cylinder", "ScrewHole")
+ScrewHeadHole.Radius 		= DS_HeadDiameterClear/2
+ScrewHeadHole.Height 		= DS_HeadHeight
+ScrewHeadHole.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth, DS_LengthMm), App.Rotation(0,0,0))
+
+# Create shuttle track
+DT_track					= doc.addObject("Part::Box", "DriveTower_Track")	
+DT_track.Width 				= Sh_BlockDepth
+DT_track.Length 			= Sh_BlockWidth+DS_Clearance *2
+DT_track.Height 				= DS_LengthMm+DS_HeadHeight
+DT_track.Placement 			= App.Placement(App.Vector(-Sh_BlockWidth/2-DS_Clearance, -Sh_BlockDepth, 0), App.Rotation(0,0,0))
+
+# Create shuttle wing tracks
+p1 			= App.Vector(0, 0-Sh_BlockDepth-DS_OuterRadius, 0)
+p2 			= App.Vector(0, -Sh_BlockDepth+DS_OuterRadius, 0)
+Tri_Points 		= [[],[]]
+Tri_Points[0] 	= [p1, p2, App.Vector(Sh_WingLength+DS_OuterRadius+DS_Clearance, -Sh_BlockDepth, 0), p1] 	# Close the wire by repeating the first point
+Tri_Points[1] 	= [p1, p2, App.Vector(-Sh_WingLength-DS_OuterRadius-DS_Clearance, -Sh_BlockDepth, 0), p1] 	# Close the wire by repeating the first point
+Wing 		= [[],[]]
+Tri 			= [[],[]]
+face 			= [[],[]]
+WingObj 		= [[],[]]
+for t in range(0, 2):
+	Tri[t] 				= Part.makePolygon(Tri_Points[t])
+	face[t] 			= Part.Face(Tri[t])
+	Wing[t] 			= face[t].extrude(App.Vector(0, 0, DS_LengthMm+DS_HeadHeight ))
+	WingObj[t] 		= doc.addObject("Part::Feature", "ShuttleWingTrack_%d" % (t+1))
+	WingObj[t].Shape 	= Wing[t]
+
+# Complete Boolean operations (fuse and cut)
+Cutout_fused 			= bp.make_multi_fuse([ScrewHole.Name, ScrewHeadHole.Name, DT_track.Name, WingObj[0].Name, WingObj[1].Name])
+Tower_cut				= bp.make_cut([DT_block_chamfer.Name, Cutout_fused.Name])
+Tower_cut.Label 			= "DriveTower"
+Tower_cut.ViewObject.Transparency 	= 50
+
+#=========== DRIVE CAP
+print("- Creating drive cap...\n")
+
+# Create screw retention cap inner shell
+DT_capIn 				= doc.addObject("Part::Box", "TowerCap")	
+DT_capIn.Label 			= "TowerCap"
+DT_capIn.Width 			= DT_Depth+DS_Clearance*2
+DT_capIn.Length 		= DT_Width+DS_Clearance*2
+DT_capIn.Height 		= DT_CapHeight
+DT_capIn.Placement 		= App.Placement(App.Vector((-DT_Width/2)-DS_Clearance, (-DT_Depth/2)-Sh_BlockDepth-DS_Clearance, DS_LengthMm+DS_HeadHeight-DT_CapHeight), App.Rotation(0,0,0))
+DT_capIn_chamfer 		= ChamferEdges(DT_capIn, "DTcapIn_chamfer", [1,3,5,7], DT_ChamferRad)
+
+# Create screw retention cap outer shell
+DT_cap 				= doc.addObject("Part::Box", "TowerCap")	
+DT_cap.Label 			= "TowerCap"
+DT_cap.Width 			= DT_Depth+DT_CapThickness*2
+DT_cap.Length 			= DT_Width+DT_CapThickness*2
+DT_cap.Height 			= DT_CapHeight
+DT_cap.Placement 		= App.Placement(App.Vector((-DT_Width/2)-DT_CapThickness, (-DT_Depth/2)-Sh_BlockDepth-DT_CapThickness, DS_LengthMm+DS_HeadHeight-DT_CapHeight+DT_CapThickness), App.Rotation(0,0,0))
+DT_cap_fillet			= FilletEdges(DT_cap, "DTcap_fillet", "All", DT_ChamferRad)
+
+# Create screw head access hole
+AccessHole 				= doc.addObject("Part::Cylinder", "AccessHole")
+AccessHole.Radius 			= (DS_HeadDiameter-1)/2
+AccessHole.Height 			= DT_CapHeight+DT_CapThickness
+AccessHole.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth, DS_LengthMm), App.Rotation(0,0,0))
+
+AccessHoleIn 				= doc.addObject("Part::Cylinder", "AccessInnerHole")
+AccessHoleIn.Radius 			= (DS_HeadDiameter/2)-DS_Clearance
+AccessHoleIn.Height 			= 0.5
+AccessHoleIn.Placement 		= App.Placement(App.Vector(0, -Sh_BlockDepth, DS_LengthMm+DS_HeadHeight-0.5), App.Rotation(0,0,0))
+
+# Complete Boolean operations (fuse and cut)
+Cap_cut				= bp.make_cut([DT_cap_fillet.Name, DT_capIn_chamfer.Name,]) 		# Cut inner cap from outer cap
+Cap_fused 			= bp.make_multi_fuse([Cap_cut.Name, AccessHoleIn.Name]) 			# Fuse inner retaining cylinder with cap	
+Cap_final 				= bp.make_cut([Cap_fused.Name, AccessHole.Name])				# Cut screw access hole from cap
+Cap_final.Label 			= "DriveCap"
+Cap_final.ViewObject.Transparency 	= 50
 
 
 #============ Finish up
+print("Microdrive tower has been generated!\n")
 FreeCADGui.updateGui()
 doc.recompute() 						# Display results in GUI
 Gui.SendMsgToActiveView("ViewFit")			# Set GUI window view to fit
