@@ -19,6 +19,41 @@ import Draft
 import numpy as np
 from BOPTools import BOPFeatures
 
+#======== Apply fillet to object edges
+def FilletEdges(Object, FilletName, FilletEdges, FilletRadius):
+	Fillet 		= doc.addObject("Part::Fillet", FilletName)
+	Fillet.Base 	= Object
+	__fillets__ = []
+	if isinstance(FilletEdges, str ) and FilletEdges.casefold() == 'all':
+		NoEdges 	= len(Object.Shape.Edges)
+		FilletEdges = np.linspace(1, NoEdges, NoEdges).tolist()
+	for n in FilletEdges:
+	  __fillets__.append((n, FilletRadius, FilletRadius))
+	Fillet.Edges 		= __fillets__
+	Object.Visibility 	= False
+	del __fillets__
+	return Fillet
+	#FreeCADGui.ActiveDocument.ConnectorBlock.Visibility = False
+
+#======== Apply chamfer to object edges
+def ChamferEdges(Object, ChamferName, ChamferEdges, ChamferRadius):
+	Chamfer 	= doc.addObject("Part::Chamfer", ChamferName)
+	Chamfer.Base	= Object
+	__fillets__ = []
+	if isinstance(ChamferEdges, str ) and ChamferEdges.casefold() == 'all':
+		NoEdges 	= len(Object.Shape.Edges)
+		ChamferEdges = np.linspace(0, NoEdges, NoEdges+1).tolist()
+	for n in ChamferEdges:
+	  __fillets__.append((n,ChamferRadius, ChamferRadius))
+	Chamfer.Edges 	= __fillets__
+	Object.Visibility 	= False
+	del __fillets__
+	return Chamfer
+
+#======== Clear FeeCAD 'report view' window
+def clear_report_view_console():
+	Gui.getMainWindow().findChild(QtGui.QTextEdit, "Report view").clear()
+
 
 #=============== Create and save document
 filename = 'TEST'
@@ -34,54 +69,79 @@ DS_LengthMm 	= DS_LengthInch*25.4		# Convert screw length from inches to mm
 if (DS_Thread == "2-56"):
 	DS_HoleDiameter = 0.07*25.4	
 
+# Set drive shuttle parameters
+Sh_WallThickness 	= 1		# Thickness of drive shuttle wall around drive screw (mm)
+Sh_Height 			= 6		# Height of drive shuttle (mm)
+Sh_WingLength 		= 1		# Distance 'wings' protrude for the outer surface of the cylinder
+Sh_NoWings 		= 2		# Number of wings to add
+Sh_BlockWidth		= 2 		# Width of electrode holder block (mm)
+Sh_BlockDepth 		= 3		# Distance electrode block protrudes from center of drive screw (mm)
+Sh_ShaftDiameter 	= 1		# Diameter of cutout to accomodate electrode shaft (mm). This should be larger than the electrode shaft's actual diameter.
+DS_OuterRadius 	= (DS_HoleDiameter/2)+Sh_WallThickness
+
 # Import screw STEP file
 IgniteDir 		= '/Volumes/NIFVAULT/projects/murphyap_NIF/NIF_Code/IGNITE/FreeCAD/'
 DS_Filename 	= 'DriveScrew_%s_L%s.STEP' % (DS_Thread, DS_LengthInch)
 DS_FullFile 	= os.path.join(IgniteDir, 'Parts/Screws/DriveScrews', DS_Thread, DS_Filename)
 Screw 		= App.ActiveDocument.addObject("Part::Feature","DriveScrew")
 Screw.Shape 	= Part.read(DS_FullFile)
-
-# Set drive shuttle parameters
-Sh_WallThickness 	= 1		# Thickness of drive shuttle wall around drive screw (mm)
-Sh_Height 			= 6		# Height of drive shuttle (mm)
-Sh_WingLength 		= 2		# Distance 'wings' protrude for the outer surface of the cylinder
-Sh_NoWings 		= 2		# Number of wings to add
-Sh_BlockWidth		= 2 		# Width of electrode holder block (mm)
-Sh_BlockDepth 		= 3		# Distance electrode block protrudes from shuttle cylinder (mm)
-Sh_ShaftDiameter 	= 1		# Diameter of cutout to accomodate electrode shaft (mm). This should be larger than the electrode shaft's actual diameter.
+Screw.Placement = App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
+Screw.Visibility 	= False
 
 # Create the main outer cylinder
 OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
 OuterCylinder.Radius 			= (DS_HoleDiameter/2)+Sh_WallThickness
 OuterCylinder.Height 			= Sh_Height 
-OuterCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0,0,0))
+OuterCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
 
 # Create the untapped drive screw hole in the shuttle
 InnerCylinder 				= doc.addObject("Part::Cylinder", "ScrewHole")
 InnerCylinder .Radius 			= DS_HoleDiameter/2
 InnerCylinder .Height 			= Sh_Height 
-InnerCylinder.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0, 0,0))
+InnerCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0, 0,0))
 
 # Create the electrode holder block
 BlockOffset 				= (DS_HoleDiameter/2)+Sh_WallThickness
 Block						= doc.addObject("Part::Box", "ElectrodeBlock")	
-Block.Length 				= Sh_BlockDepth
-Block.Width 				= Sh_BlockWidth
+Block.Length 				= Sh_BlockWidth
+Block.Width 				= Sh_BlockDepth
 Block.Height 				= Sh_Height 	
-Block.Placement 			= App.Placement(App.Vector(-Block.Width/2, BlockOffset, 0), App.Rotation(0,0,0))
+Block.Placement 			= App.Placement(App.Vector(-Sh_BlockWidth/2, -Sh_BlockDepth, 0), App.Rotation(0,0,0))
+BlockChamferRad 			= (Sh_BlockWidth-Sh_ShaftDiameter)/2
+Block_chamfer 				= ChamferEdges(Block, "Block_chamfer", [3,7], BlockChamferRad)
+
 
 # Cut a half-cylinder in the electrode block to ccomodate the electrode shaft
 ElectrodeShaft 				= doc.addObject("Part::Cylinder", "ElectrodeCylinder")
 ElectrodeShaft.Radius 		= Sh_ShaftDiameter/2
 ElectrodeShaft.Height 		= Sh_Height 
-ElectrodeShaft.Placement 		= App.Placement(App.Vector(0,BlockOffset+Sh_BlockDepth,0), App.Rotation(0,0,0))
-ElectrodeHolder 				= bp.make_cut([Block.Name, ElectrodeShaft.Name, ])
+ElectrodeShaft.Placement 		= App.Placement(App.Vector(0,0,0), App.Rotation(0,0,0))
+ElectrodeHolder 				= bp.make_cut([Block_chamfer.Name, ElectrodeShaft.Name])
+
 
 # Create drive shuttle wings
-Sh_WingANgles 		= 360/Sh_NoWings
+p1 			= App.Vector(0, 0-Sh_BlockDepth-DS_OuterRadius*0.9, 0)
+p2 			= App.Vector(0, -Sh_BlockDepth+DS_OuterRadius*0.9, 0)
+Tri_Points 		= [[],[]]
+Tri_Points[0] 	= [p1, p2, App.Vector(Sh_WingLength+DS_OuterRadius, -Sh_BlockDepth, 0), p1] 	# Close the wire by repeating the first point
+Tri_Points[1] 	= [p1, p2, App.Vector(-Sh_WingLength-DS_OuterRadius, -Sh_BlockDepth, 0), p1] 	# Close the wire by repeating the first point
+Wing 		= [[],[]]
+Tri 			= [[],[]]
+face 			= [[],[]]
+for t in range(0, 1):
+	Tri[t] 			= Part.makePolygon(Tri_Points[t])
+	face[t] 			= Part.Face(Tri[t])
+	Wing[t] 		= face[t].extrude(App.Vector(0, 0, Sh_Height ))
+	Part.show(Wing[t])
+	#Wing.Label 		= "ShuttleWing_%d" % (t+1)
 
 	
+# Complete Boolean operations (fuse and cut)
+Shuttle_fused 			= bp.make_multi_fuse([ElectrodeHolder.Name, OuterCylinder.Name, Wing[0], Wing[1]])
+Shuttle_cut			= bp.make_cut([Shuttle_fused.Name, InnerCylinder.Name])
 
 
-
-
+#============ Finish up
+FreeCADGui.updateGui()
+doc.recompute() 						# Display results in GUI
+Gui.SendMsgToActiveView("ViewFit")			# Set GUI window view to fit
