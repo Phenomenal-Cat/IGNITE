@@ -79,6 +79,8 @@ DS_LengthInch 	= 0.75				# Drive screw length (from underside of head) in inches
 DS_Head 		= "Slotted"				# Drive screw head type
 DS_LengthMm 	= DS_LengthInch*25.4		# Convert screw length from inches to mm
 DS_Clearance 	= 0.1					# Extra space between clearance hole walls and shuttle (mm)
+DS_RecessDepth = 0.5				# Depth that tip of screw sinks below chmaber zero plane (mm)
+
 if (DS_Thread == "2-56"):
 	DS_TapHoleDiameter 		= 0.07*25.4	
 	DS_ClearanceHoleDiameter 	= 0.086*25.4
@@ -107,8 +109,6 @@ DT_CapHeight 		= 3		# Total height of drive screw retaining cap (mm)
 DT_ScrewRecess	= 2		# Depth of recess for screw into base (mm)
 
 # Import screw STEP file
-Cd = os.getcwd()
-print(Cd)
 IgniteDir 		= '/Volumes/NIFVAULT/projects/murphyap_NIF/NIF_Code/IGNITE/FreeCAD/'
 DS_Filename 	= 'DriveScrew_%s_L%s.STEP' % (DS_Thread, DS_LengthInch)
 DS_FullFile 	= os.path.join(IgniteDir, 'Parts/Screws/DriveScrews', DS_Thread, DS_Filename)
@@ -118,12 +118,19 @@ Screw.Placement = App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0
 #Screw.Visibility 	= False
 setObjColor(Screw, (0.0, 1.0, 0.0))
 
+# Create screw base cutout
+ScrewCutout 				= doc.addObject("Part::Cylinder", "ScrewCutout")
+ScrewCutout .Radius 			= (DS_ClearanceHoleDiameter/2)+(DS_RecessDepth*math.sin(math.radians(45)))
+ScrewCutout .Height 			= DS_RecessDepth
+ScrewCutout .Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
+ScrewCutout_chamfer 		= ChamferEdges(ScrewCutout , "ScrewCutout_chamfer", [2], 0.48)
+
 #=========== DRIVE SHUTTLE
 print("- Creating drive shuttle...\n")
 
 # Create the main outer cylinder
 OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
-OuterCylinder.Radius 			= (DS_TapHoleDiameter/2)+Sh_WallThickness
+OuterCylinder.Radius 			= (DS_TapHoleDiameter/2)+DS_RecessDepth*
 OuterCylinder.Height 			= Sh_Height 
 OuterCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
 
@@ -266,7 +273,6 @@ Cap_fused 			= bp.make_multi_fuse([Cap_cut.Name, AccessHoleIn.Name]) 			# Fuse i
 Cap_final 				= bp.make_cut([Cap_fused.Name, AccessHole.Name])				# Cut screw access hole from cap
 Cap_final.Label 			= "DriveCap"
 Cap_final.ViewObject.Transparency 	= 50
-
 
 #============ Finish up
 print("Microdrive tower has been generated!\n")
