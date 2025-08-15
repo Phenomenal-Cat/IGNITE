@@ -91,12 +91,12 @@ DS_ClearanceHoleDiameter 		= DS_ClearanceHoleDiameter+DS_Clearance
 DS_HeadDiameterClear 		= math.ceil(DS_HeadDiameter+DS_Clearance)
 
 # Set drive shuttle parameters
-Sh_WallThickness 	= 1		# Thickness of drive shuttle wall around drive screw (mm)
+Sh_WallThickness 	= 1.0		# Thickness of drive shuttle wall around drive screw (mm)
 Sh_Height 			= 6		# Height of drive shuttle (mm)
-Sh_WingLength 		= 1.0		# Distance 'wings' protrude for the outer surface of the cylinder
+Sh_WingLength 		= 1.2		# Distance that 'wings' protrude for the outer surface of the cylinder
 Sh_NoWings 		= 2		# Number of wings to add
 Sh_BlockWidth		= 2 		# Width of electrode holder block (mm)
-Sh_BlockDepth 		= 4		# Distance electrode block protrudes from center of drive screw (mm)
+Sh_BlockDepth 		= 5		# Distance electrode block protrudes from center of drive screw (mm)
 Sh_ShaftDiameter 	= 1		# Diameter of cutout to accomodate electrode shaft (mm). This should be larger than the electrode shaft's actual diameter.
 DS_OuterRadius 	= (DS_TapHoleDiameter/2)+Sh_WallThickness
 
@@ -130,7 +130,7 @@ print("- Creating drive shuttle...\n")
 
 # Create the main outer cylinder
 OuterCylinder 				= doc.addObject("Part::Cylinder", "OuterCylinder")
-OuterCylinder.Radius 			= (DS_TapHoleDiameter/2)+DS_RecessDepth*
+OuterCylinder.Radius 			= (DS_TapHoleDiameter/2)+Sh_WallThickness 
 OuterCylinder.Height 			= Sh_Height 
 OuterCylinder.Placement 		= App.Placement(App.Vector(0,-Sh_BlockDepth,0), App.Rotation(0,0,0))
 
